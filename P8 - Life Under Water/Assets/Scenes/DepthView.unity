@@ -555,6 +555,26 @@ PrefabInstance:
       propertyPath: depthTexture
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 8120131474374271605, guid: 80036965ff6c8f54e91d7ec14b179991,
+        type: 3}
+      propertyPath: topCutOff
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8120131474374271605, guid: 80036965ff6c8f54e91d7ec14b179991,
+        type: 3}
+      propertyPath: bottomCutOff
+      value: -0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8120131474374271605, guid: 80036965ff6c8f54e91d7ec14b179991,
+        type: 3}
+      propertyPath: leftCutOff
+      value: -0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8120131474374271605, guid: 80036965ff6c8f54e91d7ec14b179991,
+        type: 3}
+      propertyPath: rightCutOff
+      value: 0.55
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 80036965ff6c8f54e91d7ec14b179991, type: 3}
 --- !u!114 &8120131474374271605 stripped
