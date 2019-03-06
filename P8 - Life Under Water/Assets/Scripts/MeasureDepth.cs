@@ -5,6 +5,9 @@ using Windows.Kinect;
 
 public class MeasureDepth : MonoBehaviour
 {
+    public delegate void NewTriggerPoints(List<Vector2> triggerPoints);
+    public static event NewTriggerPoints OnTriggerPoints = null;
+
     public MultiSourceManager multiSource;
     public Texture2D depthTexture;
 
@@ -59,6 +62,11 @@ public class MeasureDepth : MonoBehaviour
         validPoints = DepthToColor();
 
         triggerPoints = FilterToTrigger(validPoints);
+
+        if (OnTriggerPoints != null && triggerPoints.Count != 0)
+        {
+            OnTriggerPoints(triggerPoints);
+        }
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
