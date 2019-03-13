@@ -31,6 +31,10 @@ public class MeasureDepth : MonoBehaviour
     public float rightCutOff = 1.0f;
 
     // Depth Data
+    [Header("")]
+    [SerializeField]
+    private int downSampleFactor = 1;
+
     private ushort[] depthData = null;
     private CameraSpacePoint[] cameraSpacePoints = null;
     private ColorSpacePoint[] colorSpacePoints = null;
@@ -40,16 +44,34 @@ public class MeasureDepth : MonoBehaviour
     // Kinect
     private KinectSensor sensor = null;
     private CoordinateMapper mapper = null;
-    private Camera camera = null;
+    private Camera mainCamera = null;
+
+    // Blob Analysis
+    private int[] labelMap = null;
+    private static readonly float[,] kernel = {{0,0,0,0,1,0,0,0,0},
+                                               {0,0,0,1,1,1,0,0,0},
+                                               {0,0,1,1,1,1,1,0,0},
+                                               {0,1,1,1,1,1,1,1,0},
+                                               {1,1,1,1,1,1,1,1,1},
+                                               {0,1,1,1,1,1,1,1,0},
+                                               {0,0,1,1,1,1,1,0,0},
+                                               {0,0,0,1,1,1,0,0,0},
+                                               {0,0,0,1,1,1,0,0,0}};
+    private static int kernelSize;
+    private static int borderSize;
+
 
     private readonly Vector2Int depthResolution = new Vector2Int(512, 424);
     private Rect rect;
 
     private void Awake()
     {
+        kernelSize = kernel.GetLength(0);
+        borderSize = kernelSize / 2;
+        print(borderSize);
         sensor = KinectSensor.GetDefault();
         mapper = sensor.CoordinateMapper;
-        camera = Camera.main;
+        mainCamera = Camera.main;
 
         int arraySize = depthResolution.x * depthResolution.y;
 
@@ -59,6 +81,7 @@ public class MeasureDepth : MonoBehaviour
 
     private void Update()
     {
+        
         validPoints = DepthToColor();
 
         triggerPoints = FilterToTrigger(validPoints);
@@ -70,25 +93,30 @@ public class MeasureDepth : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-
             rect = CreatRect(validPoints);
 
-            depthTexture = CreateTexture(validPoints);
+            depthTexture = CreateTexture(triggerPoints);
         }
+        //Debugging
+        //rect = CreatRect(validPoints);
+
+        //depthTexture = CreateTexture(triggerPoints);
+        //MedianFilter(depthTexture);
     }
 
     private void OnGUI()
     {
-        GUI.Box(rect, "");
+        //GUI.Box(rect, "");
 
         if (triggerPoints == null)
             return;
-
+        /*
         foreach (Vector2 point in triggerPoints)
         {
             Rect rect = new Rect(point, new Vector2(10, 10));
             GUI.Box(rect, "");
         }
+        */
     }
 
     private List<ValidPoint> DepthToColor()
@@ -103,13 +131,13 @@ public class MeasureDepth : MonoBehaviour
         mapper.MapDepthFrameToColorSpace(depthData, colorSpacePoints);
 
         //Filter
-        for (int i = 0; i < depthResolution.x / 8; i++)
+        for (int i = 0; i < depthResolution.x / downSampleFactor; i++)
         {
-            for (int j = 0; j < depthResolution.y / 8; j++)
+            for (int j = 0; j < depthResolution.y / downSampleFactor; j++)
             {
                 //Down Sampling
                 int sampleIndex = j * depthResolution.x + i;
-                sampleIndex *= 8; 
+                sampleIndex *= downSampleFactor; 
                 
                 // Cutoff Tests
                 if (cameraSpacePoints[sampleIndex].X < leftCutOff)
@@ -152,7 +180,6 @@ public class MeasureDepth : MonoBehaviour
                 if (point.z < wallDepth * depthSensitivity)
                 {
                     Vector2 screenPoint = ScreenToCamera(new Vector2(point.colorSpace.X, point.colorSpace.Y));
-
                     triggerPoints.Add(screenPoint);
                 }
             }
@@ -168,18 +195,145 @@ public class MeasureDepth : MonoBehaviour
         {
             for (int y = 0; y < 1080; y++)
             {
-                newTexture.SetPixel(x, y, Color.clear);
+                newTexture.SetPixel(x, y, Color.black);
             }
         }
 
         foreach(ValidPoint point in validPoints)
         {
-            newTexture.SetPixel((int)point.colorSpace.X, (int)point.colorSpace.Y, Color.black);
+            newTexture.SetPixel((int)point.colorSpace.X, (int)point.colorSpace.Y, Color.white);
         }
 
         newTexture.Apply();
 
         return newTexture;
+    }
+
+    private Texture2D CreateTexture(List<Vector2> validPoints)
+    {
+        Texture2D newTexture = new Texture2D(1920, 1080);
+
+        for (int x = 0; x < 1920; x++)
+        {
+            for (int y = 0; y < 1080; y++)
+            {
+                newTexture.SetPixel(x, y, Color.black);
+            }
+        }
+
+        foreach (Vector2 point in validPoints)
+        {
+            newTexture.SetPixel((int)point.x, (int)point.y, Color.white);
+        }
+
+        Color[] pixels = newTexture.GetPixels();
+        print(newTexture.width + ", "+newTexture.height);
+
+        pixels = Dilate(pixels, newTexture.width, newTexture.height);
+        //pixels = Dilate(pixels, newTexture.width, newTexture.height);
+        //pixels = Dilate(pixels, newTexture.width, newTexture.height);
+
+        //pixels = Erode(pixels, newTexture.width, newTexture.height);
+        //pixels = Erode(pixels, newTexture.width, newTexture.height);
+        pixels = Erode(pixels, newTexture.width, newTexture.height);
+
+        newTexture.SetPixels(pixels);
+        newTexture.Apply();
+
+        return newTexture;
+    }
+
+    private void MedianFilter(Texture2D tex)
+    {
+        Color[] pix = tex.GetPixels();
+        Color[] pix2 = tex.GetPixels();
+
+        for (int y = 1; y < tex.height - 1; y++)
+        {
+            for (int x = 1; x < tex.width - 1; x++)
+            {
+                float sum = 0;
+                for (int ky = 0; ky <= 4; ky++)
+                {
+                    for (int kx = 0; kx <= 4; kx++)
+                    {
+                        sum += pix[(y + ky - 1) * tex.width + (x + kx - 1)].r;
+                    }
+                }
+                if (sum >= 5)
+                {
+                    pix2[y * tex.width + x] = Color.white;
+
+                }
+                else
+                {
+                    pix2[y * tex.width + x] = Color.black;
+
+                }
+
+            }
+        }
+
+        tex.SetPixels(pix2);
+        tex.Apply();
+    }
+
+    private Color[] Dilate(Color[] pix, int width, int height)
+    {
+        Color[] newPixels = new Color[width * height];
+        for (int y = borderSize; y < height - borderSize; y++)
+        {
+            for (int x = borderSize; x < width - borderSize; x++)
+            {
+                float sum = 0;
+                for (int ky = 0; ky <= kernelSize - 1; ky++)
+                {
+                    for (int kx = 0; kx <= kernelSize - 1; kx++)
+                    {
+                        sum += pix[(y + ky - borderSize) * width + (x + kx - borderSize)].r * kernel[ky, kx];
+                    }
+                }
+                if (sum >= 1)
+                {
+                    newPixels[y * width + x] = Color.white;
+                }
+                else
+                { 
+                    newPixels[y * width + x] = Color.black;
+                }
+            }
+        }
+        return newPixels;
+    }
+    private Color[] Erode(Color[] pix, int width, int height)
+    {
+        Color[] newPixels = new Color[width * height];
+
+        for (int y = borderSize; y < height - borderSize; y++)
+        {
+            for (int x = borderSize; x < width - borderSize; x++)
+            {
+                float sum = 0;
+                float ksum = 0;
+                for (int ky = 0; ky <= kernelSize - 1; ky++)
+                {
+                    for (int kx = 0; kx <= kernelSize-1; kx++)
+                    {
+                        sum += pix[(y + ky - borderSize) * width + (x + kx - borderSize)].r * kernel[ky, kx];
+                        ksum += kernel[ky, kx];
+                    }
+                }
+                if (sum >= ksum)
+                {
+                    newPixels[y * width + x] = Color.white;
+                }
+                else
+                {
+                    newPixels[y * width + x] = Color.black;
+                }
+            }
+        }
+        return newPixels;
     }
 
     #region Rect Creation
@@ -244,11 +398,96 @@ public class MeasureDepth : MonoBehaviour
         //REPLACE 1920 and 1080 with SCREEN DIMENSIONS
         Vector2 normalizedScreen = new Vector2(Mathf.InverseLerp(0, 1920, screenPosition.x), Mathf.InverseLerp(0, 1080, screenPosition.y));
 
-        Vector2 screenPoint = new Vector2(normalizedScreen.x * camera.pixelWidth, normalizedScreen.y * camera.pixelHeight);
+        Vector2 screenPoint = new Vector2(normalizedScreen.x * mainCamera.pixelWidth, normalizedScreen.y * mainCamera.pixelHeight);
 
         return screenPoint;
     }
     #endregion
+
+    #region BLOB Analysis
+
+    private Texture2D Threshold()
+    {
+        //generate a binary image where BLOBs are pixels with depth 
+        Texture2D newTexture = new Texture2D(1920, 1080, TextureFormat.Alpha8, false);
+
+        for (int x = 0; x < 1920; x++)
+        {
+            for (int y = 0; y < 1080; y++)
+            {
+                newTexture.SetPixel(x, y, Color.black);
+            }
+        }
+
+        foreach (Vector2 point in triggerPoints)
+        {
+            newTexture.SetPixel((int)point.x, (int)point.y, Color.white);
+        }
+
+        newTexture.Apply();
+
+        return newTexture;
+
+    }
+
+    /*
+    void Label()
+    {
+        int label = 1;
+        for (int y = 1; y < tex.height - 1; y++)
+        {
+            for (int x = 1; x < tex.width - 1; x++)
+            {
+                if (pix2[y * tex.width + x] == Color.white)
+                {
+                    grassfire(y, x, label);
+                    label++;
+                }
+            }
+        }
+        tex2.SetPixels(pix2);
+        tex2.Apply();
+        pix = tex2.GetPixels();
+    } // Label
+    */
+
+    /*
+    foreach (ValidPoint point in validPoints)
+    {
+        if (!point.withinWallDepth)
+        {
+            if (point.z < wallDepth * depthSensitivity)
+            {
+                Vector2 screenPoint = ScreenToCamera(new Vector2(point.colorSpace.X, point.colorSpace.Y));
+
+                triggerPoints.Add(screenPoint);
+            }
+        }
+    }*/
+    /*
+    void Grassfire(int y, int x, int label)
+    {
+        labelMap[y, x] = label; // maps the area of the image based on labels only
+                                // should be a 2d array with same dimensions as screen?
+        if (y > 0 && validPoints[(y - 1) * tex.width + x] == Color.white)
+            Grassfire(y - 1, x, label);
+        if (validPoints[(y + 1) * tex.width + x] == Color.white)
+            Grassfire(y + 1, x, label);
+        if (validPoints[y * tex.width + (x - 1)] == Color.white)
+            Grassfire(y, x - 1, label);
+        if (validPoints[y * tex.width + (x + 1)] == Color.white)
+            Grassfire(y, x + 1, label);
+    }*/
+
+
+    private Vector2 CenterOfMass()
+    {
+        Vector2 centerOfMass = new Vector2();
+
+        return centerOfMass;
+    }
+    #endregion
+
 }
 
 public class ValidPoint

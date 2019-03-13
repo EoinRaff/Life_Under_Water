@@ -117,6 +117,7 @@ MonoBehaviour:
   multiSource: {fileID: 0}
   rawImage: {fileID: 8100880221099614984}
   rawDepth: {fileID: 3222080591698011684}
+  blobViewer: {fileID: 0}
 --- !u!1 &1832615306583319501
 GameObject:
   m_ObjectHideFlags: 0
