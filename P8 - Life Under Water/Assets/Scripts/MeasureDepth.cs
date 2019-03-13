@@ -55,7 +55,7 @@ public class MeasureDepth : MonoBehaviour
                                                {0,0,1,0,0}};
     private static int kernelSize;
     private static int borderSize;
-
+    private Color[] colors = { Color.red, Color.green, Color.blue };
 
     private readonly Vector2Int depthResolution = new Vector2Int(512, 424);
     private Rect rect;
@@ -79,6 +79,9 @@ public class MeasureDepth : MonoBehaviour
 
         cameraSpacePoints = new CameraSpacePoint[arraySize];
         colorSpacePoints = new ColorSpacePoint[arraySize];
+
+        labelMap = new int[1920 * 1080];
+
     }
 
     private void Update()
@@ -234,12 +237,17 @@ public class MeasureDepth : MonoBehaviour
         Color[] pixels = newTexture.GetPixels();
 
         pixels = Dilate(pixels, newTexture.width, newTexture.height);
-        //pixels = Dilate(pixels, newTexture.width, newTexture.height);
-        //pixels = Dilate(pixels, newTexture.width, newTexture.height);
-
-        //pixels = Erode(pixels, newTexture.width, newTexture.height);
-        //pixels = Erode(pixels, newTexture.width, newTexture.height);
         pixels = Erode(pixels, newTexture.width, newTexture.height);
+
+        //Label(pixels);
+
+        for (int x = 0; x < 1920; x++)
+        {
+            for (int y = 0; y < 1080; y++)
+            {
+                //pixels[y * 1920 + x] = colors[labelMap[y * 1920 + x]];
+            }
+        }
 
         newTexture.SetPixels(pixels);
         newTexture.Apply();
@@ -434,26 +442,21 @@ public class MeasureDepth : MonoBehaviour
 
     }
 
-    /*
-    void Label()
+    void Label(Color[] pixels)
     {
         int label = 1;
-        for (int y = 1; y < tex.height - 1; y++)
+        for (int y = 1; y < 1080 - 1; y++)
         {
-            for (int x = 1; x < tex.width - 1; x++)
+            for (int x = 1; x < 1920 - 1; x++)
             {
-                if (pix2[y * tex.width + x] == Color.white)
+                if (pixels[y * 1920 + x] == Color.white)
                 {
-                    grassfire(y, x, label);
+                    Grassfire(pixels, y, x, label);
                     label++;
                 }
             }
         }
-        tex2.SetPixels(pix2);
-        tex2.Apply();
-        pix = tex2.GetPixels();
     } // Label
-    */
 
     /*
     foreach (ValidPoint point in validPoints)
@@ -468,20 +471,20 @@ public class MeasureDepth : MonoBehaviour
             }
         }
     }*/
-    /*
-    void Grassfire(int y, int x, int label)
+    
+    void Grassfire(Color[] pixels, int y, int x, int label)
     {
-        labelMap[y, x] = label; // maps the area of the image based on labels only
-                                // should be a 2d array with same dimensions as screen?
-        if (y > 0 && validPoints[(y - 1) * tex.width + x] == Color.white)
-            Grassfire(y - 1, x, label);
-        if (validPoints[(y + 1) * tex.width + x] == Color.white)
-            Grassfire(y + 1, x, label);
-        if (validPoints[y * tex.width + (x - 1)] == Color.white)
-            Grassfire(y, x - 1, label);
-        if (validPoints[y * tex.width + (x + 1)] == Color.white)
-            Grassfire(y, x + 1, label);
-    }*/
+        labelMap[y * 1920 + x] = label; // maps the area of the image based on labels only
+
+        if (y > 0 && pixels[(y - borderSize) * 1920 + x] == Color.white)
+            Grassfire(pixels, y - 1, x, label);
+        if (pixels[(y + 1) * 1920 + x] == Color.white)
+            Grassfire(pixels, y + 1, x, label);
+        if (pixels[y * 1920 + (x - 1)] == Color.white)
+            Grassfire(pixels, y, x - 1, label);
+        if (pixels[y * 1920 + (x + 1)] == Color.white)
+            Grassfire(pixels, y, x + 1, label);
+    }
 
 
     private Vector2 CenterOfMass()
