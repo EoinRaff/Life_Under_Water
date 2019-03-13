@@ -48,15 +48,11 @@ public class MeasureDepth : MonoBehaviour
 
     // Blob Analysis
     private int[] labelMap = null;
-    private static readonly float[,] kernel = {{0,0,0,0,1,0,0,0,0},
-                                               {0,0,0,1,1,1,0,0,0},
-                                               {0,0,1,1,1,1,1,0,0},
-                                               {0,1,1,1,1,1,1,1,0},
-                                               {1,1,1,1,1,1,1,1,1},
-                                               {0,1,1,1,1,1,1,1,0},
-                                               {0,0,1,1,1,1,1,0,0},
-                                               {0,0,0,1,1,1,0,0,0},
-                                               {0,0,0,1,1,1,0,0,0}};
+    private static readonly float[,] kernel = {{0,0,1,0,0},
+                                               {0,1,1,1,0},
+                                               {1,1,1,1,1},
+                                               {0,1,1,1,0},
+                                               {0,0,1,0,0}};
     private static int kernelSize;
     private static int borderSize;
 
@@ -64,11 +60,17 @@ public class MeasureDepth : MonoBehaviour
     private readonly Vector2Int depthResolution = new Vector2Int(512, 424);
     private Rect rect;
 
+    float startTime, elapsedTime;
+    float interval;
+
     private void Awake()
     {
+        print("Awake");
+        startTime = Time.time;
+        interval = 2f;
+
         kernelSize = kernel.GetLength(0);
         borderSize = kernelSize / 2;
-        print(borderSize);
         sensor = KinectSensor.GetDefault();
         mapper = sensor.CoordinateMapper;
         mainCamera = Camera.main;
@@ -81,7 +83,7 @@ public class MeasureDepth : MonoBehaviour
 
     private void Update()
     {
-        
+
         validPoints = DepthToColor();
 
         triggerPoints = FilterToTrigger(validPoints);
@@ -91,8 +93,11 @@ public class MeasureDepth : MonoBehaviour
             OnTriggerPoints(triggerPoints);
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        elapsedTime = Time.time - startTime;
+
+        if (Input.GetKeyDown(KeyCode.Space)|| elapsedTime % interval < 1)
         {
+            print("Update Texture");
             rect = CreatRect(validPoints);
 
             depthTexture = CreateTexture(triggerPoints);
@@ -227,7 +232,6 @@ public class MeasureDepth : MonoBehaviour
         }
 
         Color[] pixels = newTexture.GetPixels();
-        print(newTexture.width + ", "+newTexture.height);
 
         pixels = Dilate(pixels, newTexture.width, newTexture.height);
         //pixels = Dilate(pixels, newTexture.width, newTexture.height);
@@ -286,7 +290,7 @@ public class MeasureDepth : MonoBehaviour
             for (int x = borderSize; x < width - borderSize; x++)
             {
                 float sum = 0;
-                for (int ky = 0; ky <= kernelSize - 1; ky++)
+                for (int ky = 0; ky <= kernelSize-1; ky++)
                 {
                     for (int kx = 0; kx <= kernelSize - 1; kx++)
                     {
