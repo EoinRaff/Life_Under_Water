@@ -64,7 +64,7 @@ public class MeasureDepth : MonoBehaviour
 
         triggerPoints = FilterToTrigger(validPoints);
 
-        centerOfMass = GetCenterOfMass(triggerPoints);
+        centerOfMass = CalculateCenterOfMass(triggerPoints);
         centerOfMassRect = new Rect(centerOfMass, new Vector2(50, 50));
 
 
@@ -189,7 +189,7 @@ public class MeasureDepth : MonoBehaviour
         return newTexture;
     }
 
-    public Vector2 GetCenterOfMass(List<Vector2> points)
+    private Vector2 CalculateCenterOfMass(List<Vector2> points)
     {
         Vector2 centerOfMass = new Vector2(0, 0);
         int count = 0;
@@ -202,6 +202,8 @@ public class MeasureDepth : MonoBehaviour
         centerOfMass /= count;
         return centerOfMass;
     }
+
+    public Vector2 CenterOfMass { get => centerOfMass; set => centerOfMass = value; }
 
     #region Rect Creation
     private Rect CreatRect(List<ValidPoint> points)
