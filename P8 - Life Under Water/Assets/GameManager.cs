@@ -5,6 +5,10 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
+    public MeasureDepth measureDepth;
+    public GameObject centerOfMass;
+    public Camera wallCamera, floorCamera;
+    public float heightFromFloor;
 
     private void Awake()
     {
@@ -13,7 +17,15 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        
+        CenterOfMassScreenToTransformPosition();
+    }
+
+    private void CenterOfMassScreenToTransformPosition()
+    {
+        Vector2 centerV2 = measureDepth.CenterOfMass;
+        Vector3 position = floorCamera.ScreenToWorldPoint(new Vector3(centerV2.x, centerV2.y, heightFromFloor));
+        position *= -1;
+        centerOfMass.transform.position = position;
     }
 
     private void Singleton()
@@ -28,4 +40,5 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
 }
