@@ -43,7 +43,8 @@ public class MeasureDepth : MonoBehaviour
     private Camera camera = null;
 
     private readonly Vector2Int depthResolution = new Vector2Int(512, 424);
-    private Rect rect;
+    private Rect boundingBox, centerOfMassRect;
+    private Vector2 centerOfMass;
 
     private void Awake()
     {
@@ -63,6 +64,10 @@ public class MeasureDepth : MonoBehaviour
 
         triggerPoints = FilterToTrigger(validPoints);
 
+        centerOfMass = GetCenterOfMass(triggerPoints);
+        centerOfMassRect = new Rect(centerOfMass, new Vector2(50, 50));
+
+
         if (OnTriggerPoints != null && triggerPoints.Count != 0)
         {
             OnTriggerPoints(triggerPoints);
@@ -71,7 +76,7 @@ public class MeasureDepth : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
 
-            rect = CreatRect(validPoints);
+            boundingBox = CreatRect(validPoints);
 
             depthTexture = CreateTexture(validPoints);
         }
@@ -79,7 +84,9 @@ public class MeasureDepth : MonoBehaviour
 
     private void OnGUI()
     {
-        GUI.Box(rect, "");
+        GUI.Box(boundingBox, "");
+        GUI.Box(centerOfMassRect, "");
+        
 
         if (triggerPoints == null)
             return;
@@ -109,8 +116,8 @@ public class MeasureDepth : MonoBehaviour
             {
                 //Down Sampling
                 int sampleIndex = j * depthResolution.x + i;
-                sampleIndex *= 8; 
-                
+                sampleIndex *= 8;
+
                 // Cutoff Tests
                 if (cameraSpacePoints[sampleIndex].X < leftCutOff)
                     continue;
@@ -172,7 +179,7 @@ public class MeasureDepth : MonoBehaviour
             }
         }
 
-        foreach(ValidPoint point in validPoints)
+        foreach (ValidPoint point in validPoints)
         {
             newTexture.SetPixel((int)point.colorSpace.X, (int)point.colorSpace.Y, Color.black);
         }
@@ -182,10 +189,24 @@ public class MeasureDepth : MonoBehaviour
         return newTexture;
     }
 
+    public Vector2 GetCenterOfMass(List<Vector2> points)
+    {
+        Vector2 centerOfMass = new Vector2(0, 0);
+        int count = 0;
+
+        foreach (Vector2 point in points)
+        {
+            count++;
+            centerOfMass += point;
+        }
+        centerOfMass /= count;
+        return centerOfMass;
+    }
+
     #region Rect Creation
     private Rect CreatRect(List<ValidPoint> points)
     {
-        if(points.Count == 0)
+        if (points.Count == 0)
             return new Rect();
 
         // Get Corners of Rect
@@ -238,7 +259,7 @@ public class MeasureDepth : MonoBehaviour
         }
         return bottomRight;
     }
-    
+
     private Vector2 ScreenToCamera(Vector2 screenPosition)
     {
         //REPLACE 1920 and 1080 with SCREEN DIMENSIONS
