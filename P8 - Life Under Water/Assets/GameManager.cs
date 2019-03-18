@@ -13,6 +13,15 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         Singleton();
+        InitializeDisplays();
+    }
+
+    private static void InitializeDisplays()
+    {
+        for (int i = 1; i < Display.displays.Length; i++)
+        {
+            Display.displays[i].Activate();
+        }
     }
 
     void Update()
