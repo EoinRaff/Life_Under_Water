@@ -55,14 +55,15 @@ public class KinectClient : MonoBehaviour
 
     public void ConnectToServer(IPAddress ip, int port)
     {
-        udpListener = new UdpClient(port); 
         endPoint = new IPEndPoint(ip, port);
         isConnected = true;
     }
 
     public void SendMessageToServer(string message)
     {
+        print("encoding message");
         byte[] buffer = Encoding.ASCII.GetBytes(message);
+        print("Sending message to endpoint");
         socket.SendTo(buffer, endPoint);
     }
 }

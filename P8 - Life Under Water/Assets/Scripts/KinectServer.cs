@@ -13,25 +13,43 @@ public class KinectServer : MonoBehaviour
     public static KinectServer instance;
 
     [SerializeField]
-    private const int port = 8080;
+    private int port;
     public int Port { get => port; }
 
     private Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
     private List<IPEndPoint> clients = new List<IPEndPoint>();
     private UdpClient listener;
+    private IPEndPoint groupEP;
 
     private void Awake()
     {
+        Debug.Log("Creating UDP Listener");
         listener = new UdpClient(port);
     }
     void Start()
     {
         Singleton();
+        groupEP = new IPEndPoint(IPAddress.Any, port);
     }
 
     void Update()
     {
+        try
+        {
+            Debug.Log("Waiting for broadcast");
+            byte[] bytes = listener.Receive(ref groupEP);
 
+            Debug.Log($"Received broadcast from {groupEP} :");
+            Debug.Log($" {Encoding.ASCII.GetString(bytes, 0, bytes.Length)}");
+        }
+        catch (SocketException e)
+        {
+            Debug.Log(e);
+        }
+        finally
+        {
+            listener.Close();
+        }
     }
 
     private void Singleton()
@@ -52,8 +70,6 @@ public class KinectServer : MonoBehaviour
 
     public void ListenForClients()
     {
-        IPEndPoint groupEP = new IPEndPoint(IPAddress.Any, port);
-
         try
         {
             while (true)
