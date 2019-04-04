@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-
 using System;
 using System.Text;
 using System.Net;
@@ -13,50 +12,63 @@ public class KinectServer : MonoBehaviour
     public static KinectServer instance;
 
     [SerializeField]
-    private int port;
+    private int port = 11000;
     public int Port { get => port; }
 
     private Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-    private List<IPEndPoint> clients = new List<IPEndPoint>();
     private UdpClient listener;
     private IPEndPoint groupEP;
 
-    private void Awake()
-    {
-        Debug.Log("Creating UDP Listener");
-        listener = new UdpClient(port);
-    }
+    Thread receiveThread;
+    String recievedMessage;
+
     void Start()
     {
         Singleton();
-        groupEP = new IPEndPoint(IPAddress.Any, port);
+        recievedMessage = "";
+        receiveThread = new Thread(new ThreadStart(ReceiveData));
+        receiveThread.IsBackground = true;
+        receiveThread.Start();
+    }
+
+    private void ReceiveData()
+    {
+        Debug.Log("Creating UDP Listener");
+        listener = new UdpClient(port);
+        while (true)
+        {
+            try
+            {
+                IPEndPoint anyIP = new IPEndPoint(IPAddress.Any, 0);
+                byte[] data = listener.Receive(ref anyIP);
+
+                string text = Encoding.UTF8.GetString(data);
+
+                print(">> " + text);
+
+                recievedMessage = text;
+            }
+            catch (Exception err)
+            {
+                print(err.ToString());
+            }
+        }
     }
 
     void Update()
     {
-        try
-        {
-            Debug.Log("Waiting for broadcast");
-            byte[] bytes = listener.Receive(ref groupEP);
+        Debug.Log("Waiting for broadcast");
+        //byte[] bytes = listener.Receive(ref groupEP);
 
-            Debug.Log($"Received broadcast from {groupEP} :");
-            Debug.Log($" {Encoding.ASCII.GetString(bytes, 0, bytes.Length)}");
-        }
-        catch (SocketException e)
-        {
-            Debug.Log(e);
-        }
-        finally
-        {
-            listener.Close();
-        }
+        Debug.Log(recievedMessage);
+        //Debug.Log($" {Encoding.ASCII.GetString(bytes, 0, bytes.Length)}");
     }
 
     private void Singleton()
     {
         /* Using a Singleton pattern ensures that there is only ever one client running per kinect, 
          * and allow references to a static instance of the class */
-
+        Debug.Log("Singleton");
         if (instance == null)
         {
             DontDestroyOnLoad(gameObject);
@@ -68,14 +80,14 @@ public class KinectServer : MonoBehaviour
         }
     }
 
-    public void ListenForClients()
+    public IEnumerator ListenForClients()
     {
         try
         {
             while (true)
             {
                 Debug.Log("Waiting for broadcast");
-                byte[] bytes = listener.Receive(ref groupEP);
+                byte[] bytes = listener.Receive(ref groupEP); // I think this line causes the crashes
 
                 Debug.Log($"Received broadcast from {groupEP} :");
                 Debug.Log($" {Encoding.ASCII.GetString(bytes, 0, bytes.Length)}");
@@ -89,6 +101,7 @@ public class KinectServer : MonoBehaviour
         {
             listener.Close();
         }
+        yield return new WaitForEndOfFrame();
     }
 
     public void SendMessageToClient(string message)

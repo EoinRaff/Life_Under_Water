@@ -32,11 +32,6 @@ public class KinectClient : MonoBehaviour
         socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
     }
 
-    void Update()
-    {
-
-    }
-
     private void Singleton()
     {
         /* Using a Singleton pattern ensures that there is only ever one client running per kinect, 
@@ -61,9 +56,7 @@ public class KinectClient : MonoBehaviour
 
     public void SendMessageToServer(string message)
     {
-        print("encoding message");
         byte[] buffer = Encoding.ASCII.GetBytes(message);
-        print("Sending message to endpoint");
         socket.SendTo(buffer, endPoint);
     }
 }
