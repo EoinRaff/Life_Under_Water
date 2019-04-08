@@ -9,6 +9,11 @@ EditorBuildSettings:
     path: Assets/Scenes/BalanceRaft.unity
     guid: 0b5240977504db94a8aa98a597c23a66
   - enabled: 1
+<<<<<<< HEAD
     path: Assets/Scenes/ServerTest.unity
     guid: 59f6d110afb3d774e90d69f43f3f246d
+=======
+    path: Assets/Scenes/BalanceRaft.unity
+    guid: 0b5240977504db94a8aa98a597c23a66
+>>>>>>> 60712180abd772879a677d65b4c8c52ddaa9fcf3
   m_configObjects: {}
