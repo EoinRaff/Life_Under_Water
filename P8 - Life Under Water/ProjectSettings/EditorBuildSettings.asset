@@ -5,7 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/BalanceRaft.unity
     guid: 0b5240977504db94a8aa98a597c23a66
+  - enabled: 1
+    path: Assets/Scenes/ServerTest.unity
+    guid: 59f6d110afb3d774e90d69f43f3f246d
   m_configObjects: {}

@@ -20,7 +20,9 @@ public class KinectServer : MonoBehaviour
     private IPEndPoint groupEP;
 
     Thread receiveThread;
-    String recievedMessage;
+    string recievedMessage;
+    public string Message { get => recievedMessage; set => recievedMessage = value; }
+
 
     void Start()
     {
