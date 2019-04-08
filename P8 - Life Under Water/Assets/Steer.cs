@@ -5,6 +5,7 @@ using UnityEngine;
 public class Steer : MonoBehaviour
 {
     public Transform centerOfMass;
+    public GameObject trashExplosion;
 
     // Update is called once per frame
     void Update()
@@ -15,5 +16,17 @@ public class Steer : MonoBehaviour
         position.z = 5; // -centerOfMass.position.x;
         position.y = 0;
         gameObject.transform.position = position;// = Quaternion.Euler(position);
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "trash")
+        {
+            Debug.Log("Collided With Trash");
+            for (int i = 0; i < 10; i++)
+            {
+                Instantiate(trashExplosion, other.transform.position, Quaternion.identity);
+            }
+            Destroy(other.gameObject);
+        }
     }
 }
