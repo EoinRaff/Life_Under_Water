@@ -36,6 +36,7 @@ public class MeasureDepth : MonoBehaviour
     private ColorSpacePoint[] colorSpacePoints = null;
     private List<ValidPoint> validPoints = null;
     private List<Vector2> triggerPoints = null;
+    private int downSampleFactor = 8;
 
     // Kinect
     private KinectSensor sensor = null;
@@ -110,13 +111,13 @@ public class MeasureDepth : MonoBehaviour
         mapper.MapDepthFrameToColorSpace(depthData, colorSpacePoints);
 
         //Filter
-        for (int i = 0; i < depthResolution.x / 8; i++)
+        for (int i = 0; i < depthResolution.x / downSampleFactor; i++)
         {
-            for (int j = 0; j < depthResolution.y / 8; j++)
+            for (int j = 0; j < depthResolution.y / downSampleFactor; j++)
             {
                 //Down Sampling
                 int sampleIndex = j * depthResolution.x + i;
-                sampleIndex *= 8;
+                sampleIndex *= downSampleFactor;
 
                 // Cutoff Tests
                 if (cameraSpacePoints[sampleIndex].X < leftCutOff)
