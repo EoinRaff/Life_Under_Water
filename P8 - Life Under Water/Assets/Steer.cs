@@ -21,8 +21,7 @@ public class Steer : MonoBehaviour
     {
         if (other.tag == "trash")
         {
-            Debug.Log("Collided With Trash");
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 20; i++)
             {
                 Instantiate(trashExplosion, other.transform.position, Quaternion.identity);
             }
