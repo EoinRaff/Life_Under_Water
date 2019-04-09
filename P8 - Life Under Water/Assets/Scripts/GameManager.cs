@@ -29,6 +29,11 @@ public class GameManager : MonoBehaviour
         CenterOfMassScreenToTransformPosition();
     }
 
+    private void LateUpdate()
+    {
+        ObjectCleaner.DestroyObjectsAndClearList();
+    }
+
     private void CenterOfMassScreenToTransformPosition()
     {
         Vector2 centerV2 = measureDepth.CenterOfMass;

@@ -18,9 +18,10 @@ public class explode : MonoBehaviour
 
     private void Update()
     {
-        if (transform.position.y <= 0)
+        if (transform.position.y <= -1)
         {
-            Destroy(gameObject);
+            ObjectCleaner.AddObjectToList(gameObject);
+            //Destroy(gameObject);
         }
     }
 }
