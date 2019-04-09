@@ -28,4 +28,11 @@ public class Steer : MonoBehaviour
             Destroy(other.gameObject);
         }
     }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.transform.tag == "trash")
+        {
+            collision.gameObject.GetComponent<AudioSource>().Play();
+        }
+    }
 }
