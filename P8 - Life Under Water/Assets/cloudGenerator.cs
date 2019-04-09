@@ -10,6 +10,7 @@ public class cloudGenerator : MonoBehaviour
     private int counter = 0;
 
     private List<GameObject> clouds = new List<GameObject>();
+    private List<GameObject> toDestroy = new List<GameObject>();
 
 
     void Update()
@@ -19,14 +20,20 @@ public class cloudGenerator : MonoBehaviour
             Vector3 position = new Vector3(Random.Range(-75f, 75f), Random.Range(10, 20), spawnDistance);
             clouds.Add(Instantiate(cloudPrefab, position, Quaternion.Euler(new Vector3(0, Random.value, 0))));
         }
+
         foreach (GameObject cloud in clouds)
         {
             if (cloud.transform.position.z <= 0)
             {
-                clouds.Remove(cloud);
-                Destroy(cloud);
+                toDestroy.Add(cloud);
             }
         }
+        foreach (GameObject cloud in toDestroy)
+        {
+            clouds.Remove(cloud);
+            Destroy(cloud);
+        }
+        toDestroy.Clear();
         counter++;
     }
 }

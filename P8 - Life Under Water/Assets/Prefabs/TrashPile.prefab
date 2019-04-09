@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 2139725605020093670}
   - component: {fileID: 2139725605020093671}
   - component: {fileID: 2139725605020093667}
-  - component: {fileID: 1449596738906747168}
   m_Layer: 0
   m_Name: TrashPile
   m_TagString: trash
@@ -106,17 +105,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
---- !u!114 &1449596738906747168
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2139725605020093688}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f2960c0b1430a548883118992ac79be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TrashExplosion: {fileID: 7233323423633394242, guid: f240e65409ea9e74fac2a91388f021ca,
-    type: 3}

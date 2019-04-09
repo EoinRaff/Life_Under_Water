@@ -10,6 +10,7 @@ public class TrashFactory : MonoBehaviour
     private int counter = 0;
 
     private List<GameObject> trashPiles = new List<GameObject>();
+    private List<GameObject> toDestroy = new List<GameObject>();
 
 
     void Update()
@@ -23,10 +24,15 @@ public class TrashFactory : MonoBehaviour
         {
             if (trashPile.transform.position.z <= 0)
             {
-                trashPiles.Remove(trashPile);
-                Destroy(trashPile);
+                toDestroy.Add(trashPile);
             }
         }
+        foreach (GameObject @object in toDestroy)
+        {
+            trashPiles.Remove(@object);
+            Destroy(@object);
+        }
+        toDestroy.Clear();
         counter++;
     }
 }
