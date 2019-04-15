@@ -7,6 +7,8 @@ using TMPro;
 
 public class ClientUIHandler : MonoBehaviour
 {
+    public KinectClient client;
+
     public TextMeshProUGUI statusText;
 
     public TMP_InputField ipInput;
@@ -19,8 +21,6 @@ public class ClientUIHandler : MonoBehaviour
     void Awake()
     {
         statusText.text = "";
-        //ipInput.characterValidation = TMP_InputField.CharacterValidation.Decimal;
-        //portInput.characterValidation = TMP_InputField.CharacterValidation.Integer;
     }
 
     public bool TryParseInputValues()
@@ -54,13 +54,14 @@ public class ClientUIHandler : MonoBehaviour
         if (!TryParseInputValues())
             return;
 
-        KinectClient.instance.ConnectToServer(ip, port);
+        //KinectClient.Instance.ConnectToServer(ip, port);
+        client.ConnectToServer(ip, port);
         statusText.text = string.Format("Connected to {0} at port {1}", ip, port);
     }
 
     public void SendMessage()
     {
-        if (!KinectClient.instance.IsConnected)
+        if (/*!KinectClient.Instance.*/!client.IsConnected)
         {
             statusText.text = "Cannot send message. \nClient not connect to Server.";
             return;
@@ -69,7 +70,7 @@ public class ClientUIHandler : MonoBehaviour
         //for debugging only
         Debug.Log(messageInput.text);
         statusText.text = "Message sent to Server";
-        KinectClient.instance.SendMessageToServer(messageInput.text);
+        KinectClient.Instance.SendMessageToServer(messageInput.text);
     }
 
 

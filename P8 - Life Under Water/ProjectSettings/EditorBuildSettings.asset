@@ -5,7 +5,13 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Midterm.unity
     guid: 30c4db8509664844d9bca2da526cb5a9
+  - enabled: 0
+    path: Assets/Scenes/DepthView.unity
+    guid: c12e327bfb7c4574096acaea191b3f0d
+  - enabled: 1
+    path: Assets/Scenes/Client.unity
+    guid: 2524107eb7403b34c901cf55cb515219
   m_configObjects: {}

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Windows.Kinect;
 
-public class MeasureDepth : MonoBehaviour
+public class MeasureDepth : Singleton<MeasureDepth>
 {
     public delegate void NewTriggerPoints(List<Vector2> triggerPoints);
     public static event NewTriggerPoints OnTriggerPoints = null;
@@ -41,22 +41,29 @@ public class MeasureDepth : MonoBehaviour
     // Kinect
     private KinectSensor sensor = null;
     private CoordinateMapper mapper = null;
-    private Camera camera = null;
+    private Camera mainCamera = null;
 
     private readonly Vector2Int depthResolution = new Vector2Int(512, 424);
     private Rect boundingBox, centerOfMassRect;
     private Vector2 centerOfMass;
 
+    public Vector2 CenterOfMass { get => centerOfMass; private set => centerOfMass = value; }
+    public List<Vector2> TriggerPoints { get => triggerPoints; private set => triggerPoints = value; }
+
+    public DepthData depthDataObj;
+
     private void Awake()
     {
         sensor = KinectSensor.GetDefault();
         mapper = sensor.CoordinateMapper;
-        camera = Camera.main;
+        mainCamera = Camera.main;
 
         int arraySize = depthResolution.x * depthResolution.y;
 
         cameraSpacePoints = new CameraSpacePoint[arraySize];
         colorSpacePoints = new ColorSpacePoint[arraySize];
+        depthDataObj = new DepthData(arraySize/downSampleFactor);
+
     }
 
     private void Update()
@@ -73,6 +80,9 @@ public class MeasureDepth : MonoBehaviour
         {
             OnTriggerPoints(triggerPoints);
         }
+
+        depthDataObj.triggerPoints = triggerPoints.ToArray();
+        depthDataObj.centerOfMass = centerOfMass;
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -204,8 +214,6 @@ public class MeasureDepth : MonoBehaviour
         return centerOfMass;
     }
 
-    public Vector2 CenterOfMass { get => centerOfMass; set => centerOfMass = value; }
-
     #region Rect Creation
     private Rect CreatRect(List<ValidPoint> points)
     {
@@ -268,13 +276,14 @@ public class MeasureDepth : MonoBehaviour
         //REPLACE 1920 and 1080 with SCREEN DIMENSIONS
         Vector2 normalizedScreen = new Vector2(Mathf.InverseLerp(0, 1920, screenPosition.x), Mathf.InverseLerp(0, 1080, screenPosition.y));
 
-        Vector2 screenPoint = new Vector2(normalizedScreen.x * camera.pixelWidth, normalizedScreen.y * camera.pixelHeight);
+        Vector2 screenPoint = new Vector2(normalizedScreen.x * mainCamera.pixelWidth, normalizedScreen.y * mainCamera.pixelHeight);
 
         return screenPoint;
     }
     #endregion
 }
 
+[System.Serializable]
 public class ValidPoint
 {
     public ColorSpacePoint colorSpace;
@@ -287,4 +296,21 @@ public class ValidPoint
         this.colorSpace = colorSpace;
         this.z = z;
     }
+}
+
+[System.Serializable] 
+public class DepthData
+{
+    public int kinectID;
+    public Vector2 offset;
+    public Vector2 centerOfMass;
+    public Vector2[] triggerPoints;
+
+    public DepthData(int arraysize)
+    {
+        this.kinectID = 1;
+        this.offset = Vector2.zero;
+        triggerPoints = new Vector2[arraysize];
+    }
+
 }

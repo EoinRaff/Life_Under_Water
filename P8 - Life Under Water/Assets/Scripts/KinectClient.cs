@@ -19,14 +19,23 @@ public class KinectClient : Singleton<KinectClient>
 
     private bool isConnected;
     public bool IsConnected { get => isConnected; }
-
     private Socket socket;
     private UdpClient udpListener;
     private IPEndPoint endPoint;
 
+    public MeasureDepth measureDepth;
+
     void Start()
     {
         socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+    }
+
+    private void Update()
+    {
+        if (IsConnected)
+        {
+            SendKinectDataToServer();
+        }
     }
 
     public void ConnectToServer(IPAddress ip, int port)
@@ -38,6 +47,12 @@ public class KinectClient : Singleton<KinectClient>
     public void SendMessageToServer(string message)
     {
         byte[] buffer = Encoding.ASCII.GetBytes(message);
+        socket.SendTo(buffer, endPoint);
+    }
+    public void SendKinectDataToServer()
+    {
+        string data = JsonUtility.ToJson(measureDepth.depthDataObj);
+        byte[] buffer = Encoding.ASCII.GetBytes(data);
         socket.SendTo(buffer, endPoint);
     }
 }
