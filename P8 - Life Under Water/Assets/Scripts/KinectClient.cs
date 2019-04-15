@@ -51,7 +51,7 @@ public class KinectClient : Singleton<KinectClient>
     }
     public void SendKinectDataToServer()
     {
-        string data = JsonUtility.ToJson(measureDepth.depthDataObj);
+        string data = JsonUtility.ToJson(measureDepth.kinectData);
         byte[] buffer = Encoding.ASCII.GetBytes(data);
         socket.SendTo(buffer, endPoint);
     }

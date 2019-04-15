@@ -50,7 +50,7 @@ public class MeasureDepth : Singleton<MeasureDepth>
     public Vector2 CenterOfMass { get => centerOfMass; private set => centerOfMass = value; }
     public List<Vector2> TriggerPoints { get => triggerPoints; private set => triggerPoints = value; }
 
-    public DepthData depthDataObj;
+    public KinectData kinectData;
 
     private void Awake()
     {
@@ -62,7 +62,7 @@ public class MeasureDepth : Singleton<MeasureDepth>
 
         cameraSpacePoints = new CameraSpacePoint[arraySize];
         colorSpacePoints = new ColorSpacePoint[arraySize];
-        depthDataObj = new DepthData(arraySize/downSampleFactor);
+        kinectData = new KinectData(arraySize/downSampleFactor);
 
     }
 
@@ -81,8 +81,8 @@ public class MeasureDepth : Singleton<MeasureDepth>
             OnTriggerPoints(triggerPoints);
         }
 
-        depthDataObj.triggerPoints = triggerPoints.ToArray();
-        depthDataObj.centerOfMass = centerOfMass;
+        kinectData.triggerPoints = triggerPoints.ToArray();
+        kinectData.centerOfMass = centerOfMass;
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -299,18 +299,17 @@ public class ValidPoint
 }
 
 [System.Serializable] 
-public class DepthData
+public class KinectData
 {
     public int kinectID;
     public Vector2 offset;
     public Vector2 centerOfMass;
     public Vector2[] triggerPoints;
 
-    public DepthData(int arraysize)
+    public KinectData(int arraysize)
     {
         this.kinectID = 1;
         this.offset = Vector2.zero;
         triggerPoints = new Vector2[arraysize];
     }
-
 }
