@@ -7,10 +7,8 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 
-public class KinectServer : MonoBehaviour
+public class KinectServer : Singleton<KinectServer>
 {
-    public static KinectServer instance;
-
     [SerializeField]
     private int port = 11000;
     public int Port { get => port; }
@@ -26,7 +24,6 @@ public class KinectServer : MonoBehaviour
 
     void Start()
     {
-        Singleton();
         recievedMessage = "";
         receiveThread = new Thread(new ThreadStart(ReceiveData));
         receiveThread.IsBackground = true;
@@ -64,22 +61,6 @@ public class KinectServer : MonoBehaviour
 
         Debug.Log(recievedMessage);
         //Debug.Log($" {Encoding.ASCII.GetString(bytes, 0, bytes.Length)}");
-    }
-
-    private void Singleton()
-    {
-        /* Using a Singleton pattern ensures that there is only ever one client running per kinect, 
-         * and allow references to a static instance of the class */
-        Debug.Log("Singleton");
-        if (instance == null)
-        {
-            DontDestroyOnLoad(gameObject);
-            instance = this;
-        }
-        else if (instance != this)
-        {
-            Destroy(gameObject);
-        }
     }
 
     public IEnumerator ListenForClients()
