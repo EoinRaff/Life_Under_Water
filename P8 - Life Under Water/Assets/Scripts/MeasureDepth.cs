@@ -97,7 +97,7 @@ public class MeasureDepth : Singleton<MeasureDepth>
     private void OnGUI()
     {
         GUI.Box(boundingBox, "");
-        GUI.Box(centerOfMassRect, "");
+        GUI.Box(centerOfMassRect, "CoM");
         
 
         if (triggerPoints == null)

@@ -15,6 +15,6 @@ public class ImageViewer : MonoBehaviour
     {
         rawImage.texture = multiSource.GetColorTexture();
 
-        rawDepth.texture = measureDepth.depthTexture;
+        //rawDepth.texture = measureDepth.depthTexture;
     }
 }
