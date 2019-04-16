@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameManager : Singleton<GameManager>
 {
-    public RectTransform centerOfMass, boundingBox;
+    public GameObject centerOfMass;
     public Camera interactionCamera;
 
     private void Start()
@@ -14,8 +14,20 @@ public class GameManager : Singleton<GameManager>
 
     void Update()
     {
-        CenterOfMassToUI();
-        BoundingBoxUI();
+        CenterOfMassScreenToTransformPosition();
+    }
+
+    private void OnGUI()
+    {
+        if (KinectServer.Instance.TriggerPoints == null)
+            return;
+
+        foreach (Vector2 point in KinectServer.Instance.TriggerPoints)
+        {
+            print(point);
+            Rect rect = new Rect(point, new Vector2(10, 10));
+            GUI.Box(rect, "");
+        }
     }
 
     private void LateUpdate()
@@ -31,20 +43,12 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-    private void CenterOfMassToUI()
+    private void CenterOfMassScreenToTransformPosition()
     {
-        if (KinectServer.Instance.Data == null)
-            return;
         Vector2 centerV2 = KinectServer.Instance.Data.centerOfMass;
-        centerOfMass.position = new Vector3(centerV2.x, -centerV2.y);
-    }
-
-    private void BoundingBoxUI()
-    {
-        if (KinectServer.Instance.Data == null)
-            return;
-        Vector2 newSize = KinectServer.Instance.Data.centerOfMass - 2*KinectServer.Instance.Data.bottomRight;
-        boundingBox.sizeDelta = newSize;
+        Vector3 position = interactionCamera.ScreenToWorldPoint(new Vector3(centerV2.x, centerV2.y, interactionCamera.nearClipPlane));
+        position *= -1;
+        centerOfMass.transform.position = position;
     }
 
 }
