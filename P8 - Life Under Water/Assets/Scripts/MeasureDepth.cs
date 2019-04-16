@@ -7,11 +7,14 @@ public class MeasureDepth : Singleton<MeasureDepth>
 {
     public delegate void NewTriggerPoints(List<Vector2> triggerPoints);
     public static event NewTriggerPoints OnTriggerPoints = null;
-
+    
     public MultiSourceManager multiSource;
     public Texture2D depthTexture;
 
-    // Cutoffs
+    [HideInInspector]
+    public KinectData kinectData;
+
+    #region Cutoffs
     [SerializeField]
     [Range(0, 1.0f)]
     private float depthSensitivity = 1.0f;
@@ -34,35 +37,39 @@ public class MeasureDepth : Singleton<MeasureDepth>
     [SerializeField]
     [Range(-1.0f, 1.0f)]
     private float rightCutOff = 1.0f;
+    #endregion
 
-    // Depth Data
+    #region Depth Data
     private ushort[] depthData = null;
     private CameraSpacePoint[] cameraSpacePoints = null;
     private ColorSpacePoint[] colorSpacePoints = null;
     private List<ValidPoint> validPoints = null;
     private List<Vector2> triggerPoints = null;
     private int downSampleFactor = 8;
+    #endregion
 
-    // Kinect
+    #region Kinect & Camera
     private KinectSensor sensor = null;
     private CoordinateMapper mapper = null;
     private Camera mainCamera = null;
-
     private readonly Vector2Int depthResolution = new Vector2Int(512, 424);
+    #endregion
+
+    #region UI
     private Rect boundingBox, centerOfMassRect;
     private Vector2 centerOfMass;
+    #endregion
 
+    #region Encapsulation
     public Vector2 CenterOfMass { get => centerOfMass; private set => centerOfMass = value; }
     public List<Vector2> TriggerPoints { get => triggerPoints; private set => triggerPoints = value; }
-
     public float DepthSensitivity { get => depthSensitivity; set => depthSensitivity = value; }
     public float FloorDepth { get => floorDepth; set => floorDepth = value; }
     public float TopCutOff { get => topCutOff; set => topCutOff = value; }
     public float BottomCutOff { get => bottomCutOff; set => bottomCutOff = value; }
     public float LeftCutOff { get => leftCutOff; set => leftCutOff = value; }
     public float RightCutOff { get => rightCutOff; set => rightCutOff = value; }
-
-    public KinectData kinectData;
+    #endregion
 
     private void Awake()
     {
@@ -97,6 +104,8 @@ public class MeasureDepth : Singleton<MeasureDepth>
 
         kinectData.triggerPoints = triggerPoints.ToArray();
         kinectData.centerOfMass = centerOfMass;
+        kinectData.bottomRight = GetBottomRight(validPoints);
+        kinectData.topLeft = GetTopLeft(validPoints);
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -183,7 +192,7 @@ public class MeasureDepth : Singleton<MeasureDepth>
             {
                 if (point.z < floorDepth * depthSensitivity)
                 {
-                    Vector2 screenPoint = ScreenToCamera(new Vector2(point.colorSpace.X, point.colorSpace.Y));
+                    Vector2 screenPoint = ScreenToCamera(new Vector2(point.colorSpace.X, point.colorSpace.Y), mainCamera);
 
                     triggerPoints.Add(screenPoint);
                 }
@@ -239,8 +248,8 @@ public class MeasureDepth : Singleton<MeasureDepth>
         Vector2 bottomRight = GetBottomRight(points);
 
         // Translate to Viewport
-        Vector2 screenTopLeft = ScreenToCamera(topLeft);
-        Vector2 screenBottomRight = ScreenToCamera(bottomRight);
+        Vector2 screenTopLeft = ScreenToCamera(topLeft, mainCamera);
+        Vector2 screenBottomRight = ScreenToCamera(bottomRight, mainCamera);
 
         // Rect Dimensions
         int width = (int)(screenBottomRight.x - screenTopLeft.x);
@@ -285,12 +294,12 @@ public class MeasureDepth : Singleton<MeasureDepth>
         return bottomRight;
     }
 
-    private Vector2 ScreenToCamera(Vector2 screenPosition)
+    private static Vector2 ScreenToCamera(Vector2 screenPosition, Camera cam)
     {
         //REPLACE 1920 and 1080 with SCREEN DIMENSIONS
         Vector2 normalizedScreen = new Vector2(Mathf.InverseLerp(0, 1920, screenPosition.x), Mathf.InverseLerp(0, 1080, screenPosition.y));
 
-        Vector2 screenPoint = new Vector2(normalizedScreen.x * mainCamera.pixelWidth, normalizedScreen.y * mainCamera.pixelHeight);
+        Vector2 screenPoint = new Vector2(normalizedScreen.x * cam.pixelWidth, normalizedScreen.y * cam.pixelHeight);
 
         return screenPoint;
     }
@@ -309,21 +318,5 @@ public class ValidPoint
     {
         this.colorSpace = colorSpace;
         this.z = z;
-    }
-}
-
-[System.Serializable] 
-public class KinectData
-{
-    public int kinectID;
-    public Vector2 offset;
-    public Vector2 centerOfMass;
-    public Vector2[] triggerPoints;
-
-    public KinectData(int arraysize)
-    {
-        this.kinectID = 1;
-        this.offset = Vector2.zero;
-        triggerPoints = new Vector2[arraysize];
     }
 }

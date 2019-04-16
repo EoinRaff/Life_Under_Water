@@ -9,6 +9,7 @@ using System.Threading;
 
 public class KinectServer : Singleton<KinectServer>
 {
+    #region Connection Settings 
     [SerializeField]
     private int port = 11000;
     public int Port { get => port; }
@@ -18,21 +19,27 @@ public class KinectServer : Singleton<KinectServer>
     private IPEndPoint groupEP;
 
     Thread receiveThread;
+
+    #endregion
+
+    #region Data Processing
     string recievedMessage;
     public string Message { get => recievedMessage; set => recievedMessage = value; }
-
+    
+    public KinectData Data { get; set; }
+    public Vector2 CenterOfMass { get; set; }
+    public List<Vector2> TriggerPoints { get; set; }
+    #endregion
 
     void Start()
     {
         recievedMessage = "";
-        receiveThread = new Thread(new ThreadStart(ReceiveData));
-        receiveThread.IsBackground = true;
+        receiveThread = new Thread(new ThreadStart(ReceiveData)){IsBackground = true};
         receiveThread.Start();
     }
 
     private void ReceiveData()
     {
-        Debug.Log("Creating UDP Listener");
         listener = new UdpClient(port);
         while (true)
         {
@@ -41,11 +48,10 @@ public class KinectServer : Singleton<KinectServer>
                 IPEndPoint anyIP = new IPEndPoint(IPAddress.Any, 0);
                 byte[] data = listener.Receive(ref anyIP);
 
-                string text = Encoding.UTF8.GetString(data);
+                string json = Encoding.UTF8.GetString(data);
 
-                print(">> " + text);
-
-                recievedMessage = text;
+                recievedMessage = json;
+                Data = JsonToKinectData(json);
             }
             catch (Exception err)
             {
@@ -54,41 +60,19 @@ public class KinectServer : Singleton<KinectServer>
         }
     }
 
-    void Update()
+    private KinectData JsonToKinectData(string message)
     {
-        Debug.Log("Waiting for broadcast");
-        //byte[] bytes = listener.Receive(ref groupEP);
-
-        Debug.Log(recievedMessage);
-        //Debug.Log($" {Encoding.ASCII.GetString(bytes, 0, bytes.Length)}");
+        return JsonUtility.FromJson<KinectData>(message);
     }
 
-    public IEnumerator ListenForClients()
+    public void GetTriggerPointsFromKinectData(KinectData kinectData)
     {
-        try
+        List<Vector2> triggerPoints = new List<Vector2>();
+        for (int i = 0; i < kinectData.triggerPoints.Length; i++)
         {
-            while (true)
-            {
-                Debug.Log("Waiting for broadcast");
-                byte[] bytes = listener.Receive(ref groupEP); // I think this line causes the crashes
-
-                Debug.Log($"Received broadcast from {groupEP} :");
-                Debug.Log($" {Encoding.ASCII.GetString(bytes, 0, bytes.Length)}");
-            }
+            triggerPoints.Add(kinectData.triggerPoints[i]);
         }
-        catch (SocketException e)
-        {
-            Debug.Log(e);
-        }
-        finally
-        {
-            listener.Close();
-        }
-        yield return new WaitForEndOfFrame();
+        TriggerPoints = triggerPoints;
     }
 
-    public void SendMessageToClient(string message)
-    {
-        throw new NotImplementedException();
-    }
 }

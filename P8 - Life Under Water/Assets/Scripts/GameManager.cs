@@ -2,18 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManager : Singleton<GameManager>
 {
-    public static GameManager instance;
-    public MeasureDepth measureDepth;
-    public GameObject centerOfMass;
-    public Camera wallCamera, floorCamera;
-    public float heightFromFloor;
+    public RectTransform centerOfMass, boundingBox;
+    public Camera interactionCamera;
 
-    private void Awake()
+    private void Start()
     {
-        Singleton();
         InitializeDisplays();
+    }
+
+    void Update()
+    {
+        CenterOfMassToUI();
+        BoundingBoxUI();
+    }
+
+    private void LateUpdate()
+    {
+        ObjectCleaner.DestroyObjectsAndClearList();
     }
 
     private static void InitializeDisplays()
@@ -24,35 +31,20 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void Update()
+    private void CenterOfMassToUI()
     {
-        CenterOfMassScreenToTransformPosition();
+        if (KinectServer.Instance.Data == null)
+            return;
+        Vector2 centerV2 = KinectServer.Instance.Data.centerOfMass;
+        centerOfMass.position = new Vector3(centerV2.x, -centerV2.y);
     }
 
-    private void LateUpdate()
+    private void BoundingBoxUI()
     {
-        ObjectCleaner.DestroyObjectsAndClearList();
-    }
-
-    private void CenterOfMassScreenToTransformPosition()
-    {
-        Vector2 centerV2 = measureDepth.CenterOfMass;
-        Vector3 position = floorCamera.ScreenToWorldPoint(new Vector3(centerV2.x, centerV2.y, heightFromFloor));
-        position *= -1;
-        centerOfMass.transform.position = position;
-    }
-
-    private void Singleton()
-    {
-        if (instance == null)
-        {
-            DontDestroyOnLoad(gameObject);
-            instance = this;
-        }
-        else if (instance != this)
-        {
-            Destroy(gameObject);
-        }
+        if (KinectServer.Instance.Data == null)
+            return;
+        Vector2 newSize = KinectServer.Instance.Data.centerOfMass - 2*KinectServer.Instance.Data.bottomRight;
+        boundingBox.sizeDelta = newSize;
     }
 
 }

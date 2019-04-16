@@ -683,11 +683,6 @@ PrefabInstance:
       propertyPath: m_isInputParsingRequired
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1038453886960427564, guid: e6e449d9f24acc44085d087ab89b9141,
-        type: 3}
-      propertyPath: m_RaycastTarget
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e6e449d9f24acc44085d087ab89b9141, type: 3}
 --- !u!114 &1188109290 stripped

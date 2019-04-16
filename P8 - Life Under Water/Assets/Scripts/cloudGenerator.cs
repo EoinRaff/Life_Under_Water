@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class cloudGenerator : MonoBehaviour
+public class CloudGenerator : MonoBehaviour
 {
     public GameObject cloudPrefab;
     public float spawnDistance;
