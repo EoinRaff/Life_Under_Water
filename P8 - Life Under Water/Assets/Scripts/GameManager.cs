@@ -6,6 +6,7 @@ public class GameManager : Singleton<GameManager>
 {
     public GameObject centerOfMass;
     public Camera interactionCamera;
+    public float heightFromGround; //Bad name. Not sure what this really is. 10 is a good value for it though
 
     private void Start()
     {
@@ -46,7 +47,7 @@ public class GameManager : Singleton<GameManager>
     private void CenterOfMassScreenToTransformPosition()
     {
         Vector2 centerV2 = KinectServer.Instance.Data.centerOfMass;
-        Vector3 position = interactionCamera.ScreenToWorldPoint(new Vector3(centerV2.x, centerV2.y, interactionCamera.nearClipPlane));
+        Vector3 position = interactionCamera.ScreenToWorldPoint(new Vector3(centerV2.x, centerV2.y, heightFromGround));
         position *= -1;
         centerOfMass.transform.position = position;
     }
