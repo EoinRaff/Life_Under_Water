@@ -12,23 +12,28 @@ public class MeasureDepth : Singleton<MeasureDepth>
     public Texture2D depthTexture;
 
     // Cutoffs
+    [SerializeField]
     [Range(0, 1.0f)]
-    public float depthSensitivity = 1.0f;
-
+    private float depthSensitivity = 1.0f;
+    [SerializeField]
     [Range(-10.0f, 10.0f)]
-    public float wallDepth = -10.0f;
+    private float floorDepth = -10.0f;
 
     [Header("Top and Bottom")]
+    [SerializeField]
     [Range(-1.0f, 1.0f)]
-    public float topCutOff = 1.0f;
+    private float topCutOff = 1.0f;
+    [SerializeField]
     [Range(-1.0f, 1.0f)]
-    public float bottomCutOff = -1.0f;
+    private float bottomCutOff = -1.0f;
 
     [Header("Left and Right")]
+    [SerializeField]
     [Range(-1.0f, 1.0f)]
-    public float leftCutOff = -1.0f;
+    private float leftCutOff = -1.0f;
+    [SerializeField]
     [Range(-1.0f, 1.0f)]
-    public float rightCutOff = 1.0f;
+    private float rightCutOff = 1.0f;
 
     // Depth Data
     private ushort[] depthData = null;
@@ -49,6 +54,13 @@ public class MeasureDepth : Singleton<MeasureDepth>
 
     public Vector2 CenterOfMass { get => centerOfMass; private set => centerOfMass = value; }
     public List<Vector2> TriggerPoints { get => triggerPoints; private set => triggerPoints = value; }
+
+    public float DepthSensitivity { get => depthSensitivity; set => depthSensitivity = value; }
+    public float FloorDepth { get => floorDepth; set => floorDepth = value; }
+    public float TopCutOff { get => topCutOff; set => topCutOff = value; }
+    public float BottomCutOff { get => bottomCutOff; set => bottomCutOff = value; }
+    public float LeftCutOff { get => leftCutOff; set => leftCutOff = value; }
+    public float RightCutOff { get => rightCutOff; set => rightCutOff = value; }
 
     public KinectData kinectData;
 
@@ -148,7 +160,7 @@ public class MeasureDepth : Singleton<MeasureDepth>
                 ValidPoint newPoint = new ValidPoint(colorSpacePoints[sampleIndex], cameraSpacePoints[sampleIndex].Z);
 
                 // Depth Test
-                if (cameraSpacePoints[sampleIndex].Z >= wallDepth)
+                if (cameraSpacePoints[sampleIndex].Z >= floorDepth)
                 {
                     newPoint.withinWallDepth = true;
                 }
@@ -169,7 +181,7 @@ public class MeasureDepth : Singleton<MeasureDepth>
         {
             if (!point.withinWallDepth)
             {
-                if (point.z < wallDepth * depthSensitivity)
+                if (point.z < floorDepth * depthSensitivity)
                 {
                     Vector2 screenPoint = ScreenToCamera(new Vector2(point.colorSpace.X, point.colorSpace.Y));
 
