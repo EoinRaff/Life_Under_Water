@@ -1,12 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public abstract class Singleton<Type> : MonoBehaviour where Type : MonoBehaviour
+public abstract class Singleton<Type> : MonoBehaviour //where Type : MonoBehaviour
 {
     public static Type Instance { get; private set; }
 
     private void Awake()
+    {
+        CheckSingleton();
+    }
+
+    protected void CheckSingleton()
     {
         if (Instance == null)
         {

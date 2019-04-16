@@ -54,6 +54,8 @@ public class MeasureDepth : Singleton<MeasureDepth>
 
     private void Awake()
     {
+        CheckSingleton();
+
         sensor = KinectSensor.GetDefault();
         mapper = sensor.CoordinateMapper;
         mainCamera = Camera.main;
@@ -86,7 +88,6 @@ public class MeasureDepth : Singleton<MeasureDepth>
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-
             boundingBox = CreatRect(validPoints);
 
             depthTexture = CreateTexture(validPoints);
@@ -114,6 +115,7 @@ public class MeasureDepth : Singleton<MeasureDepth>
         List<ValidPoint> validPoints = new List<ValidPoint>();
 
         // Get Depth Data From Kinect
+        depthData = multiSource.GetDepthData();
         depthData = multiSource.GetDepthData();
 
         //Map Depth Data to Camera & Color Space

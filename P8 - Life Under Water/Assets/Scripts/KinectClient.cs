@@ -23,11 +23,12 @@ public class KinectClient : Singleton<KinectClient>
     private UdpClient udpListener;
     private IPEndPoint endPoint;
 
-    public MeasureDepth measureDepth;
+    //private MeasureDepth measureDepth;
 
     void Start()
     {
         socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+        //measureDepth = MeasureDepth.Instance;
     }
 
     private void Update()
@@ -51,7 +52,8 @@ public class KinectClient : Singleton<KinectClient>
     }
     public void SendKinectDataToServer()
     {
-        string data = JsonUtility.ToJson(measureDepth.kinectData);
+        //string data = JsonUtility.ToJson(measureDepth.kinectData);
+        string data = JsonUtility.ToJson(MeasureDepth.Instance.kinectData);
         byte[] buffer = Encoding.ASCII.GetBytes(data);
         socket.SendTo(buffer, endPoint);
     }

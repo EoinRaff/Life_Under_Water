@@ -54,11 +54,21 @@ public class ClientUIHandler : MonoBehaviour
         if (!TryParseInputValues())
             return;
 
-        //KinectClient.Instance.ConnectToServer(ip, port);
-        client.ConnectToServer(ip, port);
+        KinectClient.Instance.ConnectToServer(ip, port);
+        //client.ConnectToServer(ip, port);
         statusText.text = string.Format("Connected to {0} at port {1}", ip, port);
     }
 
+    public void ConnectToLocalHost()
+    {
+        ip = IPAddress.Parse("127.0.0.1");
+        port = 11000;
+
+        KinectClient.Instance.ConnectToServer(ip, port);
+        statusText.text = string.Format("Connected to localhost at port " + port);
+    }
+
+    #region Unused Methods
     public void SendMessage()
     {
         if (/*!KinectClient.Instance.*/!client.IsConnected)
@@ -72,6 +82,5 @@ public class ClientUIHandler : MonoBehaviour
         statusText.text = "Message sent to Server";
         KinectClient.Instance.SendMessageToServer(messageInput.text);
     }
-
-
+    #endregion
 }

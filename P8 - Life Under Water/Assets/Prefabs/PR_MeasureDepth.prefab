@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 878881280787842379}
-  - component: {fileID: 8120131474374271605}
+  - component: {fileID: 6063760611391399378}
   m_Layer: 0
   m_Name: PR_MeasureDepth
   m_TagString: Untagged
@@ -25,13 +25,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 186882330234643237}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 207.86234, y: 123.4235, z: -0.6225584}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8120131474374271605
+--- !u!114 &6063760611391399378
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -47,7 +47,12 @@ MonoBehaviour:
   depthTexture: {fileID: 0}
   depthSensitivity: 1
   wallDepth: -10
-  topCutOff: 0.35
-  bottomCutOff: -0.35
-  leftCutOff: -0.6
-  rightCutOff: 0.3
+  topCutOff: 1
+  bottomCutOff: -1
+  leftCutOff: -1
+  rightCutOff: 1
+  kinectData:
+    kinectID: 0
+    offset: {x: 0, y: 0}
+    centerOfMass: {x: 0, y: 0}
+    triggerPoints: []
