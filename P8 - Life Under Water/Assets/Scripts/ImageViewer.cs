@@ -13,8 +13,11 @@ public class ImageViewer : MonoBehaviour
 
     void Update()
     {
-        rawImage.texture = multiSource.GetColorTexture();
+        /// This throws an error but still works - look into it
+        
+        rawImage.texture = MultiSourceManager.Instance.GetColorTexture();
+//        rawImage.texture = multiSource.GetColorTexture();
 
-        //rawDepth.texture = measureDepth.depthTexture;
+        rawDepth.texture = measureDepth.depthTexture;
     }
 }
