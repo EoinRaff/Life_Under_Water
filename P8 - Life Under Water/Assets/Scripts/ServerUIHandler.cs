@@ -9,13 +9,13 @@ public class ServerUIHandler : MonoBehaviour
 
     void Update()
     {
-        if (KinectServer.instance.Message == "")
+        if (KinectServer.Instance.Message == "")
         {
             text.text = "Awaiting Message from Client";
         }
         else
         {
-            text.text = "Recieved Message: \n" + KinectServer.instance.Message;
+            text.text = "Recieved Message: \n" + KinectServer.Instance.Message;
         }
     }
 }

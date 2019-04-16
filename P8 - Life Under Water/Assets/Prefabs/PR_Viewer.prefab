@@ -117,7 +117,6 @@ MonoBehaviour:
   multiSource: {fileID: 0}
   rawImage: {fileID: 8100880221099614984}
   rawDepth: {fileID: 3222080591698011684}
-  blobViewer: {fileID: 0}
 --- !u!1 &1832615306583319501
 GameObject:
   m_ObjectHideFlags: 0
@@ -207,7 +206,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6848166738420691513
 RectTransform:
   m_ObjectHideFlags: 0

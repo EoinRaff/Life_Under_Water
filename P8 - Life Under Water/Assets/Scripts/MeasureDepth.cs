@@ -3,60 +3,88 @@ using System.Collections.Generic;
 using UnityEngine;
 using Windows.Kinect;
 
-public class MeasureDepth : MonoBehaviour
+public class MeasureDepth : Singleton<MeasureDepth>
 {
     public delegate void NewTriggerPoints(List<Vector2> triggerPoints);
     public static event NewTriggerPoints OnTriggerPoints = null;
-
+    
     public MultiSourceManager multiSource;
     public Texture2D depthTexture;
 
-    // Cutoffs
-    [Range(0, 1.0f)]
-    public float depthSensitivity = 1.0f;
+    [HideInInspector]
+    public KinectData kinectData;
 
+    #region Cutoffs
+    [SerializeField]
+    [Range(0, 1.0f)]
+    private float depthSensitivity = 1.0f;
+    [SerializeField]
     [Range(-10.0f, 10.0f)]
-    public float wallDepth = -10.0f;
+    private float floorDepth = -10.0f;
 
     [Header("Top and Bottom")]
+    [SerializeField]
     [Range(-1.0f, 1.0f)]
-    public float topCutOff = 1.0f;
+    private float topCutOff = 1.0f;
+    [SerializeField]
     [Range(-1.0f, 1.0f)]
-    public float bottomCutOff = -1.0f;
+    private float bottomCutOff = -1.0f;
 
     [Header("Left and Right")]
+    [SerializeField]
     [Range(-1.0f, 1.0f)]
-    public float leftCutOff = -1.0f;
+    private float leftCutOff = -1.0f;
+    [SerializeField]
     [Range(-1.0f, 1.0f)]
-    public float rightCutOff = 1.0f;
+    private float rightCutOff = 1.0f;
+    #endregion
 
-    // Depth Data
+    #region Depth Data
     private ushort[] depthData = null;
     private CameraSpacePoint[] cameraSpacePoints = null;
     private ColorSpacePoint[] colorSpacePoints = null;
     private List<ValidPoint> validPoints = null;
     private List<Vector2> triggerPoints = null;
     private int downSampleFactor = 8;
+    #endregion
 
-    // Kinect
+    #region Kinect & Camera
     private KinectSensor sensor = null;
     private CoordinateMapper mapper = null;
-    private Camera camera = null;
-
+    private Camera mainCamera = null;
     private readonly Vector2Int depthResolution = new Vector2Int(512, 424);
+    #endregion
+
+    #region UI
     private Rect boundingBox, centerOfMassRect;
     private Vector2 centerOfMass;
+    #endregion
+
+    #region Encapsulation
+    public Vector2 CenterOfMass { get => centerOfMass; private set => centerOfMass = value; }
+    public List<Vector2> TriggerPoints { get => triggerPoints; private set => triggerPoints = value; }
+    public float DepthSensitivity { get => depthSensitivity; set => depthSensitivity = value; }
+    public float FloorDepth { get => floorDepth; set => floorDepth = value; }
+    public float TopCutOff { get => topCutOff; set => topCutOff = value; }
+    public float BottomCutOff { get => bottomCutOff; set => bottomCutOff = value; }
+    public float LeftCutOff { get => leftCutOff; set => leftCutOff = value; }
+    public float RightCutOff { get => rightCutOff; set => rightCutOff = value; }
+    #endregion
 
     private void Awake()
     {
+        CheckSingleton();
+
         sensor = KinectSensor.GetDefault();
         mapper = sensor.CoordinateMapper;
-        camera = Camera.main;
+        mainCamera = Camera.main;
 
         int arraySize = depthResolution.x * depthResolution.y;
 
         cameraSpacePoints = new CameraSpacePoint[arraySize];
         colorSpacePoints = new ColorSpacePoint[arraySize];
+        kinectData = new KinectData(arraySize/downSampleFactor);
+
     }
 
     private void Update()
@@ -74,9 +102,13 @@ public class MeasureDepth : MonoBehaviour
             OnTriggerPoints(triggerPoints);
         }
 
+        kinectData.triggerPoints = triggerPoints.ToArray();
+        kinectData.centerOfMass = centerOfMass;
+        kinectData.bottomRight = GetBottomRight(validPoints);
+        kinectData.topLeft = GetTopLeft(validPoints);
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
-
             boundingBox = CreatRect(validPoints);
 
             depthTexture = CreateTexture(validPoints);
@@ -86,7 +118,7 @@ public class MeasureDepth : MonoBehaviour
     private void OnGUI()
     {
         GUI.Box(boundingBox, "");
-        GUI.Box(centerOfMassRect, "");
+        GUI.Box(centerOfMassRect, "CoM");
         
 
         if (triggerPoints == null)
@@ -104,6 +136,7 @@ public class MeasureDepth : MonoBehaviour
         List<ValidPoint> validPoints = new List<ValidPoint>();
 
         // Get Depth Data From Kinect
+        depthData = multiSource.GetDepthData();
         depthData = multiSource.GetDepthData();
 
         //Map Depth Data to Camera & Color Space
@@ -136,7 +169,7 @@ public class MeasureDepth : MonoBehaviour
                 ValidPoint newPoint = new ValidPoint(colorSpacePoints[sampleIndex], cameraSpacePoints[sampleIndex].Z);
 
                 // Depth Test
-                if (cameraSpacePoints[sampleIndex].Z >= wallDepth)
+                if (cameraSpacePoints[sampleIndex].Z >= floorDepth)
                 {
                     newPoint.withinWallDepth = true;
                 }
@@ -157,9 +190,9 @@ public class MeasureDepth : MonoBehaviour
         {
             if (!point.withinWallDepth)
             {
-                if (point.z < wallDepth * depthSensitivity)
+                if (point.z < floorDepth * depthSensitivity)
                 {
-                    Vector2 screenPoint = ScreenToCamera(new Vector2(point.colorSpace.X, point.colorSpace.Y));
+                    Vector2 screenPoint = ScreenToCamera(new Vector2(point.colorSpace.X, point.colorSpace.Y), mainCamera);
 
                     triggerPoints.Add(screenPoint);
                 }
@@ -204,8 +237,6 @@ public class MeasureDepth : MonoBehaviour
         return centerOfMass;
     }
 
-    public Vector2 CenterOfMass { get => centerOfMass; set => centerOfMass = value; }
-
     #region Rect Creation
     private Rect CreatRect(List<ValidPoint> points)
     {
@@ -217,8 +248,8 @@ public class MeasureDepth : MonoBehaviour
         Vector2 bottomRight = GetBottomRight(points);
 
         // Translate to Viewport
-        Vector2 screenTopLeft = ScreenToCamera(topLeft);
-        Vector2 screenBottomRight = ScreenToCamera(bottomRight);
+        Vector2 screenTopLeft = ScreenToCamera(topLeft, mainCamera);
+        Vector2 screenBottomRight = ScreenToCamera(bottomRight, mainCamera);
 
         // Rect Dimensions
         int width = (int)(screenBottomRight.x - screenTopLeft.x);
@@ -263,18 +294,19 @@ public class MeasureDepth : MonoBehaviour
         return bottomRight;
     }
 
-    private Vector2 ScreenToCamera(Vector2 screenPosition)
+    private static Vector2 ScreenToCamera(Vector2 screenPosition, Camera cam)
     {
         //REPLACE 1920 and 1080 with SCREEN DIMENSIONS
         Vector2 normalizedScreen = new Vector2(Mathf.InverseLerp(0, 1920, screenPosition.x), Mathf.InverseLerp(0, 1080, screenPosition.y));
 
-        Vector2 screenPoint = new Vector2(normalizedScreen.x * camera.pixelWidth, normalizedScreen.y * camera.pixelHeight);
+        Vector2 screenPoint = new Vector2(normalizedScreen.x * cam.pixelWidth, normalizedScreen.y * cam.pixelHeight);
 
         return screenPoint;
     }
     #endregion
 }
 
+[System.Serializable]
 public class ValidPoint
 {
     public ColorSpacePoint colorSpace;

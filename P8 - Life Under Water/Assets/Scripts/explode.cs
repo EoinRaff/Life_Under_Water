@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class explode : MonoBehaviour
+public class Explode : MonoBehaviour
 {
     Rigidbody rb;
-    // Start is called before the first frame update
+
     void Start()
     {
         rb = gameObject.GetComponent<Rigidbody>();
@@ -21,7 +21,6 @@ public class explode : MonoBehaviour
         if (transform.position.y <= -1)
         {
             ObjectCleaner.AddObjectToList(gameObject);
-            //Destroy(gameObject);
         }
     }
 }

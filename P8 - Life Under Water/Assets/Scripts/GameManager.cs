@@ -2,18 +2,38 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManager : Singleton<GameManager>
 {
-    public static GameManager instance;
-    public MeasureDepth measureDepth;
     public GameObject centerOfMass;
-    public Camera wallCamera, floorCamera;
-    public float heightFromFloor;
+    public Camera interactionCamera;
+    public float heightFromGround; //Bad name. Not sure what this really is. 10 is a good value for it though
 
-    private void Awake()
+    private void Start()
     {
-        Singleton();
         InitializeDisplays();
+    }
+
+    void Update()
+    {
+        CenterOfMassScreenToTransformPosition();
+    }
+
+    private void OnGUI()
+    {
+        if (KinectServer.Instance.TriggerPoints == null)
+            return;
+
+        foreach (Vector2 point in KinectServer.Instance.TriggerPoints)
+        {
+            print(point);
+            Rect rect = new Rect(point, new Vector2(10, 10));
+            GUI.Box(rect, "");
+        }
+    }
+
+    private void LateUpdate()
+    {
+        ObjectCleaner.DestroyObjectsAndClearList();
     }
 
     private static void InitializeDisplays()
@@ -24,35 +44,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-        CenterOfMassScreenToTransformPosition();
-    }
-
-    private void LateUpdate()
-    {
-        ObjectCleaner.DestroyObjectsAndClearList();
-    }
-
     private void CenterOfMassScreenToTransformPosition()
     {
-        Vector2 centerV2 = measureDepth.CenterOfMass;
-        Vector3 position = floorCamera.ScreenToWorldPoint(new Vector3(centerV2.x, centerV2.y, heightFromFloor));
+        Vector2 centerV2 = KinectServer.Instance.Data.centerOfMass;
+        Vector3 position = interactionCamera.ScreenToWorldPoint(new Vector3(centerV2.x, centerV2.y, heightFromGround));
         position *= -1;
         centerOfMass.transform.position = position;
-    }
-
-    private void Singleton()
-    {
-        if (instance == null)
-        {
-            DontDestroyOnLoad(gameObject);
-            instance = this;
-        }
-        else if (instance != this)
-        {
-            Destroy(gameObject);
-        }
     }
 
 }

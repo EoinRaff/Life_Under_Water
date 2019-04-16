@@ -2,7 +2,7 @@
 using System.Collections;
 using Windows.Kinect;
 
-public class MultiSourceManager : MonoBehaviour {
+public class MultiSourceManager : Singleton<MultiSourceManager> {
     public int ColorWidth { get; private set; }
     public int ColorHeight { get; private set; }
     

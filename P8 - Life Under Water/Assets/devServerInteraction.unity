@@ -790,6 +790,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   centerOfMass: {fileID: 688486730}
   interactionCamera: {fileID: 2022798051}
+  heightFromGround: 10
 --- !u!4 &873260138
 Transform:
   m_ObjectHideFlags: 0
