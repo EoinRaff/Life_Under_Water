@@ -13,8 +13,6 @@ public class KinectData
 
     public KinectData(int arraysize)
     {
-        this.kinectID = 1;
-        this.offset = Vector2.zero;
         triggerPoints = new Vector2[arraysize];
     }
 }

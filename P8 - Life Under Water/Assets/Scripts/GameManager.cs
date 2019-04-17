@@ -25,7 +25,6 @@ public class GameManager : Singleton<GameManager>
 
         foreach (Vector2 point in KinectServer.Instance.TriggerPoints)
         {
-            print(point);
             Rect rect = new Rect(point, new Vector2(10, 10));
             GUI.Box(rect, "");
         }
@@ -46,6 +45,10 @@ public class GameManager : Singleton<GameManager>
 
     private void CenterOfMassScreenToTransformPosition()
     {
+        if (KinectServer.Instance.Data == null)
+        {
+            return;
+        }
         Vector2 centerV2 = KinectServer.Instance.Data.centerOfMass;
         Vector3 position = interactionCamera.ScreenToWorldPoint(new Vector3(centerV2.x, centerV2.y, heightFromGround));
         position *= -1;

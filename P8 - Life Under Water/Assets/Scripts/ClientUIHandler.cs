@@ -7,16 +7,21 @@ using TMPro;
 
 public class ClientUIHandler : MonoBehaviour
 {
-    public KinectClient client;
-
     public TextMeshProUGUI statusText;
 
     public TMP_InputField ipInput;
     public TMP_InputField portInput;
-    public TMP_InputField messageInput;
+    public TMP_InputField IDinput, offsetX, offsetY;
+
+    public enum Slider
+    {
+        Sensitivity, Depth, Top, Bottom, Left, Right
+    };
+    private Slider activeSlider;
 
     private IPAddress ip;
-    private int port;
+    private int port, ID, X, Y;
+
 
     void Awake()
     {
@@ -55,7 +60,6 @@ public class ClientUIHandler : MonoBehaviour
             return;
 
         KinectClient.Instance.ConnectToServer(ip, port);
-        //client.ConnectToServer(ip, port);
         statusText.text = string.Format("Connected to {0} at port {1}", ip, port);
     }
 
@@ -68,19 +72,72 @@ public class ClientUIHandler : MonoBehaviour
         statusText.text = string.Format("Connected to localhost at port " + port);
     }
 
-    #region Unused Methods
-    public void SendMessage()
+    public void SetKinectData()
     {
-        if (/*!KinectClient.Instance.*/!client.IsConnected)
-        {
-            statusText.text = "Cannot send message. \nClient not connect to Server.";
+        if (!int.TryParse(offsetX.text, out X))
+            return; 
+        if (!int.TryParse(offsetY.text, out Y))
             return;
-        }
-
-        //for debugging only
-        Debug.Log(messageInput.text);
-        statusText.text = "Message sent to Server";
-        KinectClient.Instance.SendMessageToServer(messageInput.text);
+        if (!int.TryParse(IDinput.text, out ID))
+            return;
+        MeasureDepth.Instance.kinectData.kinectID = ID;
+        MeasureDepth.Instance.SetOffset(X, Y);
     }
-    #endregion
+
+    public void SetActiveSlider(string s)
+    {
+        print("Setting active Slider as" + s);
+        switch (s)
+        {
+            case "Sensitivity":
+                activeSlider = Slider.Sensitivity;
+                break;
+            case "Depth":
+                activeSlider = Slider.Depth;
+                break;
+            case "Top":
+                activeSlider = Slider.Top;
+                break;
+            case "Bottom":
+                activeSlider = Slider.Bottom;
+                break;
+            case "Left":
+                activeSlider = Slider.Left;
+                break;
+            case "Right":
+                activeSlider = Slider.Right;
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void SetMeasurementParameters(float value)
+    {
+        print("Changing Value for Slider" + activeSlider + " to " + value);
+        switch (activeSlider)
+        {
+            case Slider.Sensitivity:
+                MeasureDepth.Instance.DepthSensitivity = value;
+                break;
+            case Slider.Depth:
+                MeasureDepth.Instance.FloorDepth = value;
+                break;
+            case Slider.Top:
+                MeasureDepth.Instance.TopCutOff = value;
+                break;
+            case Slider.Bottom:
+                MeasureDepth.Instance.BottomCutOff = value;
+                break;
+            case Slider.Left:
+                MeasureDepth.Instance.LeftCutOff = value;
+                break;
+            case Slider.Right:
+                MeasureDepth.Instance.RightCutOff = value;
+                break;
+            default:
+                break;
+        }
+    }
+
 }

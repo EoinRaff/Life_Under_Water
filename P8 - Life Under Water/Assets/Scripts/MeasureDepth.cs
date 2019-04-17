@@ -237,6 +237,11 @@ public class MeasureDepth : Singleton<MeasureDepth>
         return centerOfMass;
     }
 
+    public void SetOffset(int x, int y)
+    {
+        kinectData.offset = new Vector2(x, y);
+    }
+
     #region Rect Creation
     private Rect CreatRect(List<ValidPoint> points)
     {
