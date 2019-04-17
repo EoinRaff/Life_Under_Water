@@ -70,7 +70,7 @@ public class KinectServer : Singleton<KinectServer>
         List<Vector2> triggerPoints = new List<Vector2>();
         for (int i = 0; i < kinectData.triggerPoints.Length; i++)
         {
-            triggerPoints.Add(kinectData.triggerPoints[i]);
+            triggerPoints.Add(kinectData.triggerPoints[i] + kinectData.offset); 
         }
         TriggerPoints = triggerPoints;
     }

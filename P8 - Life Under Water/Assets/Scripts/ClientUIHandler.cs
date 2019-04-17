@@ -11,7 +11,7 @@ public class ClientUIHandler : MonoBehaviour
 
     public TMP_InputField ipInput;
     public TMP_InputField portInput;
-    public TMP_InputField offsetX, offsetY;
+    public TMP_InputField IDinput, offsetX, offsetY;
 
     public enum Slider
     {
@@ -20,7 +20,7 @@ public class ClientUIHandler : MonoBehaviour
     private Slider activeSlider;
 
     private IPAddress ip;
-    private int port, X, Y;
+    private int port, ID, X, Y;
 
 
     void Awake()
@@ -72,13 +72,15 @@ public class ClientUIHandler : MonoBehaviour
         statusText.text = string.Format("Connected to localhost at port " + port);
     }
 
-    public void SetKinectDataOffset()
+    public void SetKinectData()
     {
         if (!int.TryParse(offsetX.text, out X))
             return; 
         if (!int.TryParse(offsetY.text, out Y))
             return;
-        print(string.Format("Set Data Offset to {0}, {1}", X, Y));
+        if (!int.TryParse(IDinput.text, out ID))
+            return;
+        MeasureDepth.Instance.kinectData.kinectID = ID;
         MeasureDepth.Instance.SetOffset(X, Y);
     }
 
