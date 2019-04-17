@@ -30,7 +30,8 @@ public class KinectServer : Singleton<KinectServer>
 
     private KinectData recievedData;
     public KinectData Data { get; set; }
-    public List<KinectData> kinects;
+    //public List<KinectData> kinects;
+    public KinectData[] kinects;
     public Vector2 CenterOfMass { get; private set; }
     public List<Vector2> TriggerPoints { get; set; }
     #endregion
@@ -38,21 +39,16 @@ public class KinectServer : Singleton<KinectServer>
     void Start()
     {
         recievedMessage = "";
+        kinects = new KinectData[NUMBER_OF_KINECTS];
         for (int i = 0; i < NUMBER_OF_KINECTS; i++)
         {
-            listenThreads[i] = new Thread(new ParameterizedThreadStart(ReceiveData));
-            listenThreads[i].IsBackground = true;
-            listenThreads[i].Start(i);
-            /*listenThreads[i] = new Thread(() => ReceiveData(i))
+            listenThreads[i] = new Thread(new ParameterizedThreadStart(ReceiveData))
             {
                 IsBackground = true
             };
-            listenThreads[i].Start();*/
-        }
+            listenThreads[i].Start(i);
 
-        //receiveThread = new Thread(new ThreadStart(ReceiveData));
-        //receiveThread.IsBackground = true;
-        //receiveThread.Start();
+        }
     }
 
     private void Update()
@@ -92,10 +88,12 @@ public class KinectServer : Singleton<KinectServer>
                 recievedData = JsonToKinectData(json);
                 print(string.Format("recieved Data from Kinect #{0} at port {1}", recievedData.kinectID, ports[i]));
 
+                kinects[i] = recievedData;
+                /*
                 if (!ListContainsClient(kinects, recievedData))
                 {
                     kinects.Add(recievedData);
-                }
+                }*/
             }
             catch (Exception err)
             {
@@ -144,11 +142,11 @@ public class KinectServer : Singleton<KinectServer>
         List<Vector2> triggerPoints = new List<Vector2>();
         foreach (KinectData item in kinects)
         {
-            newData.centerOfMass += item.centerOfMass;
+            newData.centerOfMass =  newData.centerOfMass + item.centerOfMass;
             triggerPoints.AddRange(GetTriggerPointsFromKinectData(item));
-            msg += string.Format("Kincet #{0} offset center of mass: {1}\n", item.kinectID, item.centerOfMass+item.offset);
+            msg += string.Format("Kinect #{0} offset center of mass: {1}\n", item.kinectID, item.centerOfMass+item.offset);
         }
-        newData.centerOfMass /= kinects.Count;
+//        newData.centerOfMass /= kinects.Count;
         TriggerPoints = triggerPoints;
         return newData;
     }
