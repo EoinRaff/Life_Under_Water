@@ -7,6 +7,7 @@ Shader "Custom/Plastic" {
    Properties {
 	  _Strength("Wave Strength", Range(0, 2)) = 1.0
 	  _Speed("Wave Speed", Range(-200, 200)) = 100
+	  _Direction("Wave Direction", Vector) = (0.0, 1.0, 0.0, 0.0)
       _Color("Color Tint", Color) = (1.0, 1.0, 1.0, 1.0)
       _MainTex ("Diffuse Texture", 2D) = "white" {} 
 	  _BumpMap ("Normal Texture", 2D) = "bump" {} 
@@ -40,6 +41,7 @@ Shader "Custom/Plastic" {
 		 uniform float _BumpDepth;
 		 uniform float _Strength;
 		 uniform float _Speed;
+		 uniform float4 _Direction;
  
 		 // Unity defined variables
 		 uniform float4 _LightColor0;
@@ -66,18 +68,15 @@ Shader "Custom/Plastic" {
 
 			float4 worldPosition = mul(unity_ObjectToWorld, input.vertex);
 
-			float displacement = cos(worldPosition.y) + cos(worldPosition.x + (_Speed * _Time));
+			float displacement = cos(worldPosition.z +(_Speed * _Time * _Direction.z)) + cos(worldPosition.y+(_Speed * _Time * _Direction.y)) + cos(worldPosition.x + (_Speed * _Time * _Direction.x));
 			worldPosition.y = worldPosition.y + displacement * _Strength;
 			output.posWorld = worldPosition;
-
-//			output.posWorld = mul(unity_ObjectToWorld, input.vertex);
 
 			output.normalWorld = normalize(mul(float4(input.normal, 0.0), unity_WorldToObject));
 			output.tangentWorld = normalize(mul(input.normal, unity_ObjectToWorld).xyz );
 			output.binormalWorld = normalize(cross(output.normalWorld, output.tangentWorld) * input.tangent.w);
             
 			output.tex = input.texcoord;
-            //output.pos = UnityObjectToClipPos(input.vertex);
 			output.pos = mul(UNITY_MATRIX_VP, worldPosition);
 
             return output;
@@ -126,7 +125,7 @@ Shader "Custom/Plastic" {
 			//Rim Lighting
 			float rim = 1 - saturate(dot(viewDirection, normalDirection)); 
 			float3 rimLighting = saturate(dot(normalDirection, lightDirection)* _RimColor.xyz * _LightColor0.xyz * pow(rim, _RimPower));
-			float3 lightFinal = UNITY_LIGHTMODEL_AMBIENT.xyz + diffuseReflection + (specularReflection * texSpec) + rimLighting;
+			float3 lightFinal = UNITY_LIGHTMODEL_AMBIENT.xyz + diffuseReflection + (specularReflection * texSpec.a) + rimLighting;
 
 			return float4(tex.xyz * lightFinal * _Color.xyz, 1.0);
          }
@@ -154,6 +153,9 @@ Shader "Custom/Plastic" {
 		 uniform float _Shininess;
 		 uniform float _RimPower;
 		 uniform float _BumpDepth;
+		 uniform float _Strength;
+		 uniform float _Speed;
+		 uniform float4 _Direction;
  
 		 // Unity defined variables
 		 uniform float4 _LightColor0;
@@ -178,22 +180,29 @@ Shader "Custom/Plastic" {
          {
             vertexOutput output;
 
-			output.posWorld = mul(unity_ObjectToWorld, input.vertex);
+			float4 worldPosition = mul(unity_ObjectToWorld, input.vertex);
+
+			float displacement = cos(worldPosition.z +(_Speed * _Time * _Direction.z)) + cos(worldPosition.y+(_Speed * _Time * _Direction.y)) + cos(worldPosition.x + (_Speed * _Time * _Direction.x));
+			worldPosition.y = worldPosition.y + displacement * _Strength;
+			output.posWorld = worldPosition;
 
 			output.normalWorld = normalize(mul(float4(input.normal, 0.0), unity_WorldToObject));
 			output.tangentWorld = normalize(mul(input.normal, unity_ObjectToWorld).xyz );
 			output.binormalWorld = normalize(cross(output.normalWorld, output.tangentWorld) * input.tangent.w);
             
 			output.tex = input.texcoord;
-            output.pos = UnityObjectToClipPos(input.vertex);
+			output.pos = mul(UNITY_MATRIX_VP, worldPosition);
 
             return output;
          }
+
          float4 frag(vertexOutput input) : COLOR
          {
+
 			float3 viewDirection = normalize(_WorldSpaceCameraPos.xyz - input.posWorld.xyz);
 			float3 lightDirection;
 			float atten;
+
 			if(_WorldSpaceLightPos0.w == 0.0){//directional light
 				atten = 1.0;
 				lightDirection = normalize(_WorldSpaceLightPos0.xyz);
@@ -208,7 +217,6 @@ Shader "Custom/Plastic" {
 			float4 tex = tex2D(_MainTex, _MainTex_ST.xy * input.tex.xy + _MainTex_ST.zw);	
 			float4 texN = tex2D(_BumpMap, _BumpMap_ST.xy * input.tex.xy + _BumpMap_ST.zw);	
 			float4 texSpec = tex2D(_SpecMap, _SpecMap_ST.xy * input.tex.xy + _SpecMap_ST.zw);	
-
 
 			//unpack Normal
 			float3 loocalCoords = float3(2.0 * texN.ag - float2(1.0, 1.0),0.0);
@@ -231,7 +239,7 @@ Shader "Custom/Plastic" {
 			//Rim Lighting
 			float rim = 1 - saturate(dot(viewDirection, normalDirection)); 
 			float3 rimLighting = saturate(dot(normalDirection, lightDirection)* _RimColor.xyz * _LightColor0.xyz * pow(rim, _RimPower));
-			float3 lightFinal = diffuseReflection + (specularReflection * texSpec) + rimLighting;
+			float3 lightFinal = atten * diffuseReflection + (specularReflection * texSpec.a) + rimLighting;
 
 			return float4(lightFinal * _Color.xyz, 1.0);
          }

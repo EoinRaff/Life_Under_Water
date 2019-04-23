@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Plastic
+  m_Name: Plastic_Custom
   m_Shader: {fileID: 4800000, guid: ca285614d51764146bd61902bbef4047, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -41,7 +41,10 @@ Material:
     - _Metallic: 0
     - _RimPower: 9.35
     - _Shininess: 1
+    - _Speed: -35
+    - _Strength: 0.25
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 0}
+    - _Direction: {r: 1, g: 1, b: 1, a: 0}
     - _RimColor: {r: 1, g: 1, b: 1, a: 1}
     - _SpecColor: {r: 1, g: 1, b: 1, a: 1}
