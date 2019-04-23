@@ -8,6 +8,7 @@ Shader "Custom/Plastic" {
       _Color("Color Tint", Color) = (1.0, 1.0, 1.0, 1.0)
       _MainTex ("Diffuse Texture", 2D) = "white" {} 
 	  _BumpMap ("Normal Texture", 2D) = "bump" {} 
+	  _SpecMap ("Gloss Texture", 2D) = "white" {} 
 	  _BumpDepth("Bump Depth", Range(-2, 2)) = 1.0
 	  _SpecColor("Specular Color", Color) = (1.0, 1.0, 1.0, 1.0)
 	  _Shininess("Shininess", Float) = 10
@@ -25,8 +26,10 @@ Shader "Custom/Plastic" {
 		 // User defined variables
          uniform sampler2D _MainTex;
          uniform sampler2D _BumpMap;		
+         uniform sampler2D _SpecMap;		
          uniform float4 _MainTex_ST; //used for offset
          uniform float4 _BumpMap_ST; //used for offset
+         uniform float4 _SpecMap_ST; //used for offset
 		 uniform float4 _Color;
 		 uniform float4 _SpecColor;
 		 uniform float4 _RimColor;
@@ -68,16 +71,19 @@ Shader "Custom/Plastic" {
 
             return output;
          }
+
          float4 frag(vertexOutput input) : COLOR
          {
+
 			float3 viewDirection = normalize(_WorldSpaceCameraPos.xyz - input.posWorld.xyz);
 			float3 lightDirection;
 			float atten;
+
 			if(_WorldSpaceLightPos0.w == 0.0){//directional light
 				atten = 1.0;
 				lightDirection = normalize(_WorldSpaceLightPos0.xyz);
 			} else {
-				float3 fragmentToLightSource = _WorldSpaceLightPos0.xyz - input.posWorld.xyz;
+				float3 fragmentToLightSource = _WorldSpaceLightPos0.xyz - float3(input.posWorld.xyz);
 				float distance = length(fragmentToLightSource);
 				atten = 1.0 / distance;
 				lightDirection = normalize(fragmentToLightSource);
@@ -86,6 +92,7 @@ Shader "Custom/Plastic" {
 			//Texture Maps
 			float4 tex = tex2D(_MainTex, _MainTex_ST.xy * input.tex.xy + _MainTex_ST.zw);	
 			float4 texN = tex2D(_BumpMap, _BumpMap_ST.xy * input.tex.xy + _BumpMap_ST.zw);	
+			float4 texSpec = tex2D(_SpecMap, _SpecMap_ST.xy * input.tex.xy + _SpecMap_ST.zw);	
 
 			//unpack Normal
 			float3 loocalCoords = float3(2.0 * texN.ag - float2(1.0, 1.0),0.0);
@@ -108,7 +115,7 @@ Shader "Custom/Plastic" {
 			//Rim Lighting
 			float rim = 1 - saturate(dot(viewDirection, normalDirection)); 
 			float3 rimLighting = saturate(dot(normalDirection, lightDirection)* _RimColor.xyz * _LightColor0.xyz * pow(rim, _RimPower));
-			float3 lightFinal = UNITY_LIGHTMODEL_AMBIENT.xyz + diffuseReflection + specularReflection + rimLighting;
+			float3 lightFinal = UNITY_LIGHTMODEL_AMBIENT.xyz + diffuseReflection + (specularReflection * texSpec) + rimLighting;
 
 			return float4(tex.xyz * lightFinal * _Color.xyz, 1.0);
          }
@@ -126,8 +133,10 @@ Shader "Custom/Plastic" {
 		 // User defined variables
          uniform sampler2D _MainTex;
          uniform sampler2D _BumpMap;		
+         uniform sampler2D _SpecMap;		
          uniform float4 _MainTex_ST; //used for offset
          uniform float4 _BumpMap_ST; //used for offset
+         uniform float4 _SpecMap_ST; //used for offset
 		 uniform float4 _Color;
 		 uniform float4 _SpecColor;
 		 uniform float4 _RimColor;
@@ -178,7 +187,7 @@ Shader "Custom/Plastic" {
 				atten = 1.0;
 				lightDirection = normalize(_WorldSpaceLightPos0.xyz);
 			} else {
-				float3 fragmentToLightSource = _WorldSpaceLightPos0.xyz - input.posWorld.xyz;
+				float3 fragmentToLightSource = _WorldSpaceLightPos0.xyz - float3(input.posWorld.xyz);
 				float distance = length(fragmentToLightSource);
 				atten = 1.0 / distance;
 				lightDirection = normalize(fragmentToLightSource);
@@ -187,6 +196,8 @@ Shader "Custom/Plastic" {
 			//Texture Maps
 			float4 tex = tex2D(_MainTex, _MainTex_ST.xy * input.tex.xy + _MainTex_ST.zw);	
 			float4 texN = tex2D(_BumpMap, _BumpMap_ST.xy * input.tex.xy + _BumpMap_ST.zw);	
+			float4 texSpec = tex2D(_SpecMap, _SpecMap_ST.xy * input.tex.xy + _SpecMap_ST.zw);	
+
 
 			//unpack Normal
 			float3 loocalCoords = float3(2.0 * texN.ag - float2(1.0, 1.0),0.0);
@@ -209,7 +220,7 @@ Shader "Custom/Plastic" {
 			//Rim Lighting
 			float rim = 1 - saturate(dot(viewDirection, normalDirection)); 
 			float3 rimLighting = saturate(dot(normalDirection, lightDirection)* _RimColor.xyz * _LightColor0.xyz * pow(rim, _RimPower));
-			float3 lightFinal = diffuseReflection + specularReflection + rimLighting;
+			float3 lightFinal = diffuseReflection + (specularReflection * texSpec) + rimLighting;
 
 			return float4(lightFinal * _Color.xyz, 1.0);
          }
