@@ -9,18 +9,23 @@ using System.Threading;
 
 public class KinectServer : Singleton<KinectServer>
 {
-   // [SerializeField]
+    public static IPAddress localIP = IPAddress.Parse("192.168.1.18");
+    public static int port = 11000;
     private const int NUMBER_OF_KINECTS = 6;
+
     #region Connection Settings 
     [SerializeField]
     private int[] ports = new int[NUMBER_OF_KINECTS];
     private Thread[] listenThreads = new Thread[NUMBER_OF_KINECTS];
-    //private int port = 11000;
-    //public int Port { get => port; }
 
-    private Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-    private UdpClient[] listeners = new UdpClient[NUMBER_OF_KINECTS];
+
+//    private Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+    //private TcpListener[] listeners = new TcpListener[NUMBER_OF_KINECTS];
+    private TcpListener listener;
     private IPEndPoint groupEP;
+    private Socket socket;
+    private Thread TcpListenThread;
+    private TcpClient connectedTcpClient;
 
     #endregion
 
@@ -31,7 +36,7 @@ public class KinectServer : Singleton<KinectServer>
     private KinectData recievedData;
     public KinectData Data { get; set; }
     //public List<KinectData> kinects;
-    public KinectData[] kinects;
+    private KinectData[] kinects;
     public Vector2 CenterOfMass { get; private set; }
     public List<Vector2> TriggerPoints { get; set; }
     #endregion
@@ -41,15 +46,49 @@ public class KinectServer : Singleton<KinectServer>
         Message = "";
         recievedMessage = "";
         kinects = new KinectData[NUMBER_OF_KINECTS];
-        socket.EnableBroadcast = true;
-        for (int i = 0; i < NUMBER_OF_KINECTS; i++)
-        {
-            listenThreads[i] = new Thread(new ParameterizedThreadStart(ReceiveData))
-            {
-                IsBackground = true
-            };
-            listenThreads[i].Start(i);
+        /* for (int i = 0; i < NUMBER_OF_KINECTS; i++)
+         {
+             listenThreads[i] = new Thread(new ParameterizedThreadStart(ReceiveData))
+             {
+                 IsBackground = true
+             };
+             listenThreads[i].Start(i);
 
+         }*/
+        TcpListenThread = new Thread(new ThreadStart(ListenForTCPClient));
+        TcpListenThread.IsBackground = true;
+        TcpListenThread.Start();
+    }
+
+    private void ListenForTCPClient()
+    {
+        try
+        {
+            listener = new TcpListener(localIP, port);
+            listener.Start();
+            byte[] bytes = new byte[1024];
+            while (true)
+            {
+                using (connectedTcpClient = listener.AcceptTcpClient())
+                {
+                    using (NetworkStream stream = connectedTcpClient.GetStream())
+                    {
+                        int length;
+                        while ((length = stream.Read(bytes, 0, bytes.Length)) != 0)
+                        {
+                            var incomingData = new byte[length];
+                            Array.Copy(bytes, 0, incomingData, 0, length);
+                            string clientMessage = Encoding.ASCII.GetString(incomingData);
+                            Message = clientMessage;
+                        }
+                    }
+                }
+            }
+        }
+        catch (Exception)
+        {
+
+            throw;
         }
     }
 
@@ -75,20 +114,14 @@ public class KinectServer : Singleton<KinectServer>
     private void ReceiveData(object index)
     {
         int i = Convert.ToInt32(index);
-        listeners[i] = new UdpClient(ports[i]);
+        listeners[i] = new TcpClient(ports[i]);
         print("Listening at Port " + ports[i]);
         while (true)
         {
             try
             {
-                IPEndPoint anyIP;
-                if (i == 1)
-                     anyIP = new IPEndPoint(IPAddress.Parse("192.168.1.156"), 0);
-                else
-                    anyIP = new IPEndPoint(IPAddress.Any, 0);
+                IPEndPoint anyIP = new IPEndPoint(IPAddress.Any, 0);
 
-
-                //IPEndPoint anyIP = new IPEndPoint(IPAddress.Any, 0);
                 byte[] data = listeners[i].Receive(ref anyIP);
 
                 Debug.Log(string.Format("IP #{0}: {1}", i + 1, anyIP.Address));
