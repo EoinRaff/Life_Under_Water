@@ -9,11 +9,11 @@ using System.Threading;
 
 public class KinectServer : Singleton<KinectServer>
 {
-    [SerializeField]
-    private const int NUMBER_OF_KINECTS = 2;
+   // [SerializeField]
+    private const int NUMBER_OF_KINECTS = 6;
     #region Connection Settings 
     [SerializeField]
-    public int[] ports = new int[NUMBER_OF_KINECTS];
+    private int[] ports = new int[NUMBER_OF_KINECTS];
     private Thread[] listenThreads = new Thread[NUMBER_OF_KINECTS];
     //private int port = 11000;
     //public int Port { get => port; }
@@ -38,8 +38,10 @@ public class KinectServer : Singleton<KinectServer>
 
     void Start()
     {
+        Message = "";
         recievedMessage = "";
         kinects = new KinectData[NUMBER_OF_KINECTS];
+        socket.EnableBroadcast = true;
         for (int i = 0; i < NUMBER_OF_KINECTS; i++)
         {
             listenThreads[i] = new Thread(new ParameterizedThreadStart(ReceiveData))
@@ -79,14 +81,24 @@ public class KinectServer : Singleton<KinectServer>
         {
             try
             {
-                IPEndPoint anyIP = new IPEndPoint(IPAddress.Any, 0);
+                IPEndPoint anyIP;
+                if (i == 1)
+                     anyIP = new IPEndPoint(IPAddress.Parse("192.168.1.156"), 0);
+                else
+                    anyIP = new IPEndPoint(IPAddress.Any, 0);
+
+
+                //IPEndPoint anyIP = new IPEndPoint(IPAddress.Any, 0);
                 byte[] data = listeners[i].Receive(ref anyIP);
+
+                Debug.Log(string.Format("IP #{0}: {1}", i + 1, anyIP.Address));
+
 
                 string json = Encoding.UTF8.GetString(data);
 
                 recievedMessage = json;
                 recievedData = JsonToKinectData(json);
-                print(string.Format("recieved Data from Kinect #{0} at port {1}", recievedData.kinectID, ports[i]));
+                print(string.Format("recieved Data from IP {0} at port {1}", anyIP.Address, ports[i]));
 
                 kinects[i] = recievedData;
             }
@@ -105,6 +117,8 @@ public class KinectServer : Singleton<KinectServer>
 
     private List<Vector2> GetTriggerPointsFromKinectData(KinectData kinectData)
     {
+        if (kinectData.triggerPoints == null)
+            return new List<Vector2>();
         List<Vector2> triggerPoints = new List<Vector2>();
         for (int i = 0; i < kinectData.triggerPoints.Length; i++)
         {
@@ -137,9 +151,8 @@ public class KinectServer : Singleton<KinectServer>
         List<Vector2> triggerPoints = new List<Vector2>();
         foreach (KinectData item in kinects)
         {
-            if (item == null)
+            if (item == null || item.kinectID == 0)
                 continue;
-
             newData.centerOfMass = newData.centerOfMass + item.centerOfMass;
             triggerPoints.AddRange(GetTriggerPointsFromKinectData(item));
             msg += string.Format("Kinect #{0} offset center of mass: {1}\n", item.kinectID, item.centerOfMass+item.offset);
