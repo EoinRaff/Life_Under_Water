@@ -21,15 +21,15 @@ Material:
     m_TexEnvs:
     - _BumpMap:
         m_Texture: {fileID: 2800000, guid: 8e4273bc22eccfc46862436b3aa5f08c, type: 3}
-        m_Scale: {x: 1, y: 1}
+        m_Scale: {x: 10, y: 10}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 2800000, guid: 403009054013381438d6c4ceda0cfea4, type: 3}
-        m_Scale: {x: 1, y: 1}
+        m_Scale: {x: 10, y: 10}
         m_Offset: {x: 0, y: 0}
     - _SpecMap:
         m_Texture: {fileID: 2800000, guid: 3b7ca9cc25cdca545b4c8ce677e211c2, type: 3}
-        m_Scale: {x: 1, y: 1}
+        m_Scale: {x: 10, y: 10}
         m_Offset: {x: 0, y: 0}
     - _SpecularMap:
         m_Texture: {fileID: 2800000, guid: 3b7ca9cc25cdca545b4c8ce677e211c2, type: 3}
@@ -41,10 +41,10 @@ Material:
     - _Metallic: 0
     - _RimPower: 10
     - _Shininess: 1
-    - _Speed: -35
-    - _Strength: 0.25
+    - _Speed: 11
+    - _Strength: 0.33
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 0}
-    - _Direction: {r: 1, g: 1, b: 1, a: 0}
+    - _Direction: {r: 0.88, g: 1.39, b: 1, a: 0}
     - _RimColor: {r: 1, g: 1, b: 1, a: 1}
     - _SpecColor: {r: 1, g: 1, b: 1, a: 1}
