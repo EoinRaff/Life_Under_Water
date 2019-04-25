@@ -20,7 +20,7 @@ public class KinectServer : Singleton<KinectServer>
 
 
 //    private Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-    //private TcpListener[] listeners = new TcpListener[NUMBER_OF_KINECTS];
+    private UdpClient[] listeners = new UdpClient[NUMBER_OF_KINECTS];
     private TcpListener listener;
     private IPEndPoint groupEP;
     private Socket socket;
@@ -111,10 +111,10 @@ public class KinectServer : Singleton<KinectServer>
         }
     }
 
-    private void ReceiveData(object index)
+    private void ReceiveUdpData(object index)
     {
         int i = Convert.ToInt32(index);
-        listeners[i] = new TcpClient(ports[i]);
+        listeners[i] = new UdpClient(ports[i]);
         print("Listening at Port " + ports[i]);
         while (true)
         {
