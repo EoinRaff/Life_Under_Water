@@ -39,7 +39,7 @@ Material:
     - _BumpDepth: 0.86
     - _Glossiness: 0.5
     - _Metallic: 0
-    - _RimPower: 9.35
+    - _RimPower: 10
     - _Shininess: 1
     - _Speed: -35
     - _Strength: 0.25
