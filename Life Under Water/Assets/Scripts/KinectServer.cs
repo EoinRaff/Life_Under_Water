@@ -26,7 +26,7 @@ public class KinectServer : Singleton<KinectServer>
 
     #region Data Processing
     string recievedMessage;
-    public string Message { get => recievedMessage; set => recievedMessage = value; }
+    public string Message { get; set; }
 
     private KinectData recievedData;
     public KinectData Data { get; set; }
@@ -59,7 +59,7 @@ public class KinectServer : Singleton<KinectServer>
 
         TriggerPoints = tempList;
         msg += "Combined center of mass: " + Data.centerOfMass;
-        Debug.Log(msg);
+        Message = msg;
     }
 
     private void OnApplicationQuit()
@@ -89,11 +89,6 @@ public class KinectServer : Singleton<KinectServer>
                 print(string.Format("recieved Data from Kinect #{0} at port {1}", recievedData.kinectID, ports[i]));
 
                 kinects[i] = recievedData;
-                /*
-                if (!ListContainsClient(kinects, recievedData))
-                {
-                    kinects.Add(recievedData);
-                }*/
             }
             catch (Exception err)
             {
@@ -142,7 +137,10 @@ public class KinectServer : Singleton<KinectServer>
         List<Vector2> triggerPoints = new List<Vector2>();
         foreach (KinectData item in kinects)
         {
-            newData.centerOfMass =  newData.centerOfMass + item.centerOfMass;
+            if (item == null)
+                continue;
+
+            newData.centerOfMass = newData.centerOfMass + item.centerOfMass;
             triggerPoints.AddRange(GetTriggerPointsFromKinectData(item));
             msg += string.Format("Kinect #{0} offset center of mass: {1}\n", item.kinectID, item.centerOfMass+item.offset);
         }
