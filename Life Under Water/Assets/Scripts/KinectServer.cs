@@ -25,8 +25,7 @@ public class KinectServer : Singleton<KinectServer>
     #endregion
 
     #region Data Processing
-    string recievedMessage;
-    public string Message { get => recievedMessage; set => recievedMessage = value; }
+    public string Message { get; set; }
 
     private KinectData recievedData;
     public KinectData Data { get; set; }
@@ -38,7 +37,7 @@ public class KinectServer : Singleton<KinectServer>
 
     void Start()
     {
-        recievedMessage = "";
+        Message = "";
         kinects = new KinectData[NUMBER_OF_KINECTS];
         for (int i = 0; i < NUMBER_OF_KINECTS; i++)
         {
@@ -84,7 +83,7 @@ public class KinectServer : Singleton<KinectServer>
 
                 string json = Encoding.UTF8.GetString(data);
 
-                recievedMessage = json;
+                Message = json;
                 recievedData = JsonToKinectData(json);
                 print(string.Format("recieved Data from Kinect #{0} at port {1}", recievedData.kinectID, ports[i]));
 

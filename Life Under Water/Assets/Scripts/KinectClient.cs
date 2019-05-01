@@ -35,7 +35,8 @@ public class KinectClient : Singleton<KinectClient>
     {
         if (IsConnected)
         {
-            SendKinectDataToServer();
+            //SendKinectDataToServer();
+            SendMessage("Client Connected");
         }
     }
 
