@@ -1,4 +1,5 @@
 ﻿/*
+<<<<<<< HEAD
  
     -----------------------
     UDP-Send
@@ -10,6 +11,17 @@
    
     // nc -lu 127.0.0.1 8050
  
+=======
+    -----------------------
+    UDP-Send2
+    -----------------------
+    // [url]http://msdn.microsoft.com/de-de/library/bb979228.aspx#ID0E3BAC[/url]
+ 
+    // > gesendetes unter
+    // 127.0.0.1 : 8050 empfangen
+ 
+    // nc -lu 127.0.0.1 8050
+>>>>>>> d8a979d2892b4b238bd4fb060413c0d909db34d0
         // todo: shutdown thread at the end
 */
 using UnityEngine;
@@ -27,11 +39,13 @@ public class BasicClient : MonoBehaviour
 
     // prefs
     private string IP;  // define in init
+
     public int port;  // define in init
 
     // "connection" things
     IPEndPoint remoteEndPoint;
     UdpClient client;
+
 
     // gui
     string strMessage = "";
@@ -64,6 +78,7 @@ public class BasicClient : MonoBehaviour
         style.alignment = TextAnchor.UpperLeft;
         GUI.Box(rectObj, "# UDPSend-Data\n127.0.0.1 " + port + " #\n"
                     + "shell> nc -lu 127.0.0.1  " + port + " \n"
+
                 , style);
 
         // ------------------------
@@ -86,11 +101,13 @@ public class BasicClient : MonoBehaviour
         IP = "127.0.0.1";
         port = 8051;
 
+
         // ----------------------------
         // Senden
         // ----------------------------
         remoteEndPoint = new IPEndPoint(IPAddress.Parse(IP), port);
         client = new UdpClient();
+
 
         // status
         print("Sending to " + IP + " : " + port);
@@ -109,6 +126,7 @@ public class BasicClient : MonoBehaviour
                 text = Console.ReadLine();
 
                 // Den Text zum Remote-Client senden.
+
                 if (text != "")
                 {
 
@@ -117,6 +135,7 @@ public class BasicClient : MonoBehaviour
 
                     // Den Text zum Remote-Client senden.
                     client.Send(data, data.Length, remoteEndPoint);
+
                 }
             } while (text != "");
         }
@@ -141,6 +160,7 @@ public class BasicClient : MonoBehaviour
             // Den message zum Remote-Client senden.
             client.Send(data, data.Length, remoteEndPoint);
             //}
+
         }
         catch (Exception err)
         {
@@ -163,3 +183,4 @@ public class BasicClient : MonoBehaviour
     }
 
 }
+
