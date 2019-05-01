@@ -111,6 +111,10 @@ public class KinectServer : Singleton<KinectServer>
     private List<Vector2> GetTriggerPointsFromKinectData(KinectData kinectData)
     {
         List<Vector2> triggerPoints = new List<Vector2>();
+        if (triggerPoints.Count <= 0)
+        {
+            return new List<Vector2>();
+        }
         for (int i = 0; i < kinectData.triggerPoints.Length; i++)
         {
             triggerPoints.Add(kinectData.triggerPoints[i] + kinectData.offset); 
@@ -142,6 +146,11 @@ public class KinectServer : Singleton<KinectServer>
         List<Vector2> triggerPoints = new List<Vector2>();
         foreach (KinectData item in kinects)
         {
+            if (item == null || item.centerOfMass == null)
+            {
+                TriggerPoints = new List<Vector2>();
+                return null;
+            }
             newData.centerOfMass =  newData.centerOfMass + item.centerOfMass;
             triggerPoints.AddRange(GetTriggerPointsFromKinectData(item));
             msg += string.Format("Kinect #{0} offset center of mass: {1}\n", item.kinectID, item.centerOfMass+item.offset);
