@@ -42,6 +42,7 @@ public class RectTrigger : MonoBehaviour
                 // could put other events or functionaility here
                 // make trigger in, trigger out systems.
                 count++;
+                Destroy(rectTransform.gameObject);
             }
         }
         if (count > sensitivity)
