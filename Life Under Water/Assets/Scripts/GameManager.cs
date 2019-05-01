@@ -20,7 +20,7 @@ public class GameManager : Singleton<GameManager>
 
     private void OnGUI()
     {
-        if (KinectServer.Instance.TriggerPoints == null)
+        if (KinectServer.Instance == null || KinectServer.Instance.TriggerPoints == null)
             return;
 
         foreach (Vector2 point in KinectServer.Instance.TriggerPoints)
@@ -45,7 +45,7 @@ public class GameManager : Singleton<GameManager>
 
     private void CenterOfMassScreenToTransformPosition()
     {
-        if (KinectServer.Instance.Data == null)
+        if (KinectServer.Instance == null || KinectServer.Instance.Data == null)
         {
             return;
         }
