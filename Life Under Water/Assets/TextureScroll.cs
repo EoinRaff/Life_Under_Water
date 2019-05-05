@@ -17,7 +17,7 @@ public class TextureScroll : MonoBehaviour
     void Update()
     {
         float offset = Time.time * scrollSpeed;
-        renderer.material.SetTextureOffset("_MainTex", direction * offset);
+        renderer.material.SetTextureOffset("_PlasticTex", direction * offset);
         renderer.material.SetTextureOffset("_BumpMap", direction * offset);
         renderer.material.SetTextureOffset("_SpecMap", direction * offset);
     }

@@ -9,7 +9,8 @@ Shader "Custom/Plastic" {
 	  _Speed("Wave Speed", Range(-200, 200)) = 100
 	  _Direction("Wave Direction", Vector) = (0.0, 1.0, 0.0, 0.0)
       _Color("Color Tint", Color) = (1.0, 1.0, 1.0, 1.0)
-      _MainTex ("Diffuse Texture", 2D) = "white" {} 
+	  _WaterTex ("Water Diffuse Texture", 2D) = "white" {} 
+      _PlasticTex ("Plastic Diffuse Texture", 2D) = "white" {} 
 	  _BumpMap ("Normal Texture", 2D) = "bump" {} 
 	  _SpecMap ("Gloss Texture", 2D) = "white" {} 
 	  _BumpDepth("Bump Depth", Range(-2, 2)) = 1.0
@@ -17,6 +18,8 @@ Shader "Custom/Plastic" {
 	  _Shininess("Shininess", Float) = 10
 	  _RimColor("RimColor", Color) = (1.0, 1.0, 1.0, 1.0)
 	  _RimPower("RimPower", Range(0.1, 10)) = 3.0
+	  _SliceGuide("Slice Guide (RGB)", 2D) = "white" {}
+	  _SliceAmount("Slice Amount", Range(0.0, 1.0)) = 0
    }
    SubShader {
       Pass {	
@@ -27,10 +30,12 @@ Shader "Custom/Plastic" {
          #pragma fragment frag 
  
 		 // User defined variables
-         uniform sampler2D _MainTex;
+		 uniform sampler2D _WaterTex;
+         uniform sampler2D _PlasticTex;
          uniform sampler2D _BumpMap;		
-         uniform sampler2D _SpecMap;		
-         uniform float4 _MainTex_ST; //used for offset
+         uniform sampler2D _SpecMap;
+		 uniform float4 _WaterTex_ST;
+         uniform float4 _PlasticTex_ST; //used for offset
          uniform float4 _BumpMap_ST; //used for offset
          uniform float4 _SpecMap_ST; //used for offset
 		 uniform float4 _Color;
@@ -42,6 +47,8 @@ Shader "Custom/Plastic" {
 		 uniform float _Strength;
 		 uniform float _Speed;
 		 uniform float4 _Direction;
+		 uniform sampler2D _SliceGuide;
+		 uniform float _SliceAmount;
  
 		 // Unity defined variables
 		 uniform float4 _LightColor0;
@@ -100,7 +107,8 @@ Shader "Custom/Plastic" {
 			}
 
 			//Texture Maps
-			float4 tex = tex2D(_MainTex, _MainTex_ST.xy * input.tex.xy + _MainTex_ST.zw);	
+			float4 tex_water = tex2D(_WaterTex, _WaterTex_ST.xy * input.tex.xy + _WaterTex_ST.zw);	
+			float4 tex = tex2D(_PlasticTex, _PlasticTex_ST.xy * input.tex.xy + _PlasticTex_ST.zw);	
 			float4 texN = tex2D(_BumpMap, _BumpMap_ST.xy * input.tex.xy + _BumpMap_ST.zw);	
 			float4 texSpec = tex2D(_SpecMap, _SpecMap_ST.xy * input.tex.xy + _SpecMap_ST.zw);	
 
@@ -117,7 +125,7 @@ Shader "Custom/Plastic" {
 
 			float3 normalDirection = normalize(mul(loocalCoords, local2WorldTranspose));
 
-
+			
 			//Lighting
 			float3 diffuseReflection = atten * _LightColor0.xyz * saturate(dot(normalDirection, lightDirection));
 			float3 specularReflection = diffuseReflection * _SpecColor.xyz * pow(saturate(dot(reflect(-lightDirection, normalDirection), viewDirection)), _Shininess);
@@ -141,10 +149,10 @@ Shader "Custom/Plastic" {
          #pragma fragment frag 
  
 		 // User defined variables
-         uniform sampler2D _MainTex;
+         uniform sampler2D _PlasticTex;
          uniform sampler2D _BumpMap;		
          uniform sampler2D _SpecMap;		
-         uniform float4 _MainTex_ST; //used for offset
+         uniform float4 _PlasticTex_ST; //used for offset
          uniform float4 _BumpMap_ST; //used for offset
          uniform float4 _SpecMap_ST; //used for offset
 		 uniform float4 _Color;
@@ -214,7 +222,7 @@ Shader "Custom/Plastic" {
 			}
 
 			//Texture Maps
-			float4 tex = tex2D(_MainTex, _MainTex_ST.xy * input.tex.xy + _MainTex_ST.zw);	
+			float4 tex = tex2D(_PlasticTex, _PlasticTex_ST.xy * input.tex.xy + _PlasticTex_ST.zw);	
 			float4 texN = tex2D(_BumpMap, _BumpMap_ST.xy * input.tex.xy + _BumpMap_ST.zw);	
 			float4 texSpec = tex2D(_SpecMap, _SpecMap_ST.xy * input.tex.xy + _SpecMap_ST.zw);	
 
