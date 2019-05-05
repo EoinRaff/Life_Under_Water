@@ -1,48 +1,48 @@
 fileFormatVersion: 2
-guid: b108e2261c43c4139a91324f8ffe574c
+guid: e3af64fe1de0d8140a1b2baff0e99cd6
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
     100000: Belly
     100002: Bow_Left
     100004: Bow_Right
-    100006: Girl01FacialAnim_Joint
-    100008: HairA
-    100010: HairB
-    100012: HairC
-    100014: HairC1
-    100016: Head
-    100018: Hips
-    100020: Left_Breast
-    100022: LeftArm
-    100024: LeftFoot
-    100026: LeftForeArm
-    100028: LeftHand
-    100030: LeftHandIndex1
-    100032: LeftHandIndex2
-    100034: LeftHandIndex3
-    100036: LeftHandMiddle1
-    100038: LeftHandMiddle2
-    100040: LeftHandMiddle3
-    100042: LeftHandPinky1
-    100044: LeftHandPinky2
-    100046: LeftHandPinky3
-    100048: LeftHandRing1
-    100050: LeftHandRing2
-    100052: LeftHandRing3
-    100054: LeftHandThumb1
-    100056: LeftHandThumb2
-    100058: LeftHandThumb3
-    100060: LeftLeg
-    100062: LeftShoulder
-    100064: LeftToeBase
-    100066: LeftUpArmCounterTwist
-    100068: LeftUpArmTwist
-    100070: LeftUpLeg
-    100072: LeftWristTwist
-    100074: Neck
-    100076: Pelvis
-    100078: //RootNode
+    100006: //RootNode
+    100008: Girl01FacialAnim_Joint
+    100010: HairA
+    100012: HairB
+    100014: HairC
+    100016: HairC1
+    100018: Head
+    100020: Hips
+    100022: Left_Breast
+    100024: LeftArm
+    100026: LeftFoot
+    100028: LeftForeArm
+    100030: LeftHand
+    100032: LeftHandIndex1
+    100034: LeftHandIndex2
+    100036: LeftHandIndex3
+    100038: LeftHandMiddle1
+    100040: LeftHandMiddle2
+    100042: LeftHandMiddle3
+    100044: LeftHandPinky1
+    100046: LeftHandPinky2
+    100048: LeftHandPinky3
+    100050: LeftHandRing1
+    100052: LeftHandRing2
+    100054: LeftHandRing3
+    100056: LeftHandThumb1
+    100058: LeftHandThumb2
+    100060: LeftHandThumb3
+    100062: LeftLeg
+    100064: LeftShoulder
+    100066: LeftToeBase
+    100068: LeftUpArmCounterTwist
+    100070: LeftUpArmTwist
+    100072: LeftUpLeg
+    100074: LeftWristTwist
+    100076: Neck
+    100078: Pelvis
     100080: Ponytail
     100082: Ponytail1
     100084: Ponytail2
@@ -85,43 +85,43 @@ ModelImporter:
     400000: Belly
     400002: Bow_Left
     400004: Bow_Right
-    400006: Girl01FacialAnim_Joint
-    400008: HairA
-    400010: HairB
-    400012: HairC
-    400014: HairC1
-    400016: Head
-    400018: Hips
-    400020: Left_Breast
-    400022: LeftArm
-    400024: LeftFoot
-    400026: LeftForeArm
-    400028: LeftHand
-    400030: LeftHandIndex1
-    400032: LeftHandIndex2
-    400034: LeftHandIndex3
-    400036: LeftHandMiddle1
-    400038: LeftHandMiddle2
-    400040: LeftHandMiddle3
-    400042: LeftHandPinky1
-    400044: LeftHandPinky2
-    400046: LeftHandPinky3
-    400048: LeftHandRing1
-    400050: LeftHandRing2
-    400052: LeftHandRing3
-    400054: LeftHandThumb1
-    400056: LeftHandThumb2
-    400058: LeftHandThumb3
-    400060: LeftLeg
-    400062: LeftShoulder
-    400064: LeftToeBase
-    400066: LeftUpArmCounterTwist
-    400068: LeftUpArmTwist
-    400070: LeftUpLeg
-    400072: LeftWristTwist
-    400074: Neck
-    400076: Pelvis
-    400078: //RootNode
+    400006: //RootNode
+    400008: Girl01FacialAnim_Joint
+    400010: HairA
+    400012: HairB
+    400014: HairC
+    400016: HairC1
+    400018: Head
+    400020: Hips
+    400022: Left_Breast
+    400024: LeftArm
+    400026: LeftFoot
+    400028: LeftForeArm
+    400030: LeftHand
+    400032: LeftHandIndex1
+    400034: LeftHandIndex2
+    400036: LeftHandIndex3
+    400038: LeftHandMiddle1
+    400040: LeftHandMiddle2
+    400042: LeftHandMiddle3
+    400044: LeftHandPinky1
+    400046: LeftHandPinky2
+    400048: LeftHandPinky3
+    400050: LeftHandRing1
+    400052: LeftHandRing2
+    400054: LeftHandRing3
+    400056: LeftHandThumb1
+    400058: LeftHandThumb2
+    400060: LeftHandThumb3
+    400062: LeftLeg
+    400064: LeftShoulder
+    400066: LeftToeBase
+    400068: LeftUpArmCounterTwist
+    400070: LeftUpArmTwist
+    400072: LeftUpLeg
+    400074: LeftWristTwist
+    400076: Neck
+    400078: Pelvis
     400080: Ponytail
     400082: Ponytail1
     400084: Ponytail2
@@ -161,7 +161,7 @@ ModelImporter:
     400152: Spine
     400154: Spine1
     400156: Spine2
-    7400000: mixamo.com
+    7400000: Dying
     9500000: //RootNode
   externalObjects: {}
   materials:
@@ -192,10 +192,10 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: mixamo.com
+      name: Dying
       takeName: mixamo.com
       firstFrame: 0
-      lastFrame: 86
+      lastFrame: 132
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

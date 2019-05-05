@@ -9,7 +9,7 @@ public class AnimationCTRL : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKey(KeyCode.Space) == true)
+        if (Input.GetKeyDown(KeyCode.Space) == true)
         {
             PlayAnimation();
         }
@@ -19,4 +19,5 @@ public class AnimationCTRL : MonoBehaviour
     {
         playableDirector.Play();
     }
+
 }

@@ -1,19 +1,19 @@
 fileFormatVersion: 2
-guid: b108e2261c43c4139a91324f8ffe574c
+guid: fce3ca33019517b4491d0155def316a8
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
-    100000: Belly
-    100002: Bow_Left
-    100004: Bow_Right
-    100006: Girl01FacialAnim_Joint
-    100008: HairA
-    100010: HairB
-    100012: HairC
-    100014: HairC1
-    100016: Head
-    100018: Hips
-    100020: Left_Breast
+    100000: //RootNode
+    100002: Backpack
+    100004: BoyFacialAnim_Joint
+    100006: HairA
+    100008: HairB
+    100010: Hat
+    100012: Head
+    100014: Hips
+    100016: Hood
+    100018: Hood1
+    100020: LBackpack_Strap
     100022: LeftArm
     100024: LeftFoot
     100026: LeftForeArm
@@ -34,65 +34,61 @@ ModelImporter:
     100056: LeftHandThumb2
     100058: LeftHandThumb3
     100060: LeftLeg
-    100062: LeftShoulder
-    100064: LeftToeBase
-    100066: LeftUpArmCounterTwist
-    100068: LeftUpArmTwist
-    100070: LeftUpLeg
-    100072: LeftWristTwist
-    100074: Neck
-    100076: Pelvis
-    100078: //RootNode
-    100080: Ponytail
-    100082: Ponytail1
-    100084: Ponytail2
-    100086: Right_Breast
-    100088: RightArm
-    100090: RightFoot
-    100092: RightForeArm
-    100094: RightHand
-    100096: RightHandIndex1
-    100098: RightHandIndex2
-    100100: RightHandIndex3
-    100102: RightHandMiddle1
-    100104: RightHandMiddle2
-    100106: RightHandMiddle3
-    100108: RightHandPinky1
-    100110: RightHandPinky2
-    100112: RightHandPinky3
-    100114: RightHandRing1
-    100116: RightHandRing2
-    100118: RightHandRing3
-    100120: RightHandThumb1
-    100122: RightHandThumb2
-    100124: RightHandThumb3
-    100126: RightLeg
-    100128: RightShoulder
-    100130: RightToeBase
-    100132: RightUpArmCounterTwist
-    100134: RightUpArmTwist
-    100136: RightUpLeg
-    100138: RightWristTwist
-    100140: SkirtA
-    100142: SkirtA1
-    100144: SkirtB
-    100146: SkirtB1
-    100148: SkirtC
-    100150: SkirtC1
-    100152: Spine
-    100154: Spine1
-    100156: Spine2
-    400000: Belly
-    400002: Bow_Left
-    400004: Bow_Right
-    400006: Girl01FacialAnim_Joint
-    400008: HairA
-    400010: HairB
-    400012: HairC
-    400014: HairC1
-    400016: Head
-    400018: Hips
-    400020: Left_Breast
+    100062: LeftPantLeg
+    100064: LeftShoulder
+    100066: LeftToeBase
+    100068: LeftUpLeg
+    100070: LFootTongue
+    100072: LHoodieString
+    100074: LHoodieString1
+    100076: LHoodieString2
+    100078: LSleeve
+    100080: Neck
+    100082: Pelvis
+    100084: RBackpack_Strap
+    100086: RFootTongue
+    100088: RHoodieString
+    100090: RHoodieString1
+    100092: RHoodieString2
+    100094: RightArm
+    100096: RightFoot
+    100098: RightForeArm
+    100100: RightHand
+    100102: RightHandIndex1
+    100104: RightHandIndex2
+    100106: RightHandIndex3
+    100108: RightHandMiddle1
+    100110: RightHandMiddle2
+    100112: RightHandMiddle3
+    100114: RightHandPinky1
+    100116: RightHandPinky2
+    100118: RightHandPinky3
+    100120: RightHandRing1
+    100122: RightHandRing2
+    100124: RightHandRing3
+    100126: RightHandThumb1
+    100128: RightHandThumb2
+    100130: RightHandThumb3
+    100132: RightLeg
+    100134: RightPantLeg
+    100136: RightShoulder
+    100138: RightToeBase
+    100140: RightUpLeg
+    100142: RSleeve
+    100144: Spine
+    100146: Spine1
+    100148: Spine2
+    400000: //RootNode
+    400002: Backpack
+    400004: BoyFacialAnim_Joint
+    400006: HairA
+    400008: HairB
+    400010: Hat
+    400012: Head
+    400014: Hips
+    400016: Hood
+    400018: Hood1
+    400020: LBackpack_Strap
     400022: LeftArm
     400024: LeftFoot
     400026: LeftForeArm
@@ -113,55 +109,51 @@ ModelImporter:
     400056: LeftHandThumb2
     400058: LeftHandThumb3
     400060: LeftLeg
-    400062: LeftShoulder
-    400064: LeftToeBase
-    400066: LeftUpArmCounterTwist
-    400068: LeftUpArmTwist
-    400070: LeftUpLeg
-    400072: LeftWristTwist
-    400074: Neck
-    400076: Pelvis
-    400078: //RootNode
-    400080: Ponytail
-    400082: Ponytail1
-    400084: Ponytail2
-    400086: Right_Breast
-    400088: RightArm
-    400090: RightFoot
-    400092: RightForeArm
-    400094: RightHand
-    400096: RightHandIndex1
-    400098: RightHandIndex2
-    400100: RightHandIndex3
-    400102: RightHandMiddle1
-    400104: RightHandMiddle2
-    400106: RightHandMiddle3
-    400108: RightHandPinky1
-    400110: RightHandPinky2
-    400112: RightHandPinky3
-    400114: RightHandRing1
-    400116: RightHandRing2
-    400118: RightHandRing3
-    400120: RightHandThumb1
-    400122: RightHandThumb2
-    400124: RightHandThumb3
-    400126: RightLeg
-    400128: RightShoulder
-    400130: RightToeBase
-    400132: RightUpArmCounterTwist
-    400134: RightUpArmTwist
-    400136: RightUpLeg
-    400138: RightWristTwist
-    400140: SkirtA
-    400142: SkirtA1
-    400144: SkirtB
-    400146: SkirtB1
-    400148: SkirtC
-    400150: SkirtC1
-    400152: Spine
-    400154: Spine1
-    400156: Spine2
-    7400000: mixamo.com
+    400062: LeftPantLeg
+    400064: LeftShoulder
+    400066: LeftToeBase
+    400068: LeftUpLeg
+    400070: LFootTongue
+    400072: LHoodieString
+    400074: LHoodieString1
+    400076: LHoodieString2
+    400078: LSleeve
+    400080: Neck
+    400082: Pelvis
+    400084: RBackpack_Strap
+    400086: RFootTongue
+    400088: RHoodieString
+    400090: RHoodieString1
+    400092: RHoodieString2
+    400094: RightArm
+    400096: RightFoot
+    400098: RightForeArm
+    400100: RightHand
+    400102: RightHandIndex1
+    400104: RightHandIndex2
+    400106: RightHandIndex3
+    400108: RightHandMiddle1
+    400110: RightHandMiddle2
+    400112: RightHandMiddle3
+    400114: RightHandPinky1
+    400116: RightHandPinky2
+    400118: RightHandPinky3
+    400120: RightHandRing1
+    400122: RightHandRing2
+    400124: RightHandRing3
+    400126: RightHandThumb1
+    400128: RightHandThumb2
+    400130: RightHandThumb3
+    400132: RightLeg
+    400134: RightPantLeg
+    400136: RightShoulder
+    400138: RightToeBase
+    400140: RightUpLeg
+    400142: RSleeve
+    400144: Spine
+    400146: Spine1
+    400148: Spine2
+    7400000: Pointing
     9500000: //RootNode
   externalObjects: {}
   materials:
@@ -192,10 +184,10 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: mixamo.com
+      name: Pointing
       takeName: mixamo.com
       firstFrame: 0
-      lastFrame: 86
+      lastFrame: 45
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
