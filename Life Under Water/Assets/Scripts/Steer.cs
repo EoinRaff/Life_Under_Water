@@ -13,7 +13,7 @@ public class Steer : MonoBehaviour
         //gameObject.transform.Rotate(centerOfMass.localPosition);
         Vector3 position = new Vector3();
         position.x = centerOfMass.position.x;
-        position.z = 5; // -centerOfMass.position.x;
+        position.z = transform.position.z; // -centerOfMass.position.x;
         position.y = 0;
         gameObject.transform.position = position;// = Quaternion.Euler(position);
     }
