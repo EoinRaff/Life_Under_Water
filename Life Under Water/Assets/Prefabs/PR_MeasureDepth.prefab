@@ -45,14 +45,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   multiSource: {fileID: 0}
   depthTexture: {fileID: 0}
-  depthSensitivity: 1
-  wallDepth: -10
-  topCutOff: 1
-  bottomCutOff: -1
-  leftCutOff: -1
-  rightCutOff: 1
   kinectData:
     kinectID: 0
     offset: {x: 0, y: 0}
     centerOfMass: {x: 0, y: 0}
+    bottomRight: {x: 0, y: 0}
+    topLeft: {x: 0, y: 0}
     triggerPoints: []
+  depthSensitivity: 0.8
+  floorDepth: 3.5
+  topCutOff: 1
+  bottomCutOff: -1
+  leftCutOff: -1
+  rightCutOff: 1
