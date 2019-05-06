@@ -3,9 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
 
-public class AnimationCTRL : MonoBehaviour
+public class AnimationCTRL : Singleton<AnimationCTRL>
 {
     public PlayableDirector playableDirector;
+
+    private void Start()
+    {
+        PlayAnimation();
+    }
 
     private void Update()
     {
