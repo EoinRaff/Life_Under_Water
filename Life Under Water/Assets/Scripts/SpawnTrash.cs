@@ -48,9 +48,9 @@ public class SpawnTrash : MonoBehaviour
             trashLocations[trashCount, 1] = y;
 
             // ---- Instantiate the trash
-            // Git it a random texture
-            Trash.GetComponent<RawImage>().texture = trashTextures[Random.Range(0, trashTextures.Length - 1)];
-            Instantiate(Trash, new Vector3(x, y, 0), Quaternion.identity, GameObject.FindGameObjectWithTag("canvas").transform);
+            Trash.GetComponent<RawImage>().texture = trashTextures[Random.Range(0, trashTextures.Length - 1)]; // Give it a random texture
+            Trash.GetComponent<RawImage>().color = new Color(255, 255, 255, 100); // Start with alpha 0
+            Instantiate(Trash, new Vector3(x, y, 0), Quaternion.Euler(new Vector3(0,0,Random.Range(0,360))), GameObject.FindGameObjectWithTag("canvas").transform);
 
             // Increase counter
             trashCount++;
