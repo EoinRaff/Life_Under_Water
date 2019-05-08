@@ -1,8 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class sceneManager : MonoBehaviour
+public class SceneManager : MonoBehaviour
 {
     private float startTime;
     [SerializeField]
@@ -21,11 +22,19 @@ public class sceneManager : MonoBehaviour
         if (startTime + duration <= Time.time)
         {
             print("Finished");
+            FadeToBlack();
             return;
         }
         float completionPercentage = Time.time / (startTime + duration);
         print(completionPercentage);
         print("BLEND: " + rend.material.GetFloat("_Blend"));
         rend.material.SetFloat("_Blend", Mathf.Min(1,completionPercentage));
+    }
+
+    private void FadeToBlack()
+    {
+        SceneManager scene;
+        throw new NotImplementedException();
+
     }
 }
