@@ -6,6 +6,9 @@ using UnityEngine.Playables;
 public class AnimationCTRL : Singleton<AnimationCTRL>
 {
     public PlayableDirector playableDirector;
+    public bool AnimationIsPlaying { get; private set; }
+
+    [SerializeField] private double interactionStartTime;
 
     private void Start()
     {
@@ -18,6 +21,9 @@ public class AnimationCTRL : Singleton<AnimationCTRL>
         {
             PlayAnimation();
         }
+        //        AnimationIsPlaying = playableDirector.time <= 0;
+        AnimationIsPlaying = playableDirector.time >= interactionStartTime;
+        Debug.Log(AnimationIsPlaying);
     }
 
     public void PlayAnimation () 

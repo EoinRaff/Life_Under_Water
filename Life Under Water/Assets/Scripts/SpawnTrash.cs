@@ -15,6 +15,7 @@ public class SpawnTrash : MonoBehaviour
     GameObject currentTrash;
     float width, height, x, y, wait;
     int trashCount;
+    private bool coroutineStarted = false;
 
     [Range(0, 100)]
     public int edge;
@@ -31,7 +32,15 @@ public class SpawnTrash : MonoBehaviour
         width = gameObject.GetComponent<RectTransform>().rect.width;
         height = gameObject.GetComponent<RectTransform>().rect.height;
 
-        StartCoroutine(ProduceTrash());
+    }
+
+    private void Update()
+    {
+        if (GameManager.Instance.SceneIsInteractable() && !coroutineStarted)
+        {
+            coroutineStarted = true;
+            StartCoroutine(ProduceTrash());
+        }
     }
 
     IEnumerator ProduceTrash()

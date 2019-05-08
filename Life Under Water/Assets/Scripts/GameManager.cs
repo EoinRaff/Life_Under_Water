@@ -55,4 +55,9 @@ public class GameManager : Singleton<GameManager>
         centerOfMass.transform.position = position;
     }
 
+    public bool SceneIsInteractable()
+    {
+        return AnimationCTRL.Instance.AnimationIsPlaying;
+    }
+
 }
