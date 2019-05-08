@@ -16,7 +16,7 @@
             "typeInfo": {
                 "fullName": "UnityEditor.ShaderGraph.Vector1ShaderProperty"
             },
-            "JSONnodeData": "{\n    \"m_Value\": 0.0,\n    \"m_Name\": \"Blend\",\n    \"m_GeneratePropertyBlock\": true,\n    \"m_Guid\": {\n        \"m_GuidSerialized\": \"0bf345da-8ca7-4161-bd5b-c75e162e060e\"\n    },\n    \"m_OverrideReferenceName\": \"\",\n    \"m_FloatType\": 1,\n    \"m_RangeValues\": {\n        \"x\": 0.0,\n        \"y\": 1.0\n    }\n}"
+            "JSONnodeData": "{\n    \"m_Value\": 0.0,\n    \"m_Name\": \"Blend\",\n    \"m_GeneratePropertyBlock\": true,\n    \"m_Guid\": {\n        \"m_GuidSerialized\": \"0bf345da-8ca7-4161-bd5b-c75e162e060e\"\n    },\n    \"m_OverrideReferenceName\": \"_Blend\",\n    \"m_FloatType\": 1,\n    \"m_RangeValues\": {\n        \"x\": 0.0,\n        \"y\": 1.0\n    }\n}"
         },
         {
             "typeInfo": {

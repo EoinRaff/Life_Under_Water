@@ -11,16 +11,16 @@ GameObject:
   - component: {fileID: 5048515818833403869}
   - component: {fileID: 5073552023263710089}
   - component: {fileID: 5065148432917666583}
-  - component: {fileID: 5113562785521583597}
   - component: {fileID: 6295347571898451493}
   - component: {fileID: 8234374218958795350}
   - component: {fileID: 5170170897933370618}
+  - component: {fileID: 5957032694676835644}
   m_Layer: 0
   m_Name: SmallTrashPiece 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &5048515818833403869
 Transform:
@@ -81,19 +81,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &5113562785521583597
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5051833365566948361}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.5602192, y: 0.84527147, z: 0.33393905}
-  m_Center: {x: -0.00035309792, y: 0.0710967, z: -0.006862879}
 --- !u!54 &6295347571898451493
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -218,3 +205,17 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!136 &5957032694676835644
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5051833365566948361}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.2801096
+  m_Height: 0.84527147
+  m_Direction: 1
+  m_Center: {x: -0.00035309792, y: 0.0710967, z: -0.006862879}

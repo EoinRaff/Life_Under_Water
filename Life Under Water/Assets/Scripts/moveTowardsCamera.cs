@@ -11,5 +11,10 @@ public class moveTowardsCamera : MonoBehaviour
         float z = transform.position.z - speed * Time.deltaTime;
         Vector3 pos = new Vector3(transform.position.x, transform.position.y, z);
         transform.position = pos;
+
+        if (z <= -5)
+        {
+            Destroy(gameObject);
+        }
     }
 }
