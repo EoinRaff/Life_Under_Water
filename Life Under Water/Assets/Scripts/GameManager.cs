@@ -55,4 +55,9 @@ public class GameManager : Singleton<GameManager>
         centerOfMass.transform.position = position;
     }
 
+    public void PlayHit()
+    {
+        gameObject.GetComponent<AudioSource>().Play();
+    }
+
 }

@@ -8,7 +8,6 @@ public class RectTrigger : MonoBehaviour
     [Range(0, 10)]
     public int sensitivity;
     public bool isTriggered = false;
-    public AudioSource hitSound;
 
     private Camera camera = null;
     private RectTransform rectTransform = null;
@@ -42,10 +41,9 @@ public class RectTrigger : MonoBehaviour
             {
                 // could put other events or functionaility here
                 // make trigger in, trigger out systems.
+                GameManager.Instance.PlayHit();
                 count++;
                 Destroy(rectTransform.gameObject);
-
-                hitSound.Play();
             }
         }
         if (count > sensitivity)
