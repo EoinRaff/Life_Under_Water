@@ -854,7 +854,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e91bcb21eb50816459c61f1585e45873, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  duration: 60
+  duration: 120
   rend: {fileID: 328934394}
 --- !u!4 &430278115
 Transform:
