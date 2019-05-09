@@ -53,7 +53,7 @@ MonoBehaviour:
     topLeft: {x: 0, y: 0}
     triggerPoints: []
   depthSensitivity: 0.8
-  floorDepth: 3.5
+  floorDepth: 2
   topCutOff: 1
   bottomCutOff: -1
   leftCutOff: -1
