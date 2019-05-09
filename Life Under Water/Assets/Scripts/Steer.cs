@@ -23,7 +23,7 @@ public class Steer : MonoBehaviour
         {
             for (int i = 0; i < 20; i++)
             {
-                Instantiate(trashExplosion, other.transform.position, Quaternion.identity);
+                Instantiate(trashExplosion, other.transform.position, Random.rotation);
             }
             Destroy(other.gameObject);
         }
@@ -32,6 +32,7 @@ public class Steer : MonoBehaviour
     {
         if (collision.transform.tag == "trash")
         {
+            print("TRASH");
             collision.gameObject.GetComponent<AudioSource>().Play();
         }
     }

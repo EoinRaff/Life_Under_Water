@@ -10,9 +10,9 @@ public class Explode : MonoBehaviour
     void Start()
     {
         rb = gameObject.GetComponent<Rigidbody>();
-        Vector3 direction = new Vector3(Random.Range(-0.5f, 0.5f), 1f, -1).normalized;
+        Vector3 direction = new Vector3(Random.Range(-0.5f, 0.5f), 1f, Random.Range(-0.5f, 0)).normalized;
 
-        float magnitude = Random.Range(2, 3);
+        float magnitude = Random.Range(0.5f, 2);
         rb.AddForce(direction * magnitude, ForceMode.Impulse);
     }
 
