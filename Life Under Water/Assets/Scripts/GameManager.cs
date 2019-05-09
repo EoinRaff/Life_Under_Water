@@ -55,10 +55,9 @@ public class GameManager : Singleton<GameManager>
         centerOfMass.transform.position = position;
     }
 
-    public bool SceneIsInteractable()
+    public void PlayHit()
     {
-        return AnimationCTRL.Instance.AnimationIsPlaying;
+        gameObject.GetComponent<AudioSource>().Play();
     }
-
 
 }
