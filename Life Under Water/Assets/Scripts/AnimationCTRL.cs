@@ -3,9 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
 
-public class AnimationCTRL : MonoBehaviour
+public class AnimationCTRL : Singleton<AnimationCTRL>
 {
     public PlayableDirector playableDirector;
+    public bool AnimationIsPlaying { get; private set; }
+
+    [SerializeField] private double interactionStartTime;
+
+    private void Start()
+    {
+        PlayAnimation();
+    }
 
     private void Update()
     {
@@ -13,6 +21,9 @@ public class AnimationCTRL : MonoBehaviour
         {
             PlayAnimation();
         }
+        //        AnimationIsPlaying = playableDirector.time <= 0;
+        AnimationIsPlaying = playableDirector.time >= interactionStartTime;
+        Debug.Log(AnimationIsPlaying);
     }
 
     public void PlayAnimation () 

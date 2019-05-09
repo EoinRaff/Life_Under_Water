@@ -4,7 +4,7 @@ public abstract class Singleton<Type> : MonoBehaviour //where Type : MonoBehavio
 {
     public static Type Instance { get; private set; }
 
-    private void Awake()
+    protected void Awake()
     {
         CheckSingleton();
     }
