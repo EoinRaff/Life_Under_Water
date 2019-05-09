@@ -21,20 +21,17 @@ public class SceneManager : MonoBehaviour
     {
         if (startTime + duration <= Time.time)
         {
-            print("Finished");
             FadeToBlack();
             return;
         }
         float completionPercentage = Time.time / (startTime + duration);
-        print(completionPercentage);
-        print("BLEND: " + rend.material.GetFloat("_Blend"));
+
         rend.material.SetFloat("_Blend", Mathf.Min(1,completionPercentage));
     }
 
     private void FadeToBlack()
     {
-        SceneManager scene;
-        throw new NotImplementedException();
+            throw new NotImplementedException();
 
     }
 }
