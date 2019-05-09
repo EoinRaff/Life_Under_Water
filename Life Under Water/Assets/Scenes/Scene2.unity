@@ -89,7 +89,7 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ShowResolutionOverlay: 1
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -1928,8 +1928,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 512913581}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.69, z: 1.17}
-  m_LocalScale: {x: 3, y: 1, z: 4}
+  m_LocalPosition: {x: 0, y: 0.69, z: -0.17}
+  m_LocalScale: {x: 3, y: 1, z: 9.34}
   m_Children:
   - {fileID: 688486731}
   - {fileID: 1326569258}
@@ -2570,7 +2570,7 @@ GameObject:
   - component: {fileID: 688486731}
   m_Layer: 0
   m_Name: CenterOfMass
-  m_TagString: Untagged
+  m_TagString: CoM
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2583,8 +2583,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 688486730}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.10000001, y: 1, z: 0.1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.14346895}
+  m_LocalScale: {x: 0.10000001, y: 1, z: 0.042826556}
   m_Children: []
   m_Father: {fileID: 512913586}
   m_RootOrder: 0
@@ -3813,7 +3813,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: 4ad3313b30e383945a8786231aa8e5dc, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.4025
+      value: 0.31584585
       objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: 4ad3313b30e383945a8786231aa8e5dc, type: 3}
       propertyPath: m_LocalRotation.x
@@ -3849,11 +3849,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: 4ad3313b30e383945a8786231aa8e5dc, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.33328748
+      value: 0.33322433
       objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: 4ad3313b30e383945a8786231aa8e5dc, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.25004655
+      value: 0.10719731
       objectReference: {fileID: 0}
     - target: {fileID: 9500000, guid: 4ad3313b30e383945a8786231aa8e5dc, type: 3}
       propertyPath: m_ApplyRootMotion
@@ -8143,7 +8143,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: e6f3b61b167af2047b2b0ce16cb572b9, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.3945
+      value: 0.3124197
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: e6f3b61b167af2047b2b0ce16cb572b9, type: 3}
       propertyPath: m_LocalRotation.x
@@ -8179,7 +8179,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: e6f3b61b167af2047b2b0ce16cb572b9, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.26662996
+      value: 0.26657942
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: e6f3b61b167af2047b2b0ce16cb572b9, type: 3}
       propertyPath: m_LocalScale.y
@@ -8187,7 +8187,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: e6f3b61b167af2047b2b0ce16cb572b9, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.20003723
+      value: 0.08575785
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e6f3b61b167af2047b2b0ce16cb572b9, type: 3}
