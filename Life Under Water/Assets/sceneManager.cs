@@ -9,7 +9,8 @@ public class SceneManager : MonoBehaviour
     [SerializeField]
     private float duration;
     //public Material water2plastic;
-    public Renderer rend;
+    public List<Renderer> renderers;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -25,13 +26,14 @@ public class SceneManager : MonoBehaviour
             return;
         }
         float completionPercentage = Time.time / (startTime + duration);
-
-        rend.material.SetFloat("_Blend", Mathf.Min(1,completionPercentage));
+        foreach (Renderer rend in renderers)
+        {
+            rend.material.SetFloat("_Blend", Mathf.Min(1, completionPercentage));
+        }
     }
 
     private void FadeToBlack()
     {
             throw new NotImplementedException();
-
     }
 }

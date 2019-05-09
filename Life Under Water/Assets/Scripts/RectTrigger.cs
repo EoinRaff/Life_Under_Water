@@ -24,7 +24,7 @@ public class RectTrigger : MonoBehaviour
 
     private void OnDestroy()
     {
-        DataManager.TriggerCount++;
+        DataManager.Trigger();
         SpawnTrash.trashCount--;
         MeasureDepth.OnTriggerPoints -= OnTriggerPoints;
     }
@@ -41,9 +41,6 @@ public class RectTrigger : MonoBehaviour
 
             if (RectTransformUtility.RectangleContainsScreenPoint(rectTransform, flippedY))
             {
-                // could put other events or functionaility here
-                // make trigger in, trigger out systems.
-                //GameManager.Instance.PlayHit();
                 count++;
             }
         }

@@ -57,11 +57,10 @@ public class MeasureDepth : Singleton<MeasureDepth>
 
     #region UI
     private Rect boundingBox, centerOfMassRect;
-    private Vector2 centerOfMass;
     #endregion
 
     #region Encapsulation
-    public Vector2 CenterOfMass { get => centerOfMass; private set => centerOfMass = value; }
+    public Vector2 CenterOfMass { get; private set; }
     public List<Vector2> TriggerPoints { get => triggerPoints; private set => triggerPoints = value; }
     public float DepthSensitivity { get => depthSensitivity; set => depthSensitivity = value; }
     public float FloorDepth { get => floorDepth; set => floorDepth = value; }
@@ -71,9 +70,9 @@ public class MeasureDepth : Singleton<MeasureDepth>
     public float RightCutOff { get => rightCutOff; set => rightCutOff = value; }
     #endregion
 
-    private void Awake()
+    private new void Awake()
     {
-        CheckSingleton();
+        base.Awake();
 
         sensor = KinectSensor.GetDefault();
         mapper = sensor.CoordinateMapper;
@@ -93,8 +92,8 @@ public class MeasureDepth : Singleton<MeasureDepth>
 
         triggerPoints = FilterToTrigger(validPoints);
 
-        centerOfMass = CalculateCenterOfMass(triggerPoints);
-        centerOfMassRect = new Rect(centerOfMass, new Vector2(50, 50));
+        CenterOfMass = CalculateCenterOfMass(triggerPoints);
+        centerOfMassRect = new Rect(CenterOfMass, new Vector2(50, 50));
 
 
         if (OnTriggerPoints != null && triggerPoints.Count != 0)
@@ -103,7 +102,7 @@ public class MeasureDepth : Singleton<MeasureDepth>
         }
 
         kinectData.triggerPoints = triggerPoints.ToArray();
-        kinectData.centerOfMass = centerOfMass;
+        kinectData.centerOfMass = CenterOfMass;
         kinectData.bottomRight = GetBottomRight(validPoints);
         kinectData.topLeft = GetTopLeft(validPoints);
 

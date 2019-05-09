@@ -19,7 +19,7 @@ public class GameManager : Singleton<GameManager>
     {
         CenterOfMassScreenToTransformPosition();
     }
-
+    /*
     private void OnGUI()
     {
         if (KinectServer.Instance == null || KinectServer.Instance.TriggerPoints == null)
@@ -31,6 +31,7 @@ public class GameManager : Singleton<GameManager>
             GUI.Box(rect, "");
         }
     }
+    */
 
     private void LateUpdate()
     {
@@ -47,21 +48,10 @@ public class GameManager : Singleton<GameManager>
 
     private void CenterOfMassScreenToTransformPosition()
     {
-        /*
-        if (KinectServer.Instance == null || KinectServer.Instance.Data == null)
-        {
-            return;
-        }
-        */
-        Vector2 centerV2 = KinectServer.Instance.Data.centerOfMass;
+        Vector2 centerV2 = MeasureDepth.Instance.CenterOfMass;
         Vector3 position = interactionCamera.ScreenToWorldPoint(new Vector3(centerV2.x, centerV2.y, CenterOfMassZPosition));
         position *= -1;
         centerOfMass.transform.position = position;
-    }
-
-    public void PlayHit()
-    {
-        gameObject.GetComponent<AudioSource>().Play();
     }
 
 }

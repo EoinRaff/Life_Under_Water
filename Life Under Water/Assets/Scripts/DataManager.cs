@@ -7,7 +7,7 @@ using System;
 public static class DataManager
 {
     public static int TriggerCount { get; private set; }
-    public static List<Vector2> positionData;
+    public static List<Vector2> positionData = new List<Vector2>();
 
     public static char delimiter = ',';
     private static string triggerDataPath = Application.dataPath + "/TriggerData.csv";

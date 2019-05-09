@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
@@ -30,4 +31,8 @@ public class AnimationCTRL : Singleton<AnimationCTRL>
         playableDirector.Play();
     }
 
+    internal void PlayReaction()
+    {
+        throw new NotImplementedException();
+    }
 }
