@@ -16,7 +16,7 @@ public class SpawnTrash : MonoBehaviour
     float width, height, x, y, wait;
     int trashCount;
 
-    [Range(0, 100)]
+    [Range(0, 250)]
     public int edge;
 
     [Range(0.5f, 10f)]
