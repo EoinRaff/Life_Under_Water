@@ -46,7 +46,7 @@ public class GameManager : Singleton<GameManager>
     {
         Vector2 centerV2 = MeasureDepth.Instance.CenterOfMass;
         Vector3 position = interactionCamera.ScreenToWorldPoint(new Vector3(centerV2.x, centerV2.y, CenterOfMassZPosition));
-        position *= -1;
+        //position *= -1;
         centerOfMass.transform.position = position;
     }
 

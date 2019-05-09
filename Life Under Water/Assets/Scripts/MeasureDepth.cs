@@ -44,7 +44,6 @@ public class MeasureDepth : Singleton<MeasureDepth>
     private CameraSpacePoint[] cameraSpacePoints = null;
     private ColorSpacePoint[] colorSpacePoints = null;
     private List<ValidPoint> validPoints = null;
-    private List<Vector2> triggerPoints = null;
     private int downSampleFactor = 8;
     #endregion
 
@@ -61,7 +60,7 @@ public class MeasureDepth : Singleton<MeasureDepth>
 
     #region Encapsulation
     public Vector2 CenterOfMass { get; private set; }
-    public List<Vector2> TriggerPoints { get => triggerPoints; private set => triggerPoints = value; }
+    public List<Vector2> TriggerPoints { get; private set; } = null;
     public float DepthSensitivity { get => depthSensitivity; set => depthSensitivity = value; }
     public float FloorDepth { get => floorDepth; set => floorDepth = value; }
     public float TopCutOff { get => topCutOff; set => topCutOff = value; }
@@ -94,18 +93,18 @@ public class MeasureDepth : Singleton<MeasureDepth>
         }
         validPoints = DepthToColor();
 
-        triggerPoints = FilterToTrigger(validPoints);
+        TriggerPoints = FilterToTrigger(validPoints);
 
-        CenterOfMass = CalculateCenterOfMass(triggerPoints);
+        CenterOfMass = CalculateCenterOfMass(TriggerPoints);
         centerOfMassRect = new Rect(CenterOfMass, new Vector2(50, 50));
 
 
-        if (OnTriggerPoints != null && triggerPoints.Count != 0)
+        if (OnTriggerPoints != null && TriggerPoints.Count != 0)
         {
-            OnTriggerPoints(triggerPoints);
+            OnTriggerPoints(TriggerPoints);
         }
 
-        kinectData.triggerPoints = triggerPoints.ToArray();
+        kinectData.triggerPoints = TriggerPoints.ToArray();
         kinectData.centerOfMass = CenterOfMass;
         kinectData.bottomRight = GetBottomRight(validPoints);
         kinectData.topLeft = GetTopLeft(validPoints);
@@ -124,10 +123,10 @@ public class MeasureDepth : Singleton<MeasureDepth>
         GUI.Box(centerOfMassRect, "CoM");
         
 
-        if (triggerPoints == null)
+        if (TriggerPoints == null)
             return;
 
-        foreach (Vector2 point in triggerPoints)
+        foreach (Vector2 point in TriggerPoints)
         {
             Rect rect = new Rect(point, new Vector2(10, 10));
             GUI.Box(rect, "");
@@ -195,7 +194,7 @@ public class MeasureDepth : Singleton<MeasureDepth>
             {
                 if (point.z < floorDepth * depthSensitivity)
                 {
-                    Vector2 screenPoint = ScreenToCamera(new Vector2(point.colorSpace.X, point.colorSpace.Y), mainCamera);
+                    Vector2 screenPoint = ScreenToCamera(new Vector2((mainCamera.pixelWidth +1 ) - point.colorSpace.X, point.colorSpace.Y), mainCamera);
 
                     triggerPoints.Add(screenPoint);
                 }
