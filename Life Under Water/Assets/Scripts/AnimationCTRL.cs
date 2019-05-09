@@ -23,7 +23,6 @@ public class AnimationCTRL : Singleton<AnimationCTRL>
         }
         //        AnimationIsPlaying = playableDirector.time <= 0;
         AnimationIsPlaying = playableDirector.time >= interactionStartTime;
-        Debug.Log(AnimationIsPlaying);
     }
 
     public void PlayAnimation () 

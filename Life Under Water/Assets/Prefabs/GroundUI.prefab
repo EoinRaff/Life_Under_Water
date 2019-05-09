@@ -19,7 +19,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2273148119150307952
 RectTransform:
   m_ObjectHideFlags: 0
@@ -117,6 +117,6 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 2107da99920bc16448f89ab479fd3cb5, type: 3}
   - {fileID: 2800000, guid: 16158735665f9db4f9b3872c5fdca10d, type: 3}
   maxTrash: 10
-  edge: 80
-  lowerSpawnSpan: 2
-  upperSpawnSpan: 5
+  edge: 200
+  lowerSpawnSpan: 0.5
+  upperSpawnSpan: 2
