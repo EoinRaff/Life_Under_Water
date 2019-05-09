@@ -43,6 +43,7 @@ public class RectTrigger : MonoBehaviour
                 // make trigger in, trigger out systems.
                 //GameManager.Instance.PlayHit();
                 count++;
+                SpawnTrash.trashCount--;
                 Destroy(rectTransform.gameObject);
             }
         }
