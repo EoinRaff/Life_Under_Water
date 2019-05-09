@@ -60,4 +60,5 @@ public class GameManager : Singleton<GameManager>
         return AnimationCTRL.Instance.AnimationIsPlaying;
     }
 
+
 }
