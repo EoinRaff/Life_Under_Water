@@ -28,7 +28,6 @@ public class Steer : MonoBehaviour
                 Instantiate(trashExplosion, other.transform.position, Random.rotation);
             }
             Destroy(other.gameObject);
-            AnimationCTRL.Instance.PlayReaction();
         }
     }
     private void OnCollisionEnter(Collision collision)

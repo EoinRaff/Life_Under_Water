@@ -25,7 +25,6 @@ public class GameManager : Singleton<GameManager>
         {
             centerOfMass = GameObject.FindGameObjectWithTag("CoM");
         }
-        print(Application.dataPath);
         CenterOfMassScreenToTransformPosition();
     }
 

@@ -11,6 +11,7 @@ public class SceneController : MonoBehaviour
     private float duration;
     //public Material water2plastic;
     public List<Renderer> renderers;
+    private bool started = false;
 
     // Start is called before the first frame update
     void Awake()
@@ -21,6 +22,11 @@ public class SceneController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!started)
+        {
+            startTime = Time.time;
+            started = true;
+        }
         switch (SceneManager.GetActiveScene().name)
         {
             case "Scene1":
