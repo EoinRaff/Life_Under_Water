@@ -154,6 +154,7 @@ ModelImporter:
     400146: Spine1
     400148: Spine2
     7400000: Running (1)
+    7400002: Running (2)
     9500000: //RootNode
   externalObjects: {}
   materials:
@@ -166,7 +167,7 @@ ModelImporter:
     bakeSimulation: 0
     resampleCurves: 1
     optimizeGameObjects: 0
-    motionNodeName: Hips/Spine
+    motionNodeName: <Root Transform>
     rigImportErrors: 
     rigImportWarnings: 
     animationImportErrors: 
@@ -187,7 +188,7 @@ ModelImporter:
       name: Running (1)
       takeName: mixamo.com
       firstFrame: 0
-      lastFrame: 13
+      lastFrame: 30
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -195,7 +196,7 @@ ModelImporter:
       loop: 0
       hasAdditiveReferencePose: 0
       loopTime: 1
-      loopBlend: 1
+      loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
       loopBlendPositionXZ: 0
