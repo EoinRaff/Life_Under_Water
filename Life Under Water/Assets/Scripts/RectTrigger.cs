@@ -24,6 +24,8 @@ public class RectTrigger : MonoBehaviour
 
     private void OnDestroy()
     {
+        DataManager.TriggerCount++;
+        SpawnTrash.trashCount--;
         MeasureDepth.OnTriggerPoints -= OnTriggerPoints;
     }
 
@@ -43,13 +45,12 @@ public class RectTrigger : MonoBehaviour
                 // make trigger in, trigger out systems.
                 //GameManager.Instance.PlayHit();
                 count++;
-                SpawnTrash.trashCount--;
-                Destroy(rectTransform.gameObject);
             }
         }
         if (count > sensitivity)
         {
             isTriggered = true;
+            Destroy(rectTransform.gameObject);
         }
     }
 }

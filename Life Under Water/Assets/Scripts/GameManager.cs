@@ -1,15 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
     public GameObject centerOfMass;
     public Camera interactionCamera;
-    public float heightFromGround; //Bad name. Not sure what this really is. 10 is a good value for it though
+    public float CenterOfMassZPosition = 10;
 
     private void Start()
     {
+        DataManager.ClearData();
         InitializeDisplays();
     }
 
@@ -45,12 +47,14 @@ public class GameManager : Singleton<GameManager>
 
     private void CenterOfMassScreenToTransformPosition()
     {
+        /*
         if (KinectServer.Instance == null || KinectServer.Instance.Data == null)
         {
             return;
         }
+        */
         Vector2 centerV2 = KinectServer.Instance.Data.centerOfMass;
-        Vector3 position = interactionCamera.ScreenToWorldPoint(new Vector3(centerV2.x, centerV2.y, heightFromGround));
+        Vector3 position = interactionCamera.ScreenToWorldPoint(new Vector3(centerV2.x, centerV2.y, CenterOfMassZPosition));
         position *= -1;
         centerOfMass.transform.position = position;
     }
