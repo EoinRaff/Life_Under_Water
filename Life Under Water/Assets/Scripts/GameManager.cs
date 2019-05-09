@@ -17,21 +17,17 @@ public class GameManager : Singleton<GameManager>
 
     void Update()
     {
+        if (interactionCamera == null)
+        {
+            interactionCamera = Camera.main;
+        }
+        if (centerOfMass == null)
+        {
+            centerOfMass = GameObject.FindGameObjectWithTag("CoM");
+        }
+        print(Application.dataPath);
         CenterOfMassScreenToTransformPosition();
     }
-    /*
-    private void OnGUI()
-    {
-        if (KinectServer.Instance == null || KinectServer.Instance.TriggerPoints == null)
-            return;
-
-        foreach (Vector2 point in KinectServer.Instance.TriggerPoints)
-        {
-            Rect rect = new Rect(point, new Vector2(10, 10));
-            GUI.Box(rect, "");
-        }
-    }
-    */
 
     private void LateUpdate()
     {

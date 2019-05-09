@@ -18,6 +18,7 @@ public class Steer : MonoBehaviour
         position.y = 0;
         gameObject.transform.position = position;// = Quaternion.Euler(position);
     }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "trash")

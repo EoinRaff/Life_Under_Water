@@ -11,9 +11,10 @@ public static class DataManager
 
     public static char delimiter = ',';
     private static string triggerDataPath = Application.dataPath + "/TriggerData.csv";
-    private static string positionDataPath = Application.dataPath + "/PositionData.csv";
- 
-    
+    private static string posXDataPath = Application.dataPath + "/PositionXData.csv";
+    private static string posYDataPath = Application.dataPath + "/PositionYData.csv";
+
+
     public static void ClearData()
     {
         TriggerCount = 0;
@@ -33,22 +34,29 @@ public static class DataManager
     public static void PrintTriggerData()
     {
         TextWriter textWriter = new StreamWriter(triggerDataPath, true);
-        File.AppendAllText(triggerDataPath, DateTime.Now.ToString() + delimiter+  TriggerCount.ToString());
         textWriter.Close();
+        File.AppendAllText(triggerDataPath, DateTime.Now.ToString() + delimiter + TriggerCount.ToString() + Environment.NewLine);
         ClearData();
     }
 
     public static void PrintPositionData()
     {
-        string output = DateTime.Now.ToString();
+        string outputx = DateTime.Now.ToString();
+        string outputy = DateTime.Now.ToString();
+
         for (int i = 0; i < positionData.Count; i++)
         {
-            output += delimiter + positionData[i].ToString();
+            outputx += delimiter + positionData[i].x.ToString();
+            outputy += delimiter + positionData[i].y.ToString();
         }
 
-        TextWriter textWriter = new StreamWriter(triggerDataPath, true);
-        File.AppendAllText(triggerDataPath, output + Environment.NewLine);
-        textWriter.Close();
+        TextWriter textWriterX = new StreamWriter(posXDataPath, true);
+        textWriterX.Close();
+        TextWriter textWriterY = new StreamWriter(posYDataPath, true);
+        textWriterY.Close();
+        File.AppendAllText(posXDataPath, outputx + Environment.NewLine);
+        File.AppendAllText(posYDataPath, outputy + Environment.NewLine);
+
         ClearData();
     }
 }

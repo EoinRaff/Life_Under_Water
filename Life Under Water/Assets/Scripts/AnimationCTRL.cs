@@ -15,9 +15,14 @@ public class AnimationCTRL : Singleton<AnimationCTRL>
     {
         PlayAnimation();
     }
+    
 
     private void Update()
     {
+        if (playableDirector == null)
+        {
+            playableDirector = GameObject.FindGameObjectWithTag("Timeline").GetComponent<PlayableDirector>();
+        }
         if (Input.GetKeyDown(KeyCode.Space) == true)
         {
             PlayAnimation();

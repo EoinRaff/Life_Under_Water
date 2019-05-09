@@ -680,7 +680,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 331465570}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.08, z: 13.4}
+  m_LocalPosition: {x: 0, y: -0.08, z: 12.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 260625677}
@@ -1015,7 +1015,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   duration: 120
-  rend: {fileID: 328934394}
+  renderers:
+  - {fileID: 328934394}
+  - {fileID: 331465574}
+  - {fileID: 704288246}
 --- !u!4 &430278115
 Transform:
   m_ObjectHideFlags: 0
@@ -1407,7 +1410,7 @@ GameObject:
   - component: {fileID: 688486731}
   m_Layer: 0
   m_Name: CenterOfMass
-  m_TagString: Untagged
+  m_TagString: CoM
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1454,7 +1457,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 704288242}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.08, z: 23.2}
+  m_LocalPosition: {x: 0, y: -0.08, z: 22.400002}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 260625677}
@@ -1970,7 +1973,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   centerOfMass: {fileID: 688486730}
   interactionCamera: {fileID: 395691713}
-  heightFromGround: 0
+  CenterOfMassZPosition: 10
 --- !u!4 &873260138
 Transform:
   m_ObjectHideFlags: 0
@@ -4424,6 +4427,11 @@ PrefabInstance:
       propertyPath: multiSource
       value: 
       objectReference: {fileID: 484860594}
+    - target: {fileID: 6063760611391399378, guid: 80036965ff6c8f54e91d7ec14b179991,
+        type: 3}
+      propertyPath: floorDepth
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 878881280787842379, guid: 80036965ff6c8f54e91d7ec14b179991,
         type: 3}
       propertyPath: m_LocalPosition.x

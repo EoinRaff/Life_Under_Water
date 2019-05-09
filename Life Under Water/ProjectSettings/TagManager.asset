@@ -6,6 +6,9 @@ TagManager:
   tags:
   - trash
   - canvas
+  - raft
+  - Timeline
+  - CoM
   layers:
   - Default
   - TransparentFX

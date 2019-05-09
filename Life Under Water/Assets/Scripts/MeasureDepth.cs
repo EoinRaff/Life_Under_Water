@@ -88,6 +88,10 @@ public class MeasureDepth : Singleton<MeasureDepth>
 
     private void Update()
     {
+        if (mainCamera == null)
+        {
+            mainCamera = Camera.main;
+        }
         validPoints = DepthToColor();
 
         triggerPoints = FilterToTrigger(validPoints);

@@ -56,6 +56,7 @@ Material:
     - Vector1_E7D418A1: 0
     - Vector1_ECCE0D5A: 0.53
     - Vector1_FDBA3B7E: 2
+    - _Blend: 0
     m_Colors:
     - Color_DBA2E4E5: {r: 0.1722143, g: 0.703071, b: 0.8490566, a: 0}
     - Vector2_3549762F: {r: 10, g: 10, b: 0, a: 0}
