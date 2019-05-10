@@ -27,6 +27,7 @@ public class Steer : MonoBehaviour
             {
                 Instantiate(trashExplosion, other.transform.position, Random.rotation);
             }
+            GameManager.Instance.GetComponent<AudioSource>().Play();
             Destroy(other.gameObject);
         }
     }

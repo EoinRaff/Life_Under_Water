@@ -13,6 +13,7 @@ public class RectTrigger : MonoBehaviour
     private RectTransform rectTransform = null;
     private Image image = null;
 
+
     private void Awake()
     {
         MeasureDepth.OnTriggerPoints += OnTriggerPoints;
@@ -47,6 +48,7 @@ public class RectTrigger : MonoBehaviour
         if (count > sensitivity)
         {
             isTriggered = true;
+            GameManager.Instance.GetComponent<AudioSource>().Play();
             Destroy(rectTransform.gameObject);
         }
     }
