@@ -105,7 +105,7 @@ public class SceneController : Singleton<SceneController>
                 break;
             case "Scene2":
                 DataManager.PrintPositionData();
-                nextScene = "Scene 0";
+                nextScene = "End Scene";
                 break;
             default:
                 break;

@@ -7,14 +7,15 @@ using UnityEngine.SceneManagement;
 
 public class UIController : MonoBehaviour
 {
-    public Button Interactive;
-    public Button NonInteractive;
-
     public void LoadScene(bool Interactive)
     {
         print("PRESSED");
         GameManager.Instance.Interactive = Interactive;
         print("Loading Scene 1. Interative = " + Interactive);
         SceneManager.LoadScene("Scene1");
+    }
+    public void Quit()
+    {
+        Application.Quit();
     }
 }

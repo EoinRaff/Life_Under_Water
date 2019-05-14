@@ -10,6 +10,19 @@ public class Steer : MonoBehaviour
     public GameObject trashExplosion;
     public PlayableDirector playableDirector;
 
+    private void Start()
+    {
+        if (GameManager.Instance.Interactive)
+        {
+            Destroy(playableDirector);
+            gameObject.GetComponent<Animator>().enabled = false;
+        }
+        else
+        {
+            playableDirector.Play();
+        }
+    }
+
     void Update()
     {
         if (GameManager.Instance.Interactive)
@@ -21,11 +34,7 @@ public class Steer : MonoBehaviour
             position.y = 0;
             gameObject.transform.position = position;
         }
-        else
-        {
-            // ANIMATE RAFT
-            playableDirector.Play();
-        }
+
     }
 
     private void OnTriggerEnter(Collider other)

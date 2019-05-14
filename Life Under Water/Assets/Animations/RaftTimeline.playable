@@ -2106,7 +2106,7 @@ MonoBehaviour:
     m_EaseInDuration: 0
     m_EaseOutDuration: 0
     m_BlendInDuration: -1
-    m_BlendOutDuration: 0.15266714727233932
+    m_BlendOutDuration: 0.21666666666666856
     m_MixInCurve:
       serializedVersion: 2
       m_Curve: []
@@ -2163,7 +2163,7 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: Center2Left
     m_Version: 1
-  - m_Start: 110.68066618606099
+  - m_Start: 110.61666666666666
     m_ClipIn: 0
     m_Asset: {fileID: 114541323495505870}
     m_Duration: 1
@@ -2171,8 +2171,8 @@ MonoBehaviour:
     m_ParentTrack: {fileID: 114569614902219206}
     m_EaseInDuration: 0
     m_EaseOutDuration: 0
-    m_BlendInDuration: 0.15266714727233932
-    m_BlendOutDuration: 0.23066618606098643
+    m_BlendInDuration: 0.21666666666666856
+    m_BlendOutDuration: 0.3999999999999915
     m_MixInCurve:
       serializedVersion: 2
       m_Curve: []
@@ -2196,7 +2196,7 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: Left2Center
     m_Version: 1
-  - m_Start: 111.45
+  - m_Start: 111.21666666666667
     m_ClipIn: 0
     m_Asset: {fileID: 114909998397559790}
     m_Duration: 1
@@ -2204,7 +2204,7 @@ MonoBehaviour:
     m_ParentTrack: {fileID: 114569614902219206}
     m_EaseInDuration: 0
     m_EaseOutDuration: 0
-    m_BlendInDuration: 0.23066618606098643
+    m_BlendInDuration: 0.3999999999999915
     m_BlendOutDuration: -1
     m_MixInCurve:
       serializedVersion: 2
@@ -2225,11 +2225,11 @@ MonoBehaviour:
     m_Recordable: 0
     m_PostExtrapolationMode: 1
     m_PreExtrapolationMode: 1
-    m_PostExtrapolationTime: 0
+    m_PostExtrapolationTime: 0.5499999999999972
     m_PreExtrapolationTime: 0
     m_DisplayName: Center2Right
     m_Version: 1
-  - m_Start: 112.45
+  - m_Start: 112.76666666666667
     m_ClipIn: 0
     m_Asset: {fileID: 114515261465419148}
     m_Duration: 1
@@ -2238,7 +2238,7 @@ MonoBehaviour:
     m_EaseInDuration: 0
     m_EaseOutDuration: 0
     m_BlendInDuration: -1
-    m_BlendOutDuration: 0.3166666666666629
+    m_BlendOutDuration: 0.6333333333333258
     m_MixInCurve:
       serializedVersion: 2
       m_Curve: []
@@ -2270,8 +2270,8 @@ MonoBehaviour:
     m_ParentTrack: {fileID: 114569614902219206}
     m_EaseInDuration: 0
     m_EaseOutDuration: 0
-    m_BlendInDuration: 0.3166666666666629
-    m_BlendOutDuration: 0.13333333333333997
+    m_BlendInDuration: 0.6333333333333258
+    m_BlendOutDuration: -1
     m_MixInCurve:
       serializedVersion: 2
       m_Curve: []
@@ -2291,11 +2291,11 @@ MonoBehaviour:
     m_Recordable: 0
     m_PostExtrapolationMode: 1
     m_PreExtrapolationMode: 1
-    m_PostExtrapolationTime: 0
+    m_PostExtrapolationTime: 0.5906861976817339
     m_PreExtrapolationTime: 0
     m_DisplayName: Center2Left
     m_Version: 1
-  - m_Start: 115
+  - m_Start: 115.63333333333334
     m_ClipIn: 0
     m_Asset: {fileID: 114973789649159660}
     m_Duration: 5.25
@@ -2303,7 +2303,7 @@ MonoBehaviour:
     m_ParentTrack: {fileID: 114569614902219206}
     m_EaseInDuration: 0
     m_EaseOutDuration: 0
-    m_BlendInDuration: -1
+    m_BlendInDuration: 0.09068619768173392
     m_BlendOutDuration: -1
     m_MixInCurve:
       serializedVersion: 2
@@ -2324,11 +2324,11 @@ MonoBehaviour:
     m_Recordable: 0
     m_PostExtrapolationMode: 1
     m_PreExtrapolationMode: 1
-    m_PostExtrapolationTime: 123.44999999999999
+    m_PostExtrapolationTime: 122.81666666666665
     m_PreExtrapolationTime: 0
     m_DisplayName: RaftIdle
     m_Version: 1
-  - m_Start: 114
+  - m_Start: 114.72401953101507
     m_ClipIn: 0
     m_Asset: {fileID: 114488003712031176}
     m_Duration: 1
@@ -2336,8 +2336,8 @@ MonoBehaviour:
     m_ParentTrack: {fileID: 114569614902219206}
     m_EaseInDuration: 0
     m_EaseOutDuration: 0
-    m_BlendInDuration: 0.13333333333333997
-    m_BlendOutDuration: -1
+    m_BlendInDuration: -1
+    m_BlendOutDuration: 0.09068619768173392
     m_MixInCurve:
       serializedVersion: 2
       m_Curve: []

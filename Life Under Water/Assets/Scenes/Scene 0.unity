@@ -170,7 +170,7 @@ GameObject:
   - component: {fileID: 253846799}
   - component: {fileID: 253846798}
   m_Layer: 0
-  m_Name: Main Camera (2)
+  m_Name: Monitor
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -626,7 +626,7 @@ GameObject:
   - component: {fileID: 996668670}
   - component: {fileID: 996668669}
   m_Layer: 0
-  m_Name: Main Camera (1)
+  m_Name: Wall
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1256,7 +1256,7 @@ GameObject:
   - component: {fileID: 1350383981}
   - component: {fileID: 1350383980}
   m_Layer: 0
-  m_Name: Main Camera
+  m_Name: Floor
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1294,7 +1294,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 26.991467
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -1309,7 +1309,7 @@ Camera:
   m_AllowMSAA: 1
   m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
-  m_OcclusionCulling: 1
+  m_OcclusionCulling: 0
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
 --- !u!4 &1350383982
