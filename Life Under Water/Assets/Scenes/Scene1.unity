@@ -145,7 +145,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   centerOfMass: {fileID: 740886386}
   interactionCamera: {fileID: 1532882192}
-  CenterOfMassZPosition: 10
+  CenterOfMassZPosition: 0.5
 --- !u!4 &64651563
 Transform:
   m_ObjectHideFlags: 0
@@ -4345,6 +4345,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CameraTransform
+      objectReference: {fileID: 0}
+    - target: {fileID: 5636656543792219879, guid: 5cdbf44fcd8c18342a6b71c43ac1dc1d,
+        type: 3}
+      propertyPath: m_TargetDisplay
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5636656544966534375, guid: 5cdbf44fcd8c18342a6b71c43ac1dc1d,
         type: 3}
