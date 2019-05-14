@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: WaterToPlastic
+  m_Shader: {fileID: 4800000, guid: 4fea6a3e50ca7474d9a87cf4e3fb2826, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - Texture2D_975211B5:
+        m_Texture: {fileID: 2800000, guid: 403009054013381438d6c4ceda0cfea4, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_CC6889A4:
+        m_Texture: {fileID: 2800000, guid: a8766e9399cba914694588d3335cc3e7, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_D39E0FD9:
+        m_Texture: {fileID: 2800000, guid: 5fbcffe9c2077f04186883cb39275fcc, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - Vector1_23740C39: 0.2
+    - Vector1_2666F4A4: 1
+    - Vector1_29C01D1E: 0.9
+    - Vector1_33CBE4AC: 1
+    - Vector1_3B9025D0: 0.5
+    - Vector1_43F3E968: -41.8
+    - Vector1_46DD5686: 1
+    - Vector1_5B9D7A61: 1
+    - Vector1_67E64044: 0.387
+    - Vector1_6996144E: 0.36
+    - Vector1_715AA276: 0.133
+    - Vector1_7BB6A1A6: 0.473
+    - Vector1_7FD14F2D: 0.05
+    - Vector1_84646E06: 1.6
+    - Vector1_87FBED92: 1
+    - Vector1_8A53BC1E: 1.54
+    - Vector1_8D00847C: 1
+    - Vector1_95F2DEB7: 1
+    - Vector1_987A558B: 0.814
+    - Vector1_9E6D95BC: 0.56
+    - Vector1_B69E7721: 0.3
+    - Vector1_BB4ABA1D: 0.526
+    - Vector1_C193C5F7: 1
+    - Vector1_DECA361B: 1.46
+    - Vector1_E43277AE: 1.5
+    - Vector1_E7D418A1: 0
+    - Vector1_ECCE0D5A: 0.1
+    - Vector1_FAA62ED9: 0.5
+    - Vector1_FDBA3B7E: 1.64
+    m_Colors:
+    - Color_DBA2E4E5: {r: 0.35857958, g: 0.62329465, b: 0.9622642, a: 0}
+    - Vector2_3549762F: {r: 20, g: 20, b: 0, a: 0}
+    - Vector2_35D44C15: {r: 0.2, g: 0.2, b: 0, a: 0}
+    - Vector2_864E96C1: {r: 20, g: 20, b: 0, a: 0}
+    - Vector2_CAA21F57: {r: 0, g: -1, b: 0, a: 0}
+    - Vector2_E7807319: {r: 0.5, g: 1, b: 0, a: 0}
+    - Vector2_F06CBDF9: {r: 1, g: 1, b: 0, a: 0}
