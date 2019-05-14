@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SceneController : MonoBehaviour
+[RequireComponent(typeof(AudioSource))]
+public class SceneController : Singleton<SceneController>
 {
     private float startTime;
     [SerializeField]
@@ -13,9 +14,12 @@ public class SceneController : MonoBehaviour
     public List<Renderer> renderers;
     private bool started = false;
 
+    [SerializeField]
+    private AudioClip scene1Audio, scene2Audio;
     // Start is called before the first frame update
     void Awake()
     {
+        base.Awake();
         startTime = Time.time;
     }
 
@@ -34,6 +38,16 @@ public class SceneController : MonoBehaviour
                 break;
             case "Scene2":
                 float completionPercentage = Time.time / (startTime + duration);
+                if (renderers.Count < 1 || renderers[0] == null)
+                {
+                    renderers.Clear();
+                    GameObject[] objects = GameObject.FindGameObjectsWithTag("water");
+
+                    for (int i = 0; i < objects.Length; i++)
+                    {
+                        renderers.Add(objects[i].GetComponent<MeshRenderer>());
+                    }
+                }
                 foreach (Renderer rend in renderers)
                 {
                     rend.material.SetFloat("_Blend", Mathf.Min(1, completionPercentage));
@@ -60,9 +74,7 @@ public class SceneController : MonoBehaviour
 
                 break;
             case "Scene2":
-                print("logging position");
                 DataManager.AddPosition(new Vector2(MeasureDepth.Instance.CenterOfMass.x, MeasureDepth.Instance.CenterOfMass.y));
-
                 break;
             default:
                 break;
@@ -80,12 +92,13 @@ public class SceneController : MonoBehaviour
                 break;
             case "Scene2":
                 DataManager.PrintPositionData();
-                nextScene = "Scene1";
+                nextScene = "Scene 0";
                 break;
             default:
                 break;
         }
         SceneManager.LoadScene(nextScene);
+        started = false;
         //fade to black and load scene async via corountine
 
     }

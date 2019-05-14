@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
+[RequireComponent(typeof(AudioSource))]
 public class RectTrigger : MonoBehaviour
 {
     [Range(0, 10)]
@@ -12,22 +14,32 @@ public class RectTrigger : MonoBehaviour
     private Camera camera = null;
     private RectTransform rectTransform = null;
     private Image image = null;
+    [SerializeField]
+    private float lifetime;
 
+    [SerializeField]
+    private AudioClip scene1Audio, scene2Audio;
 
     private void Awake()
     {
-        MeasureDepth.OnTriggerPoints += OnTriggerPoints;
 
         camera = Camera.main;
         rectTransform = GetComponent<RectTransform>();
         image = GetComponent<Image>();
+
+        if (GameManager.Instance.Interactive)
+            MeasureDepth.OnTriggerPoints += OnTriggerPoints;
+        else
+            Destroy(gameObject, lifetime);
     }
 
     private void OnDestroy()
     {
+        SceneController.Instance.GetComponent<AudioSource>().Play();
         DataManager.Trigger();
         SpawnTrash.trashCount--;
-        MeasureDepth.OnTriggerPoints -= OnTriggerPoints;
+        if (GameManager.Instance.Interactive)
+            MeasureDepth.OnTriggerPoints -= OnTriggerPoints;
     }
 
     private void OnTriggerPoints(List<Vector2> triggerPoints )
@@ -48,7 +60,6 @@ public class RectTrigger : MonoBehaviour
         if (count > sensitivity)
         {
             isTriggered = true;
-            GameManager.Instance.GetComponent<AudioSource>().Play();
             Destroy(rectTransform.gameObject);
         }
     }

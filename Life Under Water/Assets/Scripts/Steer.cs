@@ -7,16 +7,21 @@ public class Steer : MonoBehaviour
     public Transform centerOfMass;
     public GameObject trashExplosion;
 
-    // Update is called once per frame
     void Update()
     {
-        //gameObject.transform.Rotate(centerOfMass.localPosition);
-        Vector3 position = new Vector3();
-        position.x = Mathf.Lerp(transform.position.x, centerOfMass.position.x, Time.deltaTime);
-        position.x = Mathf.Clamp(position.x, -2, 2);
-        position.z = transform.position.z; // -centerOfMass.position.x;
-        position.y = 0;
-        gameObject.transform.position = position;// = Quaternion.Euler(position);
+        if (GameManager.Instance.Interactive)
+        {
+            Vector3 position = new Vector3();
+            position.x = Mathf.Lerp(transform.position.x, centerOfMass.position.x, Time.deltaTime);
+            position.x = Mathf.Clamp(position.x, -2, 2);
+            position.z = transform.position.z;
+            position.y = 0;
+            gameObject.transform.position = position;
+        }
+        else
+        {
+            // ANIMATE RAFT
+        }
     }
 
     private void OnTriggerEnter(Collider other)

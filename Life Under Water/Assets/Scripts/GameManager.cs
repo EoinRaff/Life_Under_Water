@@ -8,6 +8,7 @@ public class GameManager : Singleton<GameManager>
     public GameObject centerOfMass;
     public Camera interactionCamera;
     public float CenterOfMassZPosition = 10;
+    public bool Interactive { get; set; }
 
     private void Start()
     {
