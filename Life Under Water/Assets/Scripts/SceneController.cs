@@ -50,7 +50,7 @@ public class SceneController : Singleton<SceneController>
                 }
                 foreach (Renderer rend in renderers)
                 {
-                    rend.material.SetFloat("_Blend", Mathf.Min(1, completionPercentage));
+                    rend.material.SetFloat("_Blend", Mathf.Min(1, Mathf.Max(0.2f, completionPercentage)));
                 }
                 break;
             default:

@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-[RequireComponent(typeof(AudioSource))]
 public class RectTrigger : MonoBehaviour
 {
     [Range(0, 10)]
@@ -17,8 +16,6 @@ public class RectTrigger : MonoBehaviour
     [SerializeField]
     private float lifetime;
 
-    [SerializeField]
-    private AudioClip scene1Audio, scene2Audio;
 
     private void Awake()
     {
