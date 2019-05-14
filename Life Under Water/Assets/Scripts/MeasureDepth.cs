@@ -117,6 +117,22 @@ public class MeasureDepth : Singleton<MeasureDepth>
         }
     }
 
+    private void OnGUI()
+    {
+        GUI.Box(boundingBox, "");
+        GUI.Box(centerOfMassRect, "CoM");
+
+
+        if (TriggerPoints == null)
+            return;
+
+        foreach (Vector2 point in TriggerPoints)
+        {
+            Rect rect = new Rect(point, new Vector2(10, 10));
+            GUI.Box(rect, "");
+        }
+    }
+
     private List<ValidPoint> DepthToColor()
     {
         List<ValidPoint> validPoints = new List<ValidPoint>();
