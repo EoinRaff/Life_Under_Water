@@ -9,6 +9,7 @@ TagManager:
   - raft
   - Timeline
   - CoM
+  - water
   layers:
   - Default
   - TransparentFX

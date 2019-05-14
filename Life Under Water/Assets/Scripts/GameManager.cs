@@ -7,7 +7,8 @@ public class GameManager : Singleton<GameManager>
 {
     public GameObject centerOfMass;
     public Camera interactionCamera;
-    public float CenterOfMassZPosition = 10;
+    public float CenterOfMassZPosition;
+    public bool Interactive { get; set; } = true;
 
     private void Start()
     {
@@ -35,10 +36,12 @@ public class GameManager : Singleton<GameManager>
 
     private static void InitializeDisplays()
     {
+        
         for (int i = 1; i < Display.displays.Length; i++)
         {
             Display.displays[i].Activate();
         }
+
     }
 
     private void CenterOfMassScreenToTransformPosition()

@@ -116,12 +116,12 @@ public class MeasureDepth : Singleton<MeasureDepth>
             depthTexture = CreateTexture(validPoints);
         }
     }
-    /*
+
     private void OnGUI()
     {
         GUI.Box(boundingBox, "");
         GUI.Box(centerOfMassRect, "CoM");
-        
+
 
         if (TriggerPoints == null)
             return;
@@ -131,7 +131,7 @@ public class MeasureDepth : Singleton<MeasureDepth>
             Rect rect = new Rect(point, new Vector2(10, 10));
             GUI.Box(rect, "");
         }
-    }*/
+    }
 
     private List<ValidPoint> DepthToColor()
     {

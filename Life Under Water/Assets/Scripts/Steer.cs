@@ -1,22 +1,40 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
+
 
 public class Steer : MonoBehaviour
 {
     public Transform centerOfMass;
     public GameObject trashExplosion;
+    public PlayableDirector playableDirector;
 
-    // Update is called once per frame
+    private void Start()
+    {
+        if (GameManager.Instance.Interactive)
+        {
+            Destroy(playableDirector);
+            gameObject.GetComponent<Animator>().enabled = false;
+        }
+        else
+        {
+            playableDirector.Play();
+        }
+    }
+
     void Update()
     {
-        //gameObject.transform.Rotate(centerOfMass.localPosition);
-        Vector3 position = new Vector3();
-        position.x = Mathf.Lerp(transform.position.x, centerOfMass.position.x, Time.deltaTime);
-        position.x = Mathf.Clamp(position.x, -2, 2);
-        position.z = transform.position.z; // -centerOfMass.position.x;
-        position.y = 0;
-        gameObject.transform.position = position;// = Quaternion.Euler(position);
+        if (GameManager.Instance.Interactive)
+        {
+            Vector3 position = new Vector3();
+            position.x = Mathf.Lerp(transform.position.x, centerOfMass.position.x, Time.deltaTime);
+            position.x = Mathf.Clamp(position.x, -2, 2);
+            position.z = transform.position.z;
+            position.y = 0;
+            gameObject.transform.position = position;
+        }
+
     }
 
     private void OnTriggerEnter(Collider other)
@@ -27,7 +45,7 @@ public class Steer : MonoBehaviour
             {
                 Instantiate(trashExplosion, other.transform.position, Random.rotation);
             }
-            GameManager.Instance.GetComponent<AudioSource>().Play();
+            SceneController.Instance.GetComponent<AudioSource>().Play();
             Destroy(other.gameObject);
         }
     }
