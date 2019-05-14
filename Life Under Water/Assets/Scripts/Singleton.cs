@@ -14,9 +14,6 @@ public abstract class Singleton<Type> : MonoBehaviour //where Type : MonoBehavio
         if (Instance == null)
         {
             Instance = gameObject.GetComponent<Type>();
-            if (Instance.GetType() == typeof(SceneController))
-                return;
-            
             DontDestroyOnLoad(gameObject);
         }
         else

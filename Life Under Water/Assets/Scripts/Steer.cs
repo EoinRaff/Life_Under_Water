@@ -1,11 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
+
 
 public class Steer : MonoBehaviour
 {
     public Transform centerOfMass;
     public GameObject trashExplosion;
+    public PlayableDirector playableDirector;
 
     void Update()
     {
@@ -21,6 +24,7 @@ public class Steer : MonoBehaviour
         else
         {
             // ANIMATE RAFT
+            playableDirector.Play();
         }
     }
 
@@ -32,7 +36,7 @@ public class Steer : MonoBehaviour
             {
                 Instantiate(trashExplosion, other.transform.position, Random.rotation);
             }
-            GameManager.Instance.GetComponent<AudioSource>().Play();
+            SceneController.Instance.GetComponent<AudioSource>().Play();
             Destroy(other.gameObject);
         }
     }

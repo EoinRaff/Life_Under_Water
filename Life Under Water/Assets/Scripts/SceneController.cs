@@ -28,8 +28,21 @@ public class SceneController : Singleton<SceneController>
     {
         if (!started)
         {
-            startTime = Time.time;
-            started = true;
+            switch (SceneManager.GetActiveScene().name)
+            {
+                case "Scene1":
+                    startTime = Time.time;
+                    started = true;
+                    gameObject.GetComponent<AudioSource>().clip = scene1Audio;
+                    break;
+                case "Scene2":
+                    startTime = Time.time;
+                    started = true;
+                    gameObject.GetComponent<AudioSource>().clip = scene2Audio;
+                    break;
+                default:
+                    break;
+            }
         }
         switch (SceneManager.GetActiveScene().name)
         {
@@ -37,7 +50,7 @@ public class SceneController : Singleton<SceneController>
 
                 break;
             case "Scene2":
-                float completionPercentage = Time.time / (startTime + duration);
+                float completionPercentage = (Time.time - startTime) / (startTime + duration);
                 if (renderers.Count < 1 || renderers[0] == null)
                 {
                     renderers.Clear();
@@ -97,8 +110,8 @@ public class SceneController : Singleton<SceneController>
             default:
                 break;
         }
-        SceneManager.LoadScene(nextScene);
         started = false;
+        SceneManager.LoadScene(nextScene);
         //fade to black and load scene async via corountine
 
     }
