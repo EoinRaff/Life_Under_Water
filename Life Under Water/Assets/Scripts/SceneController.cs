@@ -20,7 +20,7 @@ public class SceneController : Singleton<SceneController>
     void Awake()
     {
         base.Awake();
-        startTime = Time.time;
+//        startTime = Time.time;
     }
 
     // Update is called once per frame
@@ -31,12 +31,13 @@ public class SceneController : Singleton<SceneController>
             switch (SceneManager.GetActiveScene().name)
             {
                 case "Scene1":
-                    startTime = Time.time;
+  //                  startTime = Time.time;
                     started = true;
                     gameObject.GetComponent<AudioSource>().clip = scene1Audio;
                     break;
                 case "Scene2":
                     startTime = Time.time;
+                    print("start scene 2: " + startTime);
                     started = true;
                     gameObject.GetComponent<AudioSource>().clip = scene2Audio;
                     break;
@@ -50,7 +51,7 @@ public class SceneController : Singleton<SceneController>
 
                 break;
             case "Scene2":
-                float completionPercentage = (Time.time - startTime) / (startTime + duration);
+                float completionPercentage = (Time.time) / (startTime + duration);
                 if (renderers.Count < 1 || renderers[0] == null)
                 {
                     renderers.Clear();
